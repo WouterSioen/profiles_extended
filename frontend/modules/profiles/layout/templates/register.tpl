@@ -33,6 +33,9 @@
 						<p>
 							<label for="showPassword">{$chkShowPassword} {$lblShowPassword|ucfirst} </label>
 						</p>
+						<p{option:chkAcceptTermsError} class="errorArea"{/option:chkAcceptTermsError}>
+							<label for="acceptTerms">{$chkAcceptTerms} {$lblAcceptTerms|ucfirst} </label>
+						</p>
 						<p>
 							<input class="inputSubmit" type="submit" value="{$lblRegister|ucfirst}" />
 						</p>
@@ -42,3 +45,30 @@
 		</section>
 	{/form:register}
 {/option:!registerHideForm}
+
+{option:!registerPartTwoHideForm}
+	{form:registerPartTwo}
+		<section id="registerForm" class="mod">
+			<div class="inner">
+				<div class="bd">
+					<fieldset>
+						<p>
+							<label for="gender">{$lblGender|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
+							{$ddmGender}
+						</p>
+						<p{option:txtDateOfBirthError} class="errorArea"{/option:txtDateOfBirthError}>
+							<label for="date_of_birth">{$DateOfBirth|ucfirst}</label>
+							{$txtDateOfBirth}
+						</p>
+						<p>
+							<label for="newslettre">{$chkNewslettre} {$lblNewslettre|ucfirst} </label>
+						</p>
+						<p>
+							<input class="inputSubmit" type="submit" value="{$lblSave|ucfirst}" />
+						</p>
+					</fieldset>
+				</div>
+			</div>
+		</section>
+	{/form:registerPartTwo}
+{/option:!registerPartTwoHideForm}

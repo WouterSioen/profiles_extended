@@ -22,7 +22,14 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 	 *
 	 * @var	FrontendForm
 	 */
-	private $frm;
+	private $frm, $frmPartTwo;
+
+	/**
+	 * The current profile.
+	 *
+	 * @var FrontendProfilesProfile
+	 */
+	private $profile;
 
 	/**
 	 * Execute the extra.
@@ -42,10 +49,28 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 		}
 
 		// just registered so show success message
-		elseif($this->URL->getParameter('sent') == true) $this->parse();
+		elseif($this->URL->getParameter('sent') == 'true')
+		{
+			$this->getData();
+			$this->loadFormPartTwo();
+			$this->validateFormPartTwo();
+			$this->parse();
+		}
+
+		// part two is done so show succes message
+		elseif($this->URL->getParameter('done') == 'true') $this->parse();
 
 		// already logged in, so you can not register
 		else $this->redirect(SITE_URL);
+	}
+
+	/**
+	 * Get profile data.
+	 */
+	private function getData()
+	{
+		// get profile
+		$this->profile = FrontendProfilesAuthentication::getProfile();
 	}
 
 	/**
@@ -59,6 +84,18 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 		$this->frm->addText('email');
 		$this->frm->addPassword('password', null, null, 'inputText showPasswordInput');
 		$this->frm->addCheckbox('show_password');
+		$this->frm->addCheckbox('accept_terms');
+	}
+
+	/**
+	 * Load the second form
+	 */
+	private function loadFormPartTwo()
+	{
+		$this->frmPartTwo = new FrontendForm('registerPartTwo', null, null, 'registerPartTwoForm');
+		$this->frmPartTwo->addDropdown('gender', array('{lblMale}', '{lblFemale}'));
+		$this->frmPartTwo->addDate('date_of_birth');
+		$this->frmPartTwo->addCheckbox('newslettre');
 	}
 
 	/**
@@ -69,15 +106,32 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 		// e-mail was sent?
 		if($this->URL->getParameter('sent') == 'true')
 		{
+			// hide first register form
+			$this->tpl->assign('registerHideForm', true);
+
+			// parse second form
+			$this->frmPartTwo->parse($this->tpl);
+		}
+
+		//part two is done?
+		elseif($this->URL->getParameter('done') == 'true')
+		{
 			// show message
 			$this->tpl->assign('registerIsSuccess', true);
 
-			// hide form
+			// hide both forms
 			$this->tpl->assign('registerHideForm', true);
+			$this->tpl->assign('registerPartTwoHideForm', true);
 		}
 
-		// parse the form
-		else $this->frm->parse($this->tpl);
+		else
+		{
+			// hide second form
+			$this->tpl->assign('registerPartTwoHideForm', true);
+
+			// parse the form
+			$this->frm->parse($this->tpl);
+		}
 	}
 
 	/**
@@ -93,10 +147,12 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 			$txtLastName = $this->frm->getField('last_name');
 			$txtEmail = $this->frm->getField('email');
 			$txtPassword = $this->frm->getField('password');
+			$chkAcceptTerms = $this->frm->getField('accept_terms');
 
 			// check fields
 			if($txtFirstName->isFilled(FL::getError('FirstNameIsRequired')));
 			if($txtLastName->isFilled(FL::getError('LastNameIsRequired')));
+			if($chkAcceptTerms->isChecked(FL::getError('AcceptTermsIsRequired')));
 
 			// check email
 			if($txtEmail->isFilled(FL::getError('EmailIsRequired')))
@@ -188,6 +244,56 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 
 			// show errors
 			else $this->tpl->assign('registerHasFormError', true);
+		}
+	}
+
+	/**
+	 * Validate the second form
+	 */
+	private function validateFormPartTwo()
+	{
+		// is the form submitted
+		if($this->frmPartTwo->isSubmitted())
+		{
+			// get fields
+			$ddmGender = $this->frmPartTwo->getField('gender');
+			$txtDateOfBirth = $this->frmPartTwo->getField('date_of_birth');
+			$chkNewslettre = $this->frmPartTwo->getField('newslettre');
+
+			// check fields
+			if($txtDateOfBirth->isFilled(FL::getError('DateOfBirthIsRequired')));
+			if($txtDateOfBirth->isValid(FL::getError('DateOfBirthNoDate')));
+
+			// no errors
+			if($this->frmPartTwo->isCorrect())
+			{
+				// init values
+				$values = array();
+
+				// values
+				$values['gender'] = ($ddmGender->getSelected() == 0) ? 'M' : 'F';
+				$values['date_of_birth'] = date("Y-m-d H:i:s", $txtDateOfBirth->getTimestamp());
+
+				// update profile
+				FrontendProfilesModel::update($this->profile->getId(), $values);
+
+				// subscribe to newsletter if checked
+				if($chkNewslettre->isChecked())
+				{
+					// check if the e-mailaddress is subscribed
+					if(!FrontendMailmotorModel::isSubscribed($this->profile->getEmail()))
+					{
+						$item = array();
+						$item['email'] = $this->profile->getEmail();
+						$item['source'] = 'registration';
+						$item['created_on'] = null;
+						FrontendMailmotorModel::insertAddress($item);
+					}
+				}
+
+				// redirect
+				$this->redirect(str_replace('sent=true', '', SELF) . 'done=true');
+			}
 		}
 	}
 }
