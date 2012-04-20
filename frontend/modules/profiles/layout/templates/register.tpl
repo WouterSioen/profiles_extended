@@ -14,6 +14,14 @@
 			<div class="inner">
 				<div class="bd">
 					<fieldset>
+						<p{option:txtFirstNameError} class="errorArea"{/option:txtFirstNameError}>
+							<label for="first_name">{$lblFirstName|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
+							{$txtFirstName}{$txtFirstNameError}
+						</p>
+						<p{option:txtLastNameError} class="errorArea"{/option:txtLastNameError}>
+							<label for="last_name">{$lblLastName|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
+							{$txtLastName}{$txtLastNameError}
+						</p>
 						<p{option:txtEmailError} class="errorArea"{/option:txtEmailError}>
 							<label for="email">{$lblEmail|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
 							{$txtEmail}{$txtEmailError}

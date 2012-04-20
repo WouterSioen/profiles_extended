@@ -13,6 +13,7 @@
  * @author Lester Lievens <lester@netlash.com>
  * @author Dieter Vanden Eynde <dieter.vandeneynde@netlash.com>
  * @author Tijs Verkoyen <tijs@sumocoders.be>
+ * @author Wouter Sioen <wouter.sioen@gmail.com>
  */
 class FrontendProfilesRegister extends FrontendBaseBlock
 {
@@ -53,6 +54,8 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 	private function loadForm()
 	{
 		$this->frm = new FrontendForm('register', null, null, 'registerForm');
+		$this->frm->addText('first_name');
+		$this->frm->addText('last_name');
 		$this->frm->addText('email');
 		$this->frm->addPassword('password', null, null, 'inputText showPasswordInput');
 		$this->frm->addCheckbox('show_password');
@@ -86,8 +89,14 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 		if($this->frm->isSubmitted())
 		{
 			// get fields
+			$txtFirstName = $this->frm->getField('first_name');
+			$txtLastName = $this->frm->getField('last_name');
 			$txtEmail = $this->frm->getField('email');
 			$txtPassword = $this->frm->getField('password');
+
+			// check fields
+			if($txtFirstName->isFilled(FL::getError('FirstNameIsRequired')));
+			if($txtLastName->isFilled(FL::getError('LastNameIsRequired')));
 
 			// check email
 			if($txtEmail->isFilled(FL::getError('EmailIsRequired')))
@@ -117,10 +126,12 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 				$values = array();
 
 				// values
+				$values['first_name'] = $txtFirstName->getValue();
+				$values['last_name'] = $txtLastName->getValue();
 				$values['email'] = $txtEmail->getValue();
 				$values['password'] = FrontendProfilesModel::getEncryptedString($txtPassword->getValue(), $salt);
 				$values['status'] = 'inactive';
-				$values['display_name'] = $txtEmail->getValue();
+				$values['display_name'] = $txtFirstName->getValue() . ' ' . $txtLastName->getValue();
 				$values['registered_on'] = FrontendModel::getUTCDate();
 
 				/*

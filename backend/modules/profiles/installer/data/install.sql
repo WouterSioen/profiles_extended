@@ -1,5 +1,7 @@
 CREATE TABLE IF NOT EXISTS `profiles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `status` enum('active','inactive','deleted','blocked') NOT NULL,
