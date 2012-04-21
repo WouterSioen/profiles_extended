@@ -12,6 +12,7 @@
  *
  * @author Lester Lievens <lester@netlash.com>
  * @author Dieter Vanden Eynde <dieter.vandeneynde@netlash.com>
+ * @author Wouter Sioen <wouter.sioen@gmail.com>
  */
 class FrontendProfilesSettings extends FrontendBaseBlock
 {
@@ -28,6 +29,13 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 	 * @var FrontendProfilesProfile
 	 */
 	private $profile;
+
+	/**
+	 * The url to the avatar of the current profile.
+	 *
+	 * @var String
+	 */
+	private $avatar;
 
 	/**
 	 * Execute the extra.
@@ -56,6 +64,13 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 	{
 		// get profile
 		$this->profile = FrontendProfilesAuthentication::getProfile();
+
+		// avatar
+		$this->avatar = $this->profile->getSetting('avatar');
+		if(empty($this->avatar))
+		{
+			$this->avatar = '';
+		}
 	}
 
 	/**
@@ -97,7 +112,9 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 		$this->frm->addText('display_name', $this->profile->getDisplayName());
 		$this->frm->addText('first_name', $this->profile->getSetting('first_name'));
 		$this->frm->addText('last_name', $this->profile->getSetting('last_name'));
-		$this->frm->addText('email', $this->profile->getEmail());
+		$this->frm->addText('street', $this->profile->getSetting('street'));
+		$this->frm->addText('number', $this->profile->getSetting('number'));
+		$this->frm->addText('postal_code', $this->profile->getSetting('postal_code'));
 		$this->frm->addText('city', $this->profile->getSetting('city'));
 		$this->frm->addDropdown('country', SpoonLocale::getCountries(FRONTEND_LANGUAGE), $this->profile->getSetting('country'));
 		$this->frm->addDropdown('gender', $genderValues, $this->profile->getSetting('gender'));
@@ -111,9 +128,6 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 		$this->frm->getField('month')->setDefaultElement('');
 		$this->frm->getField('year')->setDefaultElement('');
 		$this->frm->getField('country')->setDefaultElement('');
-
-		// set email disabled
-		$this->frm->getField('email')->setAttribute('disabled', 'disabled');
 
 		// when user exceeded the number of name changes set field disabled
 		if($nameChanges >= FrontendProfilesModel::MAX_DISPLAY_NAME_CHANGES) $this->frm->getField('display_name')->setAttribute('disabled', 'disabled');
@@ -140,6 +154,9 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 		// parse the form
 		$this->frm->parse($this->tpl);
 
+		// add avatar
+		$this->tpl->assign('avatar', $this->avatar);
+
 		// display name changes
 		$this->tpl->assign('maxDisplayNameChanges', FrontendProfilesModel::MAX_DISPLAY_NAME_CHANGES);
 		$this->tpl->assign('displayNameChangesLeft', FrontendProfilesModel::MAX_DISPLAY_NAME_CHANGES - $this->profile->getSetting('display_name_changes'));
@@ -157,12 +174,16 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 			$txtDisplayName = $this->frm->getField('display_name');
 			$txtFirstName = $this->frm->getField('first_name');
 			$txtLastName = $this->frm->getField('last_name');
+			$txtStreet = $this->frm->getField('street');
+			$txtNumber = $this->frm->getField('number');
+			$txtPostalCode = $this->frm->getField('postal_code');
 			$txtCity = $this->frm->getField('city');
 			$ddmCountry = $this->frm->getField('country');
 			$ddmGender = $this->frm->getField('gender');
 			$ddmDay = $this->frm->getField('day');
 			$ddmMonth = $this->frm->getField('month');
 			$ddmYear = $this->frm->getField('year');
+			$imgAvatar = $this->frm->getField('avatar');
 
 			// get number of display name changes
 			$nameChanges = (int) FrontendProfilesModel::getSetting($this->profile->getId(), 'display_name_changes');
@@ -190,6 +211,27 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 				{
 					// set error
 					$ddmYear->addError(FL::getError('DateIsInvalid'));
+				}
+			}
+
+			// number and postal code are not required but need to be integers
+			if($txtNumber->isFilled() && !$txtNumber->isInteger())
+			{
+				$txtNumber->addError(FL::getError('NumberIsInvalid'));
+			}
+			if($txtPostalCode->isFilled() && !$txtPostalCode->isInteger())
+			{
+				$txtPostalCode->addError(FL::getError('PostalCodeIsInvalid'));
+			}
+
+			// validate avatar
+			if($imgAvatar->isFilled())
+			{
+				// correct extension
+				if($imgAvatar->isAllowedExtension(array('jpg', 'jpeg', 'gif', 'png'), FL::getError('JPGGIFAndPNGOnly')))
+				{
+					// correct mimetype?
+					$imgAvatar->isAllowedMimeType(array('image/gif', 'image/jpg', 'image/jpeg', 'image/png'), FL::getError('JPGGIFAndPNGOnly'));
 				}
 			}
 
@@ -234,6 +276,33 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 				$this->profile->setSetting('country', $ddmCountry->getValue());
 				$this->profile->setSetting('gender', $ddmGender->getValue());
 				$this->profile->setSetting('birth_date', $birthDate);
+				$this->profile->setSetting('number', $txtNumber->getValue());
+				$this->profile->setSetting('postal_code', $txtPostalCode->getValue());
+				$this->profile->setSetting('street', $txtStreet->getValue());
+
+				// has the user submitted an avatar?
+				if($imgAvatar->isFilled())
+				{
+					// init vars
+					$avatarsPath = FRONTEND_FILES_PATH . '/profiles/avatars';
+
+					// delete old avatar if it isn't the default-image
+					SpoonFile::delete($avatarsPath . '/source/' . $this->avatar);
+					SpoonFile::delete($avatarsPath . '/128x128/' . $this->avatar);
+					SpoonFile::delete($avatarsPath . '/64x64/' . $this->avatar);
+					SpoonFile::delete($avatarsPath . '/32x32/' . $this->avatar);
+
+					// create new filename
+					$filename = rand(0,3) . '_' . $this->profile->getId() . '.' . $imgAvatar->getExtension();
+
+					// add into settings to update
+					$this->profile->setSetting('avatar', $filename);
+
+					// resize
+					$imgAvatar->createThumbnail($avatarsPath . '/128x128/' . $filename, 128, 128, true, false, 100);
+					$imgAvatar->createThumbnail($avatarsPath . '/64x64/' . $filename, 64, 64, true, false, 100);
+					$imgAvatar->createThumbnail($avatarsPath . '/32x32/' . $filename, 32, 32, true, false, 100);
+				}
 
 				// trigger event
 				FrontendModel::triggerEvent('profiles', 'after_saved_settings', array('id' => $this->profile->getId()));

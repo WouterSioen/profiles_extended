@@ -18,20 +18,25 @@
 		<div class="bd">
 			{form:updateSettings}
 				<fieldset>
-					<legend>{$lblYourData|ucfirst}</legend>
-
+					<legend>{$lblProfilePicture|ucfirst}</legend>
+					<p>
+						{option:avatar}
+							<img src="{$FRONTEND_FILES_URL}/profiles/avatars/64x64/{$avatar}" width="64" height="64" alt="" />
+						{/option:avatar}
+						{option:!avatar}
+							<img src="{$FRONTEND_CORE_URL}/layout/images/default_author_avatar.gif" width="64" height="64" />
+						{/option:!avatar}
+						{$fileAvatar}
+					</p>
 					<p{option:txtDisplayNameError} class="errorArea"{/option:txtDisplayNameError}>
 						<label for="displayName">{$lblDisplayName|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
 						{$txtDisplayName}{$txtDisplayNameError}
 						<small class="helpTxt">{$msgHelpDisplayNameChanges|sprintf:{$maxDisplayNameChanges}:{$displayNameChangesLeft}}</small>
 					</p>
-					<p{option:txtEmailError} class="errorArea"{/option:txtEmailError}>
-						<label for="email">{$lblEmail|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
-						{$txtEmail}{$txtEmailError}
-					</p>
-					<p>
-						<a href="{$var|geturlforblock:'profiles':'change_email'}">{$msgChangeEmail}</a>
-					</p>
+				</fieldset>
+				<fieldset>
+					<legend>{$lblYourData|ucfirst}</legend>
+
 					<p{option:txtFirstNameError} class="errorArea"{/option:txtFirstNameError}>
 						<label for="firstName">{$lblFirstName|ucfirst}</label>
 						{$txtFirstName}{$txtFirstNameError}
@@ -52,6 +57,18 @@
 				<fieldset>
 					<legend>{$lblYourLocationData|ucfirst}</legend>
 
+					<p{option:txtStreetError} class="errorArea"{/option:txtStreetError}>
+						<label for="street">{$lblStreet|ucfirst}</label>
+						{$txtStreet}{$txtStreetError}
+					</p>
+					<p{option:txtNumberError} class="errorArea"{/option:txtNumberError}>
+						<label for="number">{$lblNumber|ucfirst}</label>
+						{$txtNumber}{$txtNumberError}
+					</p>
+					<p{option:txtPostalCodeError} class="errorArea"{/option:txtPostalCodeError}>
+						<label for="city">{$lblPostalCode|ucfirst}</label>
+						{$txtPostalCode}{$txtPostalCodeError}
+					</p>
 					<p{option:txtCityError} class="errorArea"{/option:txtCityError}>
 						<label for="city">{$lblCity|ucfirst}</label>
 						{$txtCity}{$txtCityError}
