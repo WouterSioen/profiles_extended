@@ -26,7 +26,9 @@
 						{option:!avatar}
 							<img src="{$FRONTEND_CORE_URL}/layout/images/default_author_avatar.gif" width="64" height="64" />
 						{/option:!avatar}
-						{$fileAvatar}
+						<label for="avatar">{$lblAvatar|ucfirst}</label>
+						{$fileAvatar} {$fileAvatarError}
+						<span class="helpTxt">{$msgHelpAvatar}</span>
 					</p>
 					<p{option:txtDisplayNameError} class="errorArea"{/option:txtDisplayNameError}>
 						<label for="displayName">{$lblDisplayName|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
