@@ -52,13 +52,13 @@
 			<div class="inner">
 				<div class="bd">
 					<fieldset>
-						<p>
-							<label for="gender">{$lblGender|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
-							{$ddmGender}
+						<p{option:ddmGenderError} class="errorArea"{/option:ddmGenderError}>
+							<label for="gender">{$lblGender|ucfirst}</label>
+							{$ddmGender} {$ddmGenderError}
 						</p>
-						<p{option:txtDateOfBirthError} class="errorArea"{/option:txtDateOfBirthError}>
-							<label for="date_of_birth">{$DateOfBirth|ucfirst}</label>
-							{$txtDateOfBirth}
+						<p{option:ddmYearError} class="errorArea"{/option:ddmYearError}>
+							<label for="day">{$lblBirthDate|ucfirst}</label>
+							{$ddmDay} {$ddmMonth} {$ddmYear} {$ddmYearError}
 						</p>
 						<p>
 							<label for="newslettre">{$chkNewslettre} {$lblNewslettre|ucfirst} </label>

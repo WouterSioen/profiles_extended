@@ -92,10 +92,28 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 	 */
 	private function loadFormPartTwo()
 	{
+		// gender dropdown values
+		$genderValues = array(
+			'male' => SpoonFilter::ucfirst(FL::getLabel('Male')),
+			'female' => SpoonFilter::ucfirst(FL::getLabel('Female'))
+		);
+
+		// birthdate dropdown values
+		$days = range(1, 31);
+		$months = SpoonLocale::getMonths(FRONTEND_LANGUAGE);
+		$years = range(date('Y'), 1900);
+
 		$this->frmPartTwo = new FrontendForm('registerPartTwo', null, null, 'registerPartTwoForm');
-		$this->frmPartTwo->addDropdown('gender', array('{lblMale}', '{lblFemale}'));
-		$this->frmPartTwo->addDate('date_of_birth');
+		$this->frmPartTwo->addDropdown('gender', $genderValues);
+		$this->frmPartTwo->addDropdown('day', array_combine($days, $days));
+		$this->frmPartTwo->addDropdown('month', $months);
+		$this->frmPartTwo->addDropdown('year', array_combine($years, $years));
 		$this->frmPartTwo->addCheckbox('newslettre');
+
+		// set default elements dropdowns
+		$this->frmPartTwo->getField('day')->setDefaultElement('');
+		$this->frmPartTwo->getField('month')->setDefaultElement('');
+		$this->frmPartTwo->getField('year')->setDefaultElement('');
 	}
 
 	/**
@@ -182,8 +200,6 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 				$values = array();
 
 				// values
-				$values['first_name'] = $txtFirstName->getValue();
-				$values['last_name'] = $txtLastName->getValue();
 				$values['email'] = $txtEmail->getValue();
 				$values['password'] = FrontendProfilesModel::getEncryptedString($txtPassword->getValue(), $salt);
 				$values['status'] = 'inactive';
@@ -227,6 +243,15 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 						''
 					);
 
+					$this->getData();
+
+					// update settings
+					$this->profile->setSetting('first_name', $txtFirstName->getValue());
+					$this->profile->setSetting('last_name', $txtLastName->getValue());
+
+					// trigger event
+					FrontendModel::triggerEvent('profiles', 'after_saved_settings', array('id' => $this->profile->getId()));
+
 					// redirect
 					$this->redirect(SELF . '?sent=true');
 				}
@@ -257,12 +282,21 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 		{
 			// get fields
 			$ddmGender = $this->frmPartTwo->getField('gender');
-			$txtDateOfBirth = $this->frmPartTwo->getField('date_of_birth');
+			$ddmDay = $this->frmPartTwo->getField('day');
+			$ddmMonth = $this->frmPartTwo->getField('month');
+			$ddmYear = $this->frmPartTwo->getField('year');
 			$chkNewslettre = $this->frmPartTwo->getField('newslettre');
 
-			// check fields
-			if($txtDateOfBirth->isFilled(FL::getError('DateOfBirthIsRequired')));
-			if($txtDateOfBirth->isValid(FL::getError('DateOfBirthNoDate')));
+			// birthdate is not required but if one is filled we need all
+			if($ddmMonth->isFilled() || $ddmDay->isFilled() || $ddmYear->isFilled())
+			{
+				// valid birth date?
+				if(!checkdate($ddmMonth->getValue(), $ddmDay->getValue(), $ddmYear->getValue()))
+				{
+					// set error
+					$ddmYear->addError(FL::getError('DateIsInvalid'));
+				}
+			}
 
 			// no errors
 			if($this->frmPartTwo->isCorrect())
@@ -270,12 +304,24 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 				// init values
 				$values = array();
 
-				// values
-				$values['gender'] = ($ddmGender->getSelected() == 0) ? 'M' : 'F';
-				$values['date_of_birth'] = date("Y-m-d H:i:s", $txtDateOfBirth->getTimestamp());
+				// bday is filled in
+				if($ddmYear->isFilled())
+				{
+					// mysql format
+					$birthDate = $ddmYear->getValue() . '-';
+					$birthDate .= str_pad($ddmMonth->getValue(), 2, '0', STR_PAD_LEFT) . '-';
+					$birthDate .= str_pad($ddmDay->getValue(), 2, '0', STR_PAD_LEFT);
+				}
 
-				// update profile
-				FrontendProfilesModel::update($this->profile->getId(), $values);
+				// not filled in
+				else $birthDate = null;
+
+				//update settings
+				$this->profile->setSetting('birth_date', $birthDate);
+				$this->profile->setSetting('gender', $ddmGender->getValue());
+
+				// trigger event
+				FrontendModel::triggerEvent('profiles', 'after_saved_settings', array('id' => $this->profile->getId()));
 
 				// subscribe to newsletter if checked
 				if($chkNewslettre->isChecked())
