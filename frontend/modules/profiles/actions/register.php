@@ -49,16 +49,13 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 		}
 
 		// just registered so show success message
-		elseif($this->URL->getParameter('sent') == 'true')
+		elseif($this->URL->getParameter('part') == 'two')
 		{
 			$this->getData();
 			$this->loadFormPartTwo();
 			$this->validateFormPartTwo();
 			$this->parse();
 		}
-
-		// part two is done so show succes message
-		elseif($this->URL->getParameter('done') == 'true') $this->parse();
 
 		// already logged in, so you can not register
 		else $this->redirect(SITE_URL);
@@ -121,25 +118,14 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 	 */
 	private function parse()
 	{
-		// e-mail was sent?
-		if($this->URL->getParameter('sent') == 'true')
+		// part one was done?
+		if($this->URL->getParameter('part') == 'two')
 		{
 			// hide first register form
 			$this->tpl->assign('registerHideForm', true);
 
 			// parse second form
 			$this->frmPartTwo->parse($this->tpl);
-		}
-
-		//part two is done?
-		elseif($this->URL->getParameter('done') == 'true')
-		{
-			// show message
-			$this->tpl->assign('registerIsSuccess', true);
-
-			// hide both forms
-			$this->tpl->assign('registerHideForm', true);
-			$this->tpl->assign('registerPartTwoHideForm', true);
 		}
 
 		else
@@ -253,7 +239,7 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 					FrontendModel::triggerEvent('profiles', 'after_saved_settings', array('id' => $this->profile->getId()));
 
 					// redirect
-					$this->redirect(SELF . '?sent=true');
+					$this->redirect(SELF . '?part=two');
 				}
 
 				// catch exceptions
@@ -338,7 +324,7 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 				}
 
 				// redirect
-				$this->redirect(str_replace('sent=true', '', SELF) . 'done=true');
+				$this->redirect(FrontendNavigation::getURLForBlock('profiles', 'settings') . '?registered=true');
 			}
 		}
 	}

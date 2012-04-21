@@ -1,4 +1,9 @@
 {* Success *}
+{option:registerIsSuccess}
+	<div class="message success"><p>{$msgRegisterIsSuccess}</p></div>
+{/option:registerIsSuccess}
+
+{* Success *}
 {option:updateSettingsSuccess}
 	<div class="message success"><p>{$msgUpdateSettingsIsSuccess}</p></div>
 {/option:updateSettingsSuccess}

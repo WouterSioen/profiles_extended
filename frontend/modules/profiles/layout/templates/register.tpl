@@ -1,8 +1,3 @@
-{* Success *}
-{option:registerIsSuccess}
-	<div class="message success"><p>{$msgRegisterIsSuccess}</p></div>
-{/option:registerIsSuccess}
-
 {* Error *}
 {option:registerHasFormError}
 	<div class="message error"><p>{$errFormError}</p></div>

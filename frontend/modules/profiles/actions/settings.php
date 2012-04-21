@@ -131,6 +131,12 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 			$this->tpl->assign('updateSettingsSuccess', true);
 		}
 
+		// is the user just registered
+		if($this->URL->getParameter('registered') == 'true')
+		{
+			$this->tpl->assign('registerIsSuccess', true);
+		}
+
 		// parse the form
 		$this->frm->parse($this->tpl);
 
