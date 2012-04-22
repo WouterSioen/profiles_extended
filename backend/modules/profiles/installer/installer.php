@@ -67,8 +67,7 @@ class ProfilesInstaller extends ModuleInstaller
 		$indexId = $this->insertExtra('profiles', 'block', 'Dashboard', null, null, 'N', 5002);
 		$loginId = $this->insertExtra('profiles', 'block', 'Login', 'login', null, 'N', 5003);
 		$logoutId = $this->insertExtra('profiles', 'block', 'Logout', 'logout', null, 'N', 5004);
-		$changeEmailId = $this->insertExtra('profiles', 'block', 'ChangeEmail', 'change_email', null, 'N', 5005);
-		$changePasswordId = $this->insertExtra('profiles', 'block', 'ChangePassword', 'change_password', null, 'N', 5006);
+		$passwordEmailId = $this->insertExtra('profiles', 'block', 'PasswordEmail', 'password_email', null, 'N', 5005);
 		$settingsId = $this->insertExtra('profiles', 'block', 'Settings', 'settings', null, 'N', 5007);
 		$registerId = $this->insertExtra('profiles', 'block', 'Register', 'register', null, 'N', 5008);
 		$resetPasswordId = $this->insertExtra('profiles', 'block', 'ResetPassword', 'reset_password', null, 'N', 5008);
@@ -199,27 +198,15 @@ class ProfilesInstaller extends ModuleInstaller
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
 
-				// change email page
+				// change password and email page
 				$this->insertPage(
 					array(
-						'title' => 'Change email',
+						'title' => 'Password and email',
 						'parent_id' => $indexPageId,
 						'language' => $language
 					),
 					null,
-					array('extra_id' => $changeEmailId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
-				);
-
-				// change password page
-				$this->insertPage(
-					array(
-						'title' => 'Change password',
-						'parent_id' => $indexPageId,
-						'language' => $language
-					),
-					null,
-					array('extra_id' => $changePasswordId, 'position' => 'main'),
+					array('extra_id' => $passwordEmailId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
 			}
