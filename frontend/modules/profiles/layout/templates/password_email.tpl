@@ -6,9 +6,9 @@
 {/option:!updatePasswordHasFormError}
 
 {* Error *}
-{option:updatePasswordHasFormError}
+{option:updateHasFormError}
 	<div class="message error"><p>{$errFormError}</p></div>
-{/option:updatePasswordHasFormError}
+{/option:updateHasFormError}
 
 {option:nonactive}
 	<div class="message error"><p>{$errNonActiveError}</p></div>

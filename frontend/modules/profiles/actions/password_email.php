@@ -8,7 +8,7 @@
  */
 
 /**
- * Change the password of email of the current logged in profile.
+ * Change the password or email of the current logged in profile.
  *
  * @author Lester Lievens <lester@netlash.com>
  * @author Dieter Vanden Eynde <dieter.vandeneynde@netlash.com>
@@ -47,7 +47,7 @@ class FrontendProfilesPasswordEmail extends FrontendBaseBlock
 		}
 
 		// profile not logged in
-		else $this->redirect(FrontendNavigation::getURL(404));
+		else $this->redirect(FrontendNavigation::getURLForBlock('profiles', 'login'));
 	}
 
 	/**
@@ -165,7 +165,7 @@ class FrontendProfilesPasswordEmail extends FrontendBaseBlock
 			}
 
 			// show errors
-			else $this->tpl->assign('updatePasswordHasFormError', true);
+			else $this->tpl->assign('updateHasFormError', true);
 		}
 	}
 }
