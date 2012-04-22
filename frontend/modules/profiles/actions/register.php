@@ -310,18 +310,17 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 				FrontendModel::triggerEvent('profiles', 'after_saved_settings', array('id' => $this->profile->getId()));
 
 				// subscribe to newsletter if checked
-				if($chkNewslettre->isChecked())
+				/*if($chkNewslettre->isChecked())
 				{
 					// check if the e-mailaddress is subscribed
 					if(!FrontendMailmotorModel::isSubscribed($this->profile->getEmail()))
 					{
-						$item = array();
-						$item['email'] = $this->profile->getEmail();
-						$item['source'] = 'registration';
-						$item['created_on'] = null;
-						FrontendMailmotorModel::insertAddress($item);
+						FrontendMailmotorModel::subscribe($this->profile->getEmail());
+						
+						// trigger event
+						FrontendModel::triggerEvent('mailmotor', 'after_subscribe', array('email' => $email->getValue()));
 					}
-				}
+				}*/
 
 				// redirect
 				$this->redirect(FrontendNavigation::getURLForBlock('profiles', 'settings') . '?registered=true');
