@@ -21,18 +21,20 @@
 				<fieldset>
 					<legend>{$lblAlerts|ucfirst}</legend>
 					<p>
-							<label for="alerts">{$chkAlerts} {$lblAlerts|ucfirst} </label>
+						<label for="alerts">{$chkAlerts} {$lblAlerts|ucfirst} </label>
+					</p>
+				</fieldset>
+				{option:allowNewslettre}
+					<fieldset>
+						<legend>{$lblNewslettre|ucfirst}</legend>
+						<p>
+							<label for="newslettre">{$chkNewslettre} {$lblNewslettre|ucfirst} </label>
 						</p>
-				</fieldset>
-				<fieldset>
-					<legend>{$lblNewslettre|ucfirst}</legend>
-					<p>
-						<label for="newslettre">{$chkNewslettre} {$lblNewslettre|ucfirst} </label>
-					</p>
-					<p>
-						<input class="inputSubmit" type="submit" value="{$lblSave|ucfirst}" />
-					</p>
-				</fieldset>
+					</fieldset>
+				{/option:allowNewslettre}
+				<p>
+					<input class="inputSubmit" type="submit" value="{$lblSave|ucfirst}" />
+				</p>
 			{/form:updateAlert}
 		</div>
 	</div>

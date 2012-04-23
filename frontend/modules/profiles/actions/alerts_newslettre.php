@@ -29,6 +29,13 @@ class FrontendProfilesAlertsNewslettre extends FrontendBaseBlock
 	private $profile;
 
 	/**
+	 * Do we have a newslettre?
+	 * 
+	 * @var boolean
+	 */
+	private $allowNewslettre = false;
+
+	/**
 	 * Execute the extra.
 	 */
 	public function execute()
@@ -55,6 +62,9 @@ class FrontendProfilesAlertsNewslettre extends FrontendBaseBlock
 	{
 		// get profile
 		$this->profile = FrontendProfilesAuthentication::getProfile();
+
+		// check if a campagin monitor was linked already and/or client ID was set
+		$this->allowNewslettre = (FrontendModel::getModuleSetting('mailmotor', 'cm_client_id') != null);
 	}
 
 	/**
@@ -82,6 +92,8 @@ class FrontendProfilesAlertsNewslettre extends FrontendBaseBlock
 		// check if profile is active, cause it won't work with a non-active profile
 		$this->tpl->assign('nonactive', $this->profile->getStatus() != 'active');
 
+		$this->tpl->assign('allowNewslettre', $this->allowNewslettre);
+
 		// parse the form
 		$this->frm->parse($this->tpl);
 	}
@@ -101,7 +113,7 @@ class FrontendProfilesAlertsNewslettre extends FrontendBaseBlock
 			// set the alerts setting
 			FrontendProfilesModel::setSetting($this->profile->getId(), 'alerts', $chkAlerts->isFilled());
 
-			/*if($chkNewslettre->isFilled())
+			if($this->allowNewslettre && $chkNewslettre->isFilled())
 			{
 				FrontendMailmotorModel::subscribe($this->profile->getEmail());
 
@@ -126,7 +138,7 @@ class FrontendProfilesAlertsNewslettre extends FrontendBaseBlock
 					// show error
 					$this->tpl->assign('unsubscribeHasError', true);
 				}
-			}*/
+			}
 		}
 	}
 }

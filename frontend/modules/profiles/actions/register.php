@@ -32,6 +32,13 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 	private $profile;
 
 	/**
+	 * is mailmotor set up?
+	 * 
+	 * @var boolean
+	 */
+	private $allowNewslettre = false;
+
+	/**
 	 * Execute the extra.
 	 */
 	public function execute()
@@ -68,6 +75,9 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 	{
 		// get profile
 		$this->profile = FrontendProfilesAuthentication::getProfile();
+
+		// check if a campagin monitor was linked already and/or client ID was set
+		$this->allowNewslettre = (FrontendModel::getModuleSetting('mailmotor', 'cm_client_id') != null);
 	}
 
 	/**
@@ -127,7 +137,6 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 			// parse second form
 			$this->frmPartTwo->parse($this->tpl);
 		}
-
 		else
 		{
 			// hide second form
@@ -135,6 +144,8 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 
 			// parse the form
 			$this->frm->parse($this->tpl);
+
+			$this->tpl->assign('allowNewslettre', $this->allowNewslettre);
 		}
 	}
 
@@ -310,7 +321,7 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 				FrontendModel::triggerEvent('profiles', 'after_saved_settings', array('id' => $this->profile->getId()));
 
 				// subscribe to newsletter if checked
-				/*if($chkNewslettre->isChecked())
+				if($this->allowNewslettre && $chkNewslettre->isChecked())
 				{
 					// check if the e-mailaddress is subscribed
 					if(!FrontendMailmotorModel::isSubscribed($this->profile->getEmail()))
@@ -320,7 +331,7 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 						// trigger event
 						FrontendModel::triggerEvent('mailmotor', 'after_subscribe', array('email' => $email->getValue()));
 					}
-				}*/
+				}
 
 				// redirect
 				$this->redirect(FrontendNavigation::getURLForBlock('profiles', 'settings') . '?registered=true');

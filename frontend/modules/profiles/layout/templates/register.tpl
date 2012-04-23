@@ -55,9 +55,11 @@
 							<label for="day">{$lblBirthDate|ucfirst}</label>
 							{$ddmDay} {$ddmMonth} {$ddmYear} {$ddmYearError}
 						</p>
-						<p>
-							<label for="newslettre">{$chkNewslettre} {$lblNewslettre|ucfirst} </label>
-						</p>
+						{option:allowNewslettre}
+							<p>
+								<label for="newslettre">{$chkNewslettre} {$lblNewslettre|ucfirst} </label>
+							</p>
+						{/option:allowNewslettre}
 						<p>
 							<input class="inputSubmit" type="submit" value="{$lblSave|ucfirst}" />
 						</p>
