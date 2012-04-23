@@ -305,6 +305,43 @@ class FrontendInit
 	}
 
 	/**
+	 * Initialize Facebook
+	 */
+	private function initializeFacebook()
+	{
+		// get settings
+		$facebookApplicationId = FrontendModel::getModuleSetting('core', 'facebook_app_id');
+		$facebookApplicationSecret = FrontendModel::getModuleSetting('core', 'facebook_app_secret');
+
+		// needed data available?
+		if($facebookApplicationId != '' && $facebookApplicationSecret != '')
+		{
+			// require
+			require_once 'external/facebook.php';
+
+			// create instance
+			$facebook = new Facebook($facebookApplicationSecret, $facebookApplicationId);
+
+			// get the cookie, this will set the access token.
+			$data = $facebook->getCookie();
+
+			// define some constant that can be used in the templates
+			define('FACEBOOK_HAS_APP', true);
+
+			// store in reference
+			Spoon::set('facebook', $facebook);
+
+			// trigger event
+			FrontendModel::triggerEvent('core', 'after_facebook_initialization');
+		}
+
+		else
+		{
+			define('FACEBOOK_HAS_APP', false);
+		}
+	}
+
+	/**
 	 * Require all needed classes
 	 */
 	private function requireFrontendClasses()
