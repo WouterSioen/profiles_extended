@@ -75,6 +75,8 @@ class FrontendInit
 
 		$this->requireFrontendClasses();
 		SpoonFilter::disableMagicQuotes();
+
+		$this->initializeFacebook();
 	}
 
 	/**

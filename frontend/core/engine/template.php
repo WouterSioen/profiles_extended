@@ -281,6 +281,25 @@ class FrontendTemplate extends SpoonTemplate
 		if(FrontendModel::getModuleSetting('core', 'facebook_app_id', null) !== null) $this->assign('FACEBOOK_APP_ID', FrontendModel::getModuleSetting('core', 'facebook_app_id', null));
 		if(FrontendModel::getModuleSetting('core', 'facebook_app_secret', null) !== null) $this->assign('FACEBOOK_APP_SECRET', FrontendModel::getModuleSetting('core', 'facebook_app_secret', null));
 
+		if(FACEBOOK_HAS_APP)
+		{
+			$facebook = Spoon::get('facebook');
+			$data = $facebook->getCookie();
+
+			if($data !== false)
+			{
+				if(!SpoonSession::exists('facebook_user_data'))
+				{
+					$data = $facebook->get('/me', array('metadata' => 0));
+					SpoonSession::set('facebook_user_data', $data);
+				}
+				else $data = SpoonSession::get('facebook_user_data');
+
+				$this->assign('facebookUserData', $data);
+			}
+			else SpoonSession::delete('facebook_user_data');
+		}
+
 		// theme
 		if(FrontendModel::getModuleSetting('core', 'theme') !== null)
 		{
