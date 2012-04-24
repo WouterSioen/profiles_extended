@@ -85,10 +85,12 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 	 */
 	private function loadForm()
 	{
+		$email = (SpoonCookie::exists('email')) ? (string) SpoonCookie::get('email') : null;
+
 		$this->frm = new FrontendForm('register', null, null, 'registerForm');
 		$this->frm->addText('first_name');
 		$this->frm->addText('last_name');
-		$this->frm->addText('email');
+		$this->frm->addText('email', $email);
 		$this->frm->addPassword('password', null, null, 'inputText showPasswordInput');
 		$this->frm->addCheckbox('show_password');
 		$this->frm->addCheckbox('accept_terms');
@@ -164,44 +166,71 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 			$txtPassword = $this->frm->getField('password');
 			$chkAcceptTerms = $this->frm->getField('accept_terms');
 
-			// check fields
-			if($txtFirstName->isFilled(FL::getError('FirstNameIsRequired')));
-			if($txtLastName->isFilled(FL::getError('LastNameIsRequired')));
-			if($chkAcceptTerms->isChecked(FL::getError('AcceptTermsIsRequired')));
-
-			// check email
-			if($txtEmail->isFilled(FL::getError('EmailIsRequired')))
+			if(FACEBOOK_HAS_APP)
 			{
-				// valid email?
-				if($txtEmail->isEmail(FL::getError('EmailIsInvalid')))
+				$facebook = Spoon::get('facebook');
+				$data = $facebook->getCookie();
+
+				if($data !== false)
 				{
-					// email already exists?
-					if(FrontendProfilesModel::existsByEmail($txtEmail->getValue()))
+					if(!SpoonSession::exists('facebook_user_data'))	// @todo	clear me when user logs out
 					{
-						// set error
-						$txtEmail->setError(FL::getError('EmailExists'));
+						$data = $facebook->get('/me', array('metadata' => 0));
+						SpoonSession::set('facebook_user_data', $data);
 					}
+					else $data = SpoonSession::get('facebook_user_data');
+				}
+				else SpoonSession::delete('facebook_user_data');
+
+				if(!isset($data['name']) || !isset($data['email']))
+				{
+					// validate required fields
+					if($txtFirstName->isFilled(FL::getError('FirstNameIsRequired')));
+					if($txtLastName->isFilled(FL::getError('LastNameIsRequired')));
+					if($chkAcceptTerms->isChecked(FL::getError('AcceptTermsIsRequired')));
+
+					// check password
+					$txtPassword->isFilled(FL::getError('PasswordIsRequired'));
 				}
 			}
+			else
+			{
+				// validate required fields
+				if($txtFirstName->isFilled(FL::getError('FirstNameIsRequired')));
+				if($txtLastName->isFilled(FL::getError('LastNameIsRequired')));
+				if($chkAcceptTerms->isChecked(FL::getError('AcceptTermsIsRequired')));
 
-			// check password
-			$txtPassword->isFilled(FL::getError('PasswordIsRequired'));
+				// check password
+				$txtPassword->isFilled(FL::getError('PasswordIsRequired'));
+			}
 
 			// no errors
 			if($this->frm->isCorrect())
 			{
-				// generate salt
-				$salt = FrontendProfilesModel::getRandomString();
-
 				// init values
 				$values = array();
-
-				// values
-				$values['email'] = $txtEmail->getValue();
-				$values['password'] = FrontendProfilesModel::getEncryptedString($txtPassword->getValue(), $salt);
-				$values['status'] = 'inactive';
-				$values['display_name'] = $txtFirstName->getValue() . ' ' . $txtLastName->getValue();
 				$values['registered_on'] = FrontendModel::getUTCDate();
+
+				// through facebook
+				if(isset($data['first_name']) && isset($data['last_name']) && isset($data['email']))
+				{
+					$first_name = $data['first_name'];
+					$last_name = $data['last_name'];
+					$values['email'] = $data['email'];
+					$values['display_name'] = $data['username'];
+					$extraData['facebook_id'] = $data['id'];
+				}
+				else
+				{
+					// generate salt
+					$salt = FrontendProfilesModel::getRandomString();
+
+					// values
+					$values['email'] = $txtEmail->getValue();
+					$values['password'] = FrontendProfilesModel::getEncryptedString($txtPassword->getValue(), $salt);
+					$values['status'] = 'inactive';
+					$values['display_name'] = $txtFirstName->getValue() . ' ' . $txtLastName->getValue();
+				}
 
 				/*
 				 * Add a profile.
@@ -218,39 +247,53 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 					// trigger event
 					FrontendModel::triggerEvent('profiles', 'after_register', array('id' => $profileId));
 
-					// generate activation key
-					$activationKey = FrontendProfilesModel::getEncryptedString($profileId . microtime(), $salt);
-
-					// set settings
-					FrontendProfilesModel::setSetting($profileId, 'salt', $salt);
-					FrontendProfilesModel::setSetting($profileId, 'activation_key', $activationKey);
-
 					// login
 					FrontendProfilesAuthentication::login($profileId);
 
-					// activation URL
-					$mailValues['activationUrl'] = SITE_URL . FrontendNavigation::getURLForBlock('profiles', 'activate') . '/' . $activationKey;
-
-					// send email
-					FrontendMailer::addEmail(
-						FL::getMessage('RegisterSubject'),
-						FRONTEND_MODULES_PATH . '/profiles/layout/templates/mails/register.tpl',
-						$mailValues,
-						$values['email'],
-						''
-					);
-
 					$this->getData();
 
-					// update settings
-					$this->profile->setSetting('first_name', $txtFirstName->getValue());
-					$this->profile->setSetting('last_name', $txtLastName->getValue());
+					$redirectURL = SELF . '?part=two';
+
+					// through facebook
+					if(isset($data['first_name']) && isset($data['last_name']) && isset($data['email']))
+					{
+						// update settings
+						$this->profile->setSetting('first_name', $data['first_name']);
+						$this->profile->setSetting('last_name', $data['last_name']);
+						$birthdayParts = explode('/', $data['birthday']);
+						$birthday = $birthdayParts[2] . '-' . $birthdayParts[1] . '-' . $birthdayParts[0];
+						$this->profile->setSetting('birth_date', $birthday);
+						$this->profile->setSetting('gender', $data['gender']);
+
+						$redirectURL = FrontendNavigation::getURLForBlock('profiles', 'settings');
+					}
+					else
+					{
+						// generate activation key
+						$activationKey = FrontendProfilesModel::getEncryptedString($profileId . microtime(), $salt);
+
+						// set settings
+						FrontendProfilesModel::setSetting($profileId, 'salt', $salt);
+						FrontendProfilesModel::setSetting($profileId, 'activation_key', $activationKey);
+
+						// activation URL
+						$mailValues['activationUrl'] = SITE_URL . FrontendNavigation::getURLForBlock('profiles', 'activate') . '/' . $activationKey;
+	
+						// send email
+						FrontendMailer::addEmail(
+							FL::getMessage('RegisterSubject'),
+							FRONTEND_MODULES_PATH . '/profiles/layout/templates/mails/register.tpl',
+							$mailValues,
+							$values['email'],
+							''
+						);
+					}
 
 					// trigger event
 					FrontendModel::triggerEvent('profiles', 'after_saved_settings', array('id' => $this->profile->getId()));
 
 					// redirect
-					$this->redirect(SELF . '?part=two');
+					$this->redirect($redirectURL);
 				}
 
 				// catch exceptions
