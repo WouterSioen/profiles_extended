@@ -36,6 +36,9 @@ var jsFrontend =
 
 		// init twitter
 		jsFrontend.twitter.init();
+
+		// init facebook
+		jsFrontend.facebook.init();
 	},
 
 	// init

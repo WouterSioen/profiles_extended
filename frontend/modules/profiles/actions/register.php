@@ -260,6 +260,7 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 						// update settings
 						$this->profile->setSetting('first_name', $data['first_name']);
 						$this->profile->setSetting('last_name', $data['last_name']);
+						$this->profile->setSetting('facebook_id', $data['id']);
 						$birthdayParts = explode('/', $data['birthday']);
 						$birthday = $birthdayParts[2] . '-' . $birthdayParts[1] . '-' . $birthdayParts[0];
 						$this->profile->setSetting('birth_date', $birthday);
