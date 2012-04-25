@@ -13,6 +13,7 @@
  * @author Lester Lievens <lester@netlash.com>
  * @author Dieter Vanden Eynde <dieter.vandeneynde@netlash.com>
  * @author Jan Moesen <jan.moesen@netlash.com>
+ * @author Wouter Sioen <wouter.sioen@gmail.com>
  */
 class FrontendProfilesModel
 {
@@ -115,6 +116,30 @@ class FrontendProfilesModel
 			 WHERE ps.name = ? AND ps.value = ?',
 			array((string) $name, serialize((string) $value))
 		);
+	}
+
+	/**
+	 * Get's all the profiles starting with the given lettre
+	 * 
+	 * @param string $lettre The lettre
+	 * @return array
+	 */
+	public static function getProfilesByFirstLettre($lettre)
+	{
+		$profiles = (array) FrontendModel::getDB()->getRecords(
+			'SELECT p.id, p.display_name
+			 FROM profiles AS p
+			 RIGHT JOIN profiles_settings AS ps
+			 ON p.id = ps.profile_id
+			 WHERE ps.name = "first_name" AND ps.value LIKE ?', (string)'s:%:"' . $lettre . '%";'
+		);
+
+		foreach($profiles as &$profile)
+		{
+			$profile['settings'] = FrontendProfilesModel::getSettings($profile['id']);
+		}
+
+		return $profiles;
 	}
 
 	/**
