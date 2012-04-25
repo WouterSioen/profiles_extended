@@ -12,6 +12,7 @@
  *
  * @author Lester Lievens <lester@netlash.com>
  * @author Dieter Vanden Eynde <dieter.vandeneynde@netlash.com>
+ * @author Wouter Sioen <wouter.sioen@gmail.com>
  */
 class FrontendProfilesLogin extends FrontendBaseBlock
 {
@@ -74,39 +75,85 @@ class FrontendProfilesLogin extends FrontendBaseBlock
 			$txtPassword = $this->frm->getField('password');
 			$chkRemember = $this->frm->getField('remember');
 
-			// required fields
-			$txtEmail->isFilled(FL::getError('EmailIsRequired'));
-			$txtPassword->isFilled(FL::getError('PasswordIsRequired'));
+			// this will be set to true when there is no fb data and the fields should be validated
+			$validateFields = false;
 
-			// both fields filled in
-			if($txtEmail->isFilled() && $txtPassword->isFilled())
+			if(FACEBOOK_HAS_APP)
 			{
-				// valid email?
-				if($txtEmail->isEmail(FL::getError('EmailIsInvalid')))
+				$facebook = Spoon::get('facebook');
+				$data = $facebook->getCookie();
+
+				if($data !== false)
 				{
-					// get the status for the given login
-					$loginStatus = FrontendProfilesAuthentication::getLoginStatus($txtEmail->getValue(), $txtPassword->getValue());
-
-					// valid login?
-					if($loginStatus !== FrontendProfilesAuthentication::LOGIN_ACTIVE)
+					if(!SpoonSession::exists('facebook_user_data'))	// @todo	clear me when user logs out
 					{
-						// get the error string to use
-						$errorString = sprintf(FL::getError('Profiles' . SpoonFilter::toCamelCase($loginStatus) . 'Login'), FrontendNavigation::getURLForBlock('profiles', 'resend_activation'));
-
-						// add the error to stack
-						$this->frm->addError($errorString);
-
-						// add the error to the template variables
-						$this->tpl->assign('loginError', $errorString);
+						$data = $facebook->get('/me', array('metadata' => 0));
+						SpoonSession::set('facebook_user_data', $data);
 					}
+					else $data = SpoonSession::get('facebook_user_data');
+				}
+				else SpoonSession::delete('facebook_user_data');
+
+				if(!isset($data['email'])) $validateFields = true;
+			}
+			else $validateFields = true;
+
+			// validate not facebook fields
+			if($validateFields == true)
+			{
+				// required fields
+				$txtEmail->isFilled(FL::getError('EmailIsRequired'));
+				$txtPassword->isFilled(FL::getError('PasswordIsRequired'));
+	
+				// both fields filled in
+				if($txtEmail->isFilled() && $txtPassword->isFilled())
+				{
+					// valid email?
+					if($txtEmail->isEmail(FL::getError('EmailIsInvalid')))
+					{
+						// get the status for the given login
+						$loginStatus = FrontendProfilesAuthentication::getLoginStatus($txtEmail->getValue(), $txtPassword->getValue());
+	
+						// valid login?
+						if($loginStatus !== FrontendProfilesAuthentication::LOGIN_ACTIVE)
+						{
+							// get the error string to use
+							$errorString = sprintf(FL::getError('Profiles' . SpoonFilter::toCamelCase($loginStatus) . 'Login'), FrontendNavigation::getURLForBlock('profiles', 'resend_activation'));
+	
+							// add the error to stack
+							$this->frm->addError($errorString);
+	
+							// add the error to the template variables
+							$this->tpl->assign('loginError', $errorString);
+						}
+					}
+				}
+			}
+			// validate facebook fields
+			else
+			{
+				// check if the profile already registered
+				if(FrontendProfilesModel::getIdBySetting('facebook_id', $data['id']) == 0)
+				{
+					$errorString = FL::getError('notRegistered');
+					$this->frm->addError($errorString);
+					$this->tpl->assign('loginError', $errorString);
 				}
 			}
 
 			// valid login
 			if($this->frm->isCorrect())
 			{
-				// get profile id
-				$profileId = FrontendProfilesModel::getIdByEmail($txtEmail->getValue());
+				// through facebook
+				if(isset($data['email']))
+				{
+					$profileId = FrontendProfilesModel::getIdBySetting('facebook_id', $data['id']);
+				}
+				else
+				{
+					// get profile id
+					$profileId = FrontendProfilesModel::getIdByEmail($txtEmail->getValue());
+				}
 
 				// login
 				FrontendProfilesAuthentication::login($profileId, $chkRemember->getChecked());
@@ -117,11 +164,8 @@ class FrontendProfilesLogin extends FrontendBaseBlock
 				// trigger event
 				FrontendModel::triggerEvent('profiles', 'after_logged_in', array('id' => $profileId));
 
-				// querystring
-				$queryString = urldecode(SpoonFilter::getGetValue('queryString', null, SITE_URL));
-
 				// redirect
-				$this->redirect($queryString);
+				$this->redirect(FrontendNavigation::getURLForBlock('profiles', 'settings'));
 			}
 		}
 	}
