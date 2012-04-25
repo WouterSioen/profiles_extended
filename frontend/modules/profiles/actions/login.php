@@ -165,7 +165,7 @@ class FrontendProfilesLogin extends FrontendBaseBlock
 				FrontendModel::triggerEvent('profiles', 'after_logged_in', array('id' => $profileId));
 
 				// redirect
-				$this->redirect(FrontendNavigation::getURLForBlock('profiles', 'index'));
+				$this->redirect(FrontendNavigation::getURLForBlock('profiles'));
 			}
 		}
 	}
