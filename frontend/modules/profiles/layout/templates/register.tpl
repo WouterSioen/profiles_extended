@@ -2,6 +2,9 @@
 {option:registerHasFormError}
 	<div class="message error"><p>{$errFormError}</p></div>
 {/option:registerHasFormError}
+{option:registerHasEmailExistsError}
+	<div class="message error"><p>{$errEmailExists}</p></div>
+{/option:registerHasEmailExistsError}
 
 {option:!registerHideForm}
 	{form:register}
@@ -42,7 +45,7 @@
 									{option:!facebookUserData}{$msgFacebookLoggedInAs|sprintf:'':''} <a href="#" class="facebookLogout">{$lblLogout|ucfirst}</a>{/option:!facebookUserData}
 								</div>
 								<div class="facebookLogin showOnFacebookLogout hideOnFacebookLogin"{option:facebookUserData} style="display: none;"{/option:facebookUserData}>
-									<div class="fb-login-button" data-show-faces="false" data-width="200" data-scope="email, user_birthday"></div>
+									<div class="fb-login-button" data-show-faces="false" data-width="200" data-scope="email,user_birthday,user_location"></div>
 								</div>
 							</div>
 						{/option:FACEBOOK_HAS_APP}

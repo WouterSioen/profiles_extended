@@ -166,6 +166,8 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 			$txtPassword = $this->frm->getField('password');
 			$chkAcceptTerms = $this->frm->getField('accept_terms');
 
+			$email = $txtEmail->getValue();
+
 			if(FACEBOOK_HAS_APP)
 			{
 				$facebook = Spoon::get('facebook');
@@ -177,8 +179,11 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 					{
 						$data = $facebook->get('/me', array('metadata' => 0));
 						SpoonSession::set('facebook_user_data', $data);
+						
 					}
 					else $data = SpoonSession::get('facebook_user_data');
+
+					$email = $data['email'];
 				}
 				else SpoonSession::delete('facebook_user_data');
 
@@ -198,10 +203,18 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 				// validate required fields
 				if($txtFirstName->isFilled(FL::getError('FirstNameIsRequired')));
 				if($txtLastName->isFilled(FL::getError('LastNameIsRequired')));
+				if($txtEmail->isEmail(FL::getError('EmailIsInvalid')));
 				if($chkAcceptTerms->isChecked(FL::getError('AcceptTermsIsRequired')));
 
 				// check password
 				$txtPassword->isFilled(FL::getError('PasswordIsRequired'));
+			}
+
+			// email should be unique
+			if(FrontendProfilesModel::getIdByEmail($email) != 0)
+			{
+				$this->tpl->assign('registerHasEmailExistsError', true);
+				$txtEmail->addError(FL::getError('EmailExists'));
 			}
 
 			// no errors
@@ -265,6 +278,7 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 						$birthday = $birthdayParts[2] . '-' . $birthdayParts[1] . '-' . $birthdayParts[0];
 						$this->profile->setSetting('birth_date', $birthday);
 						$this->profile->setSetting('gender', $data['gender']);
+						$this->profile->setSetting('city', $data['location']['name']);
 
 						$redirectURL = FrontendNavigation::getURLForBlock('profiles', 'settings');
 					}
@@ -276,6 +290,8 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 						// set settings
 						FrontendProfilesModel::setSetting($profileId, 'salt', $salt);
 						FrontendProfilesModel::setSetting($profileId, 'activation_key', $activationKey);
+						$this->profile->setSetting('first_name', $txtFirstName->getValue());
+						$this->profile->setSetting('last_name', $txtLastName->getValue());
 
 						// activation URL
 						$mailValues['activationUrl'] = SITE_URL . FrontendNavigation::getURLForBlock('profiles', 'activate') . '/' . $activationKey;
