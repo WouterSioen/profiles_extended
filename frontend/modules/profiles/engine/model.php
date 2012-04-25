@@ -91,6 +91,17 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Gets profile id by it's display name
+	 * 
+	 * @param string $display_name
+	 * @return int
+	 */
+	public static function getIdByDisplayName($display_name)
+	{
+		return (int) FrontendModel::getDB()->getVar('SELECT p.id FROM profiles AS p WHERE p.display_name = ?', (string) $display_name);
+	}
+
+	/**
 	 * Get profile id by email.
 	 *
 	 * @param string $email Email address.
