@@ -1,4 +1,4 @@
-<section id="profile" class="mod">
+<section id="overview" class="mod">
 	<div class="inner">
 		<div class="bd">
 			{$lblAlphabeticalList}
