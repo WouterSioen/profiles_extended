@@ -75,6 +75,7 @@ class ProfilesInstaller extends ModuleInstaller
 		$resetPasswordId = $this->insertExtra('profiles', 'block', 'ResetPassword', 'reset_password', null, 'N', 5009);
 		$resendActivationId = $this->insertExtra('profiles', 'block', 'ResendActivation', 'resend_activation', null, 'N', 5010);
 		$overviewId = $this->insertExtra('profiles', 'block', 'Overview', 'overview', null, 'N', 5011);
+		$facebookSettingsId = $this->insertExtra('profiles', 'block', 'FacebookSettings', 'facebook_settings', null, 'N', 5012);
 
 		// get search widget id
 		$searchId = (int) $this->getDB()->getVar('SELECT id FROM modules_extras WHERE module = ? AND action = ?', array('search', 'form'));
@@ -180,7 +181,7 @@ class ProfilesInstaller extends ModuleInstaller
 				// settings main page
 				$settingsOverviewId = $this->insertPage(
 					array(
-						'title' => 'SettingsOverview',
+						'title' => 'Settings',
 						'type' => 'root',
 						'language' => $language
 					),
@@ -222,6 +223,19 @@ class ProfilesInstaller extends ModuleInstaller
 					),
 					null,
 					array('extra_id' => $passwordEmailId, 'position' => 'main'),
+					array('extra_id' => $searchId, 'position' => 'top')
+				);
+
+				// change password and email page
+				$this->insertPage(
+					array(
+						'title' => 'Facebook settings',
+						'parent_id' => $settingsOverviewId,
+						'language' => $language,
+						'hidden' => 'Y'
+					),
+					null,
+					array('extra_id' => $facebookSettingsId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
 
