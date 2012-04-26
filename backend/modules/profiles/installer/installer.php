@@ -76,6 +76,7 @@ class ProfilesInstaller extends ModuleInstaller
 		$resendActivationId = $this->insertExtra('profiles', 'block', 'ResendActivation', 'resend_activation', null, 'N', 5010);
 		$overviewId = $this->insertExtra('profiles', 'block', 'Overview', 'overview', null, 'N', 5011);
 		$facebookSettingsId = $this->insertExtra('profiles', 'block', 'FacebookSettings', 'facebook_settings', null, 'N', 5012);
+		$messagesId = $this->insertExtra('profiles', 'block', 'Messsages', 'messages', null, 'N', 5013);
 
 		// get search widget id
 		$searchId = (int) $this->getDB()->getVar('SELECT id FROM modules_extras WHERE module = ? AND action = ?', array('search', 'form'));
@@ -240,7 +241,7 @@ class ProfilesInstaller extends ModuleInstaller
 				);
 
 				// index page
-				$indexPageId = $this->insertPage(
+				$this->insertPage(
 					array(
 						'title' => 'Profile',
 						'type' => 'root',
@@ -248,6 +249,18 @@ class ProfilesInstaller extends ModuleInstaller
 					),
 					null,
 					array('extra_id' => $indexId, 'position' => 'main'),
+					array('extra_id' => $searchId, 'position' => 'top')
+				);
+
+				// messages page
+				$this->insertPage(
+					array(
+						'title' => 'My Messages',
+						'type' => 'root',
+						'language' => $language
+					),
+					null,
+					array('extra_id' => $messagesId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
 			}

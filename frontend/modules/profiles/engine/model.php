@@ -130,6 +130,62 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Gets latest message by thread Id
+	 * 
+	 * @param int $threadId
+	 * @return array
+	 */
+	private static function getLatestMessageByThreadId($threadId)
+	{
+		$message = (array) FrontendModel::getDB()->getRecord(
+			'SELECT pm.created_on, p.display_name, pm.text, ps.value AS first_name, ps2.value AS last_name
+			 FROM  profiles_message AS pm
+			 INNER JOIN profiles_message_status AS pms ON pm.id = pms.message_id
+			 INNER JOIN profiles AS p ON p.id = pm.created_by
+			 INNER JOIN profiles_settings AS ps ON pm.created_by = ps.profile_id AND ps.name = "first_name"
+			 INNER JOIN profiles_settings AS ps2 ON pm.created_by = ps2.profile_id AND ps2.name = "last_name"
+			 WHERE pm.thread_id = ?
+			 ORDER BY pm.created_on DESC
+			 LIMIT 1',
+			(int) $threadId
+		);
+
+		$message['first_name'] = unserialize($message['first_name']);
+		$message['last_name'] = unserialize($message['last_name']);
+
+		return $message;
+	}
+
+	/**
+	 * Get message_threads and it's latest messages for the given user
+	 * 
+	 * @param int $id
+	 * @param int[optional] $limit The number of items to get.
+	 * @param int[optional] $offset The offset.
+	 * @return array
+	 */
+	public static function getLatestThreadsByUserId($id, $limit = 5, $offset = 0)
+	{
+		$latestThreads = (array) FrontendModel::getDB()->getRecords(
+			'SELECT pmt.id
+			 FROM profiles_message_thread AS pmt
+			 INNER JOIN profiles_message AS pm ON pmt.id = pm.thread_id
+			 INNER JOIN profiles_message_status AS pms ON pm.id = pms.message_id
+			 WHERE pms.receiver_id = ?
+			 GROUP BY pmt.id
+			 ORDER BY pmt.latest_message_time DESC
+			 LIMIT ?,?',
+			array((int) $id, (int) $offset, (int) $limit)
+		);
+
+		foreach ($latestThreads as &$thread) {
+			$thread['latestMessage'] = FrontendProfilesModel::getLatestMessageByThreadId($thread['id']);
+		}
+
+		return $latestThreads;
+	}
+
+	/**
 	 * Get's all the profiles starting with the given lettre
 	 * 
 	 * @param string $lettre The lettre
@@ -142,7 +198,8 @@ class FrontendProfilesModel
 			 FROM profiles AS p
 			 RIGHT JOIN profiles_settings AS ps
 			 ON p.id = ps.profile_id
-			 WHERE ps.name = "first_name" AND ps.value LIKE ?', (string)'s:%:"' . $lettre . '%";'
+			 WHERE ps.name = "first_name" AND ps.value LIKE ?',
+			(string)'s:%:"' . $lettre . '%";'
 		);
 
 		foreach($profiles as &$profile)

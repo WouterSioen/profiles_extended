@@ -26,6 +26,26 @@ CREATE TABLE IF NOT EXISTS `profiles_groups_rights` (
   UNIQUE KEY `profile_id__group__id__expires_on` (`profile_id`,`group_id`,`expires_on`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `profiles_message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `latest_message_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `profiles_message_status` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `receiver_id` int(11) NOT NULL,
+  `status` enum('unread','read','deleted') NOT NULL DEFAULT 'unread',
+  `message_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `profiles_message_thread` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `latest_message_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `profiles_sessions` (
   `session_id` varchar(255) NOT NULL,
   `profile_id` int(11) NOT NULL,
