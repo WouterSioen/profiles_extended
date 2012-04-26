@@ -20,7 +20,7 @@
 				{/iteration:profiles}
 			{/option:profiles}
 			{option:!profiles}
-				{$lblNoProfiles}
+				{$lblNoProfilesFound}
 			{/option:!profiles}
 		</div>
 	</div>

@@ -12,6 +12,7 @@
  *
  * @author Dieter Vanden Eynde <dieter.vandeneynde@netlash.com>
  * @author Davy Van Vooren <davy.vanvooren@netlash.com>
+ * @author Wouter Sioen <wouter.sioen@gmail.com>
  */
 class ProfilesInstaller extends ModuleInstaller
 {
@@ -176,23 +177,22 @@ class ProfilesInstaller extends ModuleInstaller
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
 
-				// index page
-				$indexPageId = $this->insertPage(
+				// settings main page
+				$settingsOverviewId = $this->insertPage(
 					array(
-						'title' => 'Profile',
+						'title' => 'SettingsOverview',
 						'type' => 'root',
 						'language' => $language
 					),
 					null,
-					array('extra_id' => $indexId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					null
 				);
 
 				// settings page
 				$this->insertPage(
 					array(
 						'title' => 'Profile settings',
-						'parent_id' => $indexPageId,
+						'parent_id' => $settingsOverviewId,
 						'language' => $language
 					),
 					null,
@@ -204,7 +204,7 @@ class ProfilesInstaller extends ModuleInstaller
 				$this->insertPage(
 					array(
 						'title' => 'Alerts and newslettre',
-						'parent_id' => $indexPageId,
+						'parent_id' => $settingsOverviewId,
 						'language' => $language
 					),
 					null,
@@ -217,11 +217,23 @@ class ProfilesInstaller extends ModuleInstaller
 				$this->insertPage(
 					array(
 						'title' => 'Password and email',
-						'parent_id' => $indexPageId,
+						'parent_id' => $settingsOverviewId,
 						'language' => $language
 					),
 					null,
 					array('extra_id' => $passwordEmailId, 'position' => 'main'),
+					array('extra_id' => $searchId, 'position' => 'top')
+				);
+
+				// index page
+				$indexPageId = $this->insertPage(
+					array(
+						'title' => 'Profile',
+						'type' => 'root',
+						'language' => $language
+					),
+					null,
+					array('extra_id' => $indexId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
 			}

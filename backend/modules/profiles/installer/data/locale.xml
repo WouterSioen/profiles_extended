@@ -628,4 +628,116 @@
       </item>
     </profiles>
   </backend>
+  <frontend>
+    <core>
+      <item type="label" name="Alerts">
+        <translation language="nl"><![CDATA[Stuur mij de tweewekelijkse nieuwsbrief met info over nieuwe activiteiten.]]></translation>
+        <translation language="en"><![CDATA[Send me the biweekly newslettre with info about new activities.]]></translation>
+      </item>
+      <item type="label" name="AlphabeticalList">
+        <translation language="nl"><![CDATA[Alphabetische lijst]]></translation>
+        <translation language="en"><![CDATA[Alphabetical list]]></translation>
+      </item>
+      <item type="label" name="Avatar">
+        <translation language="nl"><![CDATA[Avatar]]></translation>
+        <translation language="en"><![CDATA[Avatar]]></translation>
+      </item>
+      <item type="label" name="CurrentPassword">
+        <translation language="nl"><![CDATA[Huidig wachtwoord]]></translation>
+        <translation language="en"><![CDATA[Current password]]></translation>
+      </item>
+      <item type="label" name="CurrentPassword">
+        <translation language="nl"><![CDATA[Huidig wachtwoord]]></translation>
+        <translation language="en"><![CDATA[Current password]]></translation>
+      </item>
+      <item type="label" name="LivesIn">
+        <translation language="nl"><![CDATA[Woont in]]></translation>
+        <translation language="en"><![CDATA[Lives in]]></translation>
+      </item>
+      <item type="label" name="Newslettre">
+        <translation language="nl"><![CDATA[Nieuwsbrief]]></translation>
+        <translation language="en"><![CDATA[Newslettre]]></translation>
+      </item>
+      <item type="label" name="NoProfilesFound">
+        <translation language="nl"><![CDATA[Er zijn geen profielen gevonden.]]></translation>
+        <translation language="en"><![CDATA[There are no profiles found.]]></translation>
+      </item>
+      <item type="label" name="Number">
+        <translation language="nl"><![CDATA[Nummer]]></translation>
+        <translation language="en"><![CDATA[Number]]></translation>
+      </item>
+      <item type="label" name="PostalCode">
+        <translation language="nl"><![CDATA[Postcode]]></translation>
+        <translation language="en"><![CDATA[Postal code]]></translation>
+      </item>
+      <item type="label" name="Profiles">
+        <translation language="nl"><![CDATA[Profielen]]></translation>
+        <translation language="en"><![CDATA[Profiles]]></translation>
+      </item>
+      <item type="label" name="RegisterWithFacebook">
+        <translation language="nl"><![CDATA[Registreer via Facebook]]></translation>
+        <translation language="en"><![CDATA[register with Facebook]]></translation>
+      </item>
+      <item type="label" name="RepeatNewPassword">
+        <translation language="nl"><![CDATA[Herhaal nieuw wachtwoord]]></translation>
+        <translation language="en"><![CDATA[Confirm new password]]></translation>
+      </item>
+      <item type="label" name="Street">
+        <translation language="nl"><![CDATA[Straat]]></translation>
+        <translation language="en"><![CDATA[Street]]></translation>
+      </item>
+      <item type="label" name="YearsOld">
+        <translation language="nl"><![CDATA[jaar oud]]></translation>
+        <translation language="en"><![CDATA[years old]]></translation>
+      </item>
+      <item type="error" name="AcceptTermsIsRequired">
+        <translation language="nl"><![CDATA[Je moet akkoord gaan met de algemene voorwaarden en de privacy policy]]></translation>
+        <translation language="en"><![CDATA[You must agree to the terms and conditions and the privacy policy]]></translation>
+      </item>
+      <item type="error" name="FirstNameIsRequired">
+        <translation language="nl"><![CDATA[Voornaam is een verplicht veld.]]></translation>
+        <translation language="en"><![CDATA[Firstname is a required field.]]></translation>
+      </item>
+      <item type="error" name="InvalidRepeatPassword">
+        <translation language="nl"><![CDATA[Het herhaalde passwoord is incorrect]]></translation>
+        <translation language="en"><![CDATA[The repeated password is incorrect]]></translation>
+      </item>
+      <item type="error" name="JPGGIFAndPNGOnly">
+        <translation language="nl"><![CDATA[Enkel bestanden met formaat jpg, jpeg, gif of png zijn toegestaan.]]></translation>
+        <translation language="en"><![CDATA[Only files with the format jpg, jpeg, gif or png are allowed.]]></translation>
+      </item>
+      <item type="error" name="LastNameIsRequired">
+        <translation language="nl"><![CDATA[Achternaam is een verplicht veld.]]></translation>
+        <translation language="en"><![CDATA[Lastname is a required field.]]></translation>
+      </item>
+      <item type="error" name="NonActiveError">
+        <translation language="nl"><![CDATA[Het profiel is nog niet geactiveerd.]]></translation>
+        <translation language="en"><![CDATA[The profile isn't activated yet.]]></translation>
+      </item>
+      <item type="error" name="NumberIsInvalid">
+        <translation language="nl"><![CDATA[Het nummer is incorrect.]]></translation>
+        <translation language="en"><![CDATA[The number is invalid.]]></translation>
+      </item>
+      <item type="error" name="PostalCodeIsInvalid">
+        <translation language="nl"><![CDATA[De postcode is incorrect.]]></translation>
+        <translation language="en"><![CDATA[The postal code is invalid.]]></translation>
+      </item>
+      <item type="message" name="Accept Terms">
+        <translation language="nl"><![CDATA[Ik ga akkoord met de <a href="%1$s">algemene voorwaarden</a> en de <a href="%2$s">privacy policy</a>.]]></translation>
+        <translation language="en"><![CDATA[Ik agree to the <a href="%1$s">terms and conditions</a> and the <a href="%2$s">privacy policy</a>.]]></translation>
+      </item>
+      <item type="message" name="FacebookLoggedInAs">
+        <translation language="nl"><![CDATA[Aangemeld als: <a href="%2$s">%1$s</a>.]]></translation>
+        <translation language="en"><![CDATA[Signed in as: <a href="%2$s">%1$s</a>.]]></translation>
+      </item>
+      <item type="message" name="HelpAvatar">
+        <translation language="nl"><![CDATA[Toegestane bestandstypes zijn: .jpg, .jpeg, .gif en .png.]]></translation>
+        <translation language="en"><![CDATA[Allowed file formats are: .jpg, .jpeg, .gif en .png]]></translation>
+      </item>
+      <item type="message" name="UpdateSucces">
+        <translation language="nl"><![CDATA[De aanpassingen zijn opgeslaan.]]></translation>
+        <translation language="en"><![CDATA[The updates have been saved.]]></translation>
+      </item>
+    </core>
+  </frontend>
 </locale>

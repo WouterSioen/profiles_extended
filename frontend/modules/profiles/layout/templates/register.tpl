@@ -33,7 +33,7 @@
 								<label for="showPassword">{$chkShowPassword} {$lblShowPassword|ucfirst} </label>
 							</p>
 							<p{option:chkAcceptTermsError} class="errorArea"{/option:chkAcceptTermsError}>
-								<label for="acceptTerms">{$chkAcceptTerms} {$lblAcceptTerms|ucfirst} </label>
+								<label for="acceptTerms">{$chkAcceptTerms} {$msgAcceptTerms|sprintf:{$var|geturlforblock:'disclaimer'}:{$var|geturlforblock:'disclaimer'}} </label>
 							</p>
 						</div>
 						{option:FACEBOOK_HAS_APP}

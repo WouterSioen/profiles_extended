@@ -18,7 +18,7 @@
 		<div class="bd">
 			{form:updateSettings}
 				<fieldset>
-					<legend>{$lblProfilePicture|ucfirst}</legend>
+					<legend>{$lblAvatar|ucfirst}</legend>
 					<p>
 						{option:avatar}
 							<img src="{$FRONTEND_FILES_URL}/profiles/avatars/64x64/{$avatar}" width="64" height="64" alt="" />
