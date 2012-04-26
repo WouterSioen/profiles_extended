@@ -1,3 +1,7 @@
+{option:sentMessage}
+	<div class="message success"><p>{$msgMessageSent}</p></div>
+{/option:sentMessage}
+
 <section id="messages" class="mod">
 	<div class="inner">
 		<div class="bd">

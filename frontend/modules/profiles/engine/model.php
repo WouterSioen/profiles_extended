@@ -364,6 +364,42 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Inserts a new message thread
+	 * 
+	 * @param int $id The user id of the person that started the thread
+	 * @param int $receiverId The user id of the person that will receive the message
+	 * @param string $text The text in the message
+	 */
+	public static function insertMessageThread($id, $receiverId, $text)
+	{
+		$time = date('Y-m-d H:i:s');
+		$db = FrontendModel::getDB(true);
+
+		// insert thread
+		$threadId = (int) $db->insert('profiles_message_thread', array('latest_message_time' => $time));
+
+		// insert message
+		$messageId = (int) $db->insert(
+			'profiles_message', 
+			array(
+				'thread_id' => $threadId,
+				'created_by' => $id,
+				'created_on' => $time,
+				'text' => $text
+			)
+		);
+
+		// insert message_status
+		return (int) $db->insert(
+			'profiles_message_status',
+			array(
+				'message_id' => $messageId,
+				'receiver_id' => $receiverId
+			)
+		);
+	}
+
+	/**
 	 * Parse the general profiles info into the template.
 	 */
 	public static function parse()

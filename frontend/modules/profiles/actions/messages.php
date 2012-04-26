@@ -46,7 +46,7 @@ class FrontendProfilesMessages extends FrontendBaseBlock
 	private function getData()
 	{
 		$profile = FrontendProfilesAuthentication::getProfile();
-		$this->threads = FrontendProfilesModel::getLatestThreadsByUserId(2);
+		$this->threads = FrontendProfilesModel::getLatestThreadsByUserId($profile->getId());
 	}
 
 	/**
@@ -54,6 +54,10 @@ class FrontendProfilesMessages extends FrontendBaseBlock
 	 */
 	private function parse()
 	{
+		if($this->url->getParameter('sent') == "true")
+		{
+			$this->tpl->assign('sentMessage', 'MessageSent');
+		}
 		$this->tpl->assign('threads', $this->threads);
 	}
 }
