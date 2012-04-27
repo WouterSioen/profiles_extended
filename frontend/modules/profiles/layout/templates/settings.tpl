@@ -24,7 +24,7 @@
 							<img src="{$FRONTEND_FILES_URL}/profiles/avatars/64x64/{$avatar}" width="64" height="64" alt="" />
 						{/option:avatar}
 						{option:!avatar}
-							<img src="{$FRONTEND_CORE_URL}/layout/images/default_author_avatar.gif" width="64" height="64" alt="{option:facebookUserData}{$facebookUserData.name}{/option:facebookUserData}" class="replaceWithFacebook" data-facebook-id="{option:facebookUserData}{$facebookUserData.id}{/option:facebookUserData}" />
+							<img src="{$FRONTEND_CORE_URL}/layout/images/default_author_avatar.gif" width="64" height="64" alt="{$lblDisplayName|ucfirst}" class="replaceWithFacebook" {option:facebook_id}data-facebook-id="{$facebook_id}"{/option:facebook_id} />
 						{/option:!avatar}
 						<label for="avatar">{$lblAvatar|ucfirst}</label>
 						{$fileAvatar} {$fileAvatarError}

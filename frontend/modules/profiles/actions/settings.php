@@ -31,11 +31,11 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 	private $profile;
 
 	/**
-	 * The url to the avatar of the current profile.
+	 * The url to the avatar/ the facebook id to get the avatar.
 	 *
-	 * @var String
+	 * @var 
 	 */
-	private $avatar;
+	private $avatar, $facebook_id;
 
 	/**
 	 * Execute the extra.
@@ -67,10 +67,9 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 
 		// avatar
 		$this->avatar = $this->profile->getSetting('avatar');
-		if(empty($this->avatar))
-		{
-			$this->avatar = '';
-		}
+		if(empty($this->avatar))$this->avatar = '';
+		$this->facebook_id = $this->profile->getSetting('facebook_id');
+		if(empty($this->facebook_id))$this->facebook_id = '';
 	}
 
 	/**
@@ -156,6 +155,7 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 
 		// add avatar
 		$this->tpl->assign('avatar', $this->avatar);
+		$this->tpl->assign('avatar', $this->facebook_id);
 
 		// display name changes
 		$this->tpl->assign('maxDisplayNameChanges', FrontendProfilesModel::MAX_DISPLAY_NAME_CHANGES);
