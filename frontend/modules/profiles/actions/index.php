@@ -71,10 +71,13 @@ class FrontendProfilesIndex extends FrontendBaseBlock
 			$this->profile = FrontendProfilesModel::get($id);
 			$this->settings = $this->profile->getSettings();
 			// calculate age
-			if($this->settings['birth_date'])
+			if(!empty($this->settings['birth_date']))
 			{
 				list($year, $month, $day) = explode("-", $this->settings['birth_date']);
 				$this->age = ( date("md") < $month.$day ? date("Y") - $year-1 : date("Y") - $year );
+			}
+			else {
+				$this->age = '';
 			}
 		}
 		else

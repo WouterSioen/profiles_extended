@@ -9,7 +9,7 @@
 				{option:!settings.avatar}
 					<img src="{$FRONTEND_CORE_URL}/layout/images/default_author_avatar.gif" width="64" height="64" alt="{$profile.displayName}" class="replaceWithFacebook" data-facebook-id="{option:settings.facebook_id}{$settings.facebook_id}{/option:settings.facebook_id}" />
 				{/option:!settings.avatar}
-				{$age} {$lblYearsOld}{option:settings.city} - {$lblLivesIn} {$settings.city}{/option:settings.city}
+				{option:age}{$age} {$lblYearsOld}{/option:age}{option:settings.city} - {$lblLivesIn} {$settings.city}{/option:settings.city}
 			</p>
 		</div>
 	</div>
