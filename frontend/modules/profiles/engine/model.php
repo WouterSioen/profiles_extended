@@ -130,6 +130,17 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Get's the profile id by it's url
+	 * 
+	 * @param string $url The url
+	 * @return int
+	 */
+	public static function getIdByUrl($url)
+	{
+		return (int) FrontendModel::getDB()->getVar('SELECT p.id FROM profiles AS p WHERE p.url = ?', (string) $url);
+	}
+
+	/**
 	 * Gets latest message by thread Id
 	 * 
 	 * @param int $threadId
@@ -220,17 +231,21 @@ class FrontendProfilesModel
 	public static function getProfilesByFirstLettre($lettre)
 	{
 		$profiles = (array) FrontendModel::getDB()->getRecords(
-			'SELECT p.id, p.display_name
+			'SELECT p.url, ps1.value AS first_name, ps2.value AS last_name, ps3.value AS facebook_id, ps4.value AS avatar
 			 FROM profiles AS p
-			 RIGHT JOIN profiles_settings AS ps
-			 ON p.id = ps.profile_id
-			 WHERE ps.name = "first_name" AND ps.value LIKE ?',
-			(string)'s:%:"' . $lettre . '%";'
+			 INNER JOIN profiles_settings AS ps1 ON p.id = ps1.profile_id AND ps1.name = "first_name"
+			 INNER JOIN profiles_settings AS ps2 ON p.id = ps2.profile_id AND ps2.name = "last_name"
+			 LEFT JOIN profiles_settings AS ps3 ON p.id = ps3.profile_id AND ps3.name = "facebook_id"
+			 LEFT JOIN profiles_settings AS ps4 ON p.id = ps4.profile_id AND ps4.name = "avatar"
+			 WHERE ps1.value LIKE ?', 's:%:"' . $lettre . '%";'
 		);
 
 		foreach($profiles as &$profile)
 		{
-			$profile['settings'] = FrontendProfilesModel::getSettings($profile['id']);
+			$profile['first_name'] = unserialize($profile['first_name']);
+			$profile['last_name'] = unserialize($profile['last_name']);
+			$profile['facebook_id'] = unserialize($profile['facebook_id']);
+			$profile['avatar'] = unserialize($profile['avatar']);
 		}
 
 		return $profiles;

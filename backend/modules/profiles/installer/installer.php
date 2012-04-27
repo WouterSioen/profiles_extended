@@ -246,7 +246,7 @@ class ProfilesInstaller extends ModuleInstaller
 					array(
 						'title' => 'Profielen',
 						'type' => 'root',
-						'language' => $langauge
+						'language' => $language
 					),
 					null,
 					array('extra_id' => $overviewId, 'position' => 'main'),

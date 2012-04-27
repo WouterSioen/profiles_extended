@@ -65,7 +65,7 @@ class FrontendProfilesIndex extends FrontendBaseBlock
 		if($this->URL->getParameter(0) === null) $this->redirect(FrontendNavigation::getURL(404));
 
 		// check if profile exists
-		$id = FrontendProfilesModel::getIdByDisplayName($this->URL->getParameter(0));
+		$id = FrontendProfilesModel::getIdByUrl($this->URL->getParameter(0));
 		if($id != 0)
 		{
 			$this->profile = FrontendProfilesModel::get($id);

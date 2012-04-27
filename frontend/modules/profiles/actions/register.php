@@ -245,6 +245,15 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 					$values['display_name'] = $txtFirstName->getValue() . ' ' . $txtLastName->getValue();
 				}
 
+				// create a url that doesn't exist yet
+				$url = SpoonFilter::urlise($values['display_name']);
+				$extra = null;
+				while(empty($values['url']))
+				{
+					if(FrontendProfilesModel::getIdByUrl($url . $extra) == 0) $values['url'] = $url . $extra;
+					else $extra++;
+				}
+
 				/*
 				 * Add a profile.
 				 * We use a try-catch statement to catch errors when more users sign up simultaneously.
@@ -253,9 +262,6 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 				{
 					// insert profile
 					$profileId = FrontendProfilesModel::insert($values);
-
-					// use the profile id as url until we have an actual url
-					FrontendProfilesModel::update($profileId, array('url' => FrontendProfilesModel::getUrl($profileId)));
 
 					// trigger event
 					FrontendModel::triggerEvent('profiles', 'after_register', array('id' => $profileId));
