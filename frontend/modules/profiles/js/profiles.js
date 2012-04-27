@@ -2,6 +2,7 @@
  * Interaction for the profiles module
  *
  * @author	Thomas Deceuninck <thomasdeceuninck@netlash.com>
+ * @author	Wouter Sioen <wouter.sioen@gmail.com>
  */
 jsFrontend.profiles = {
 	/**
@@ -10,6 +11,8 @@ jsFrontend.profiles = {
 	init: function()
 	{
 		jsFrontend.profiles.showPassword();
+
+		jsFrontend.profiles.autoSuggest();
 	},
 
 	/**
@@ -40,6 +43,76 @@ jsFrontend.profiles = {
 				$('.showPasswordInput:first').remove();
 			}
 		});
+	},
+
+	/**
+	 * Autosuggests users in the messaging system
+	 */
+	autoSuggest: function()
+	{
+		// grab element
+		var $input = $('input.profilesAutoSuggest');
+
+		function split(val) {
+			return val.split(/;\s*/);
+		}
+		function extractLast(term) {
+			return split(term).pop();
+		}
+
+		// search widget suggestions
+		$input.autocomplete(
+		{
+			minLength: 1,
+			source: function(request, response)
+			{
+				// ajax call
+				$.ajax(
+				{
+					data:
+					{
+						fork: { module: 'profiles', action: 'autosuggest' },
+						term: extractLast(request.term)
+					},
+					success: function(data, textStatus)
+					{
+						// init var
+						var realData = [];
+
+						// alert the user
+						if(data.code != 200 && jsFrontend.debug) { alert(data.message); }
+
+						if(data.code == 200)
+						{
+							for(var i in data.data) realData.push({ first_name: data.data[i].first_name, last_name: data.data[i].last_name, display_name: data.data[i].display_name });
+						}
+
+						// set response
+						response(realData);
+					}
+				});
+			},
+			select: function(event, ui)
+			{
+				var terms = split($(this).val());
+				// remove the current input
+				terms.pop();
+				// add the selected item
+				terms.push(ui.item.display_name);
+				// add placeholder to get the comma-and-space at the end
+				terms.push("");
+				$(this).val(terms.join("; "));
+				return false;
+			}
+		})
+		// and also: alter the autocomplete style: add description!
+		.data('autocomplete')._renderItem = function(ul, item)
+		{
+			return $('<li></li>')
+			.data('item.autocomplete', item)
+			.append('<a><strong>' + item.display_name + '</strong><br \>' + item.first_name + ' ' + item.last_name + '</a>' )
+			.appendTo(ul);
+		};
 	}
 }
 

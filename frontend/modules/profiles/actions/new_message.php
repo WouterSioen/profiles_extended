@@ -47,7 +47,7 @@ class FrontendProfilesNewMessage extends FrontendBaseBlock
 	private function loadForm()
 	{
 		$this->frm = new FrontendForm('message', null, null, 'messageForm');
-		$this->frm->addText('to');
+		$this->frm->addText('to', '', 255, 'inputText profilesAutoSuggest');
 		$this->frm->addTextarea('message');
 	}
 
@@ -79,11 +79,18 @@ class FrontendProfilesNewMessage extends FrontendBaseBlock
 			// get their id and check if they exist
 			foreach($receivers as &$receiver)
 			{
-				$receiver = FrontendProfilesModel::getIdByDisplayName(trim($receiver));
-				// check if the to field has an existing profile
-				if($receiver == 0)
+				if(trim($receiver) == '')
 				{
-					$txtTo->addError(FL::getError('InvalidUsername'));
+					unset($receiver);
+				}
+				else
+				{
+					$receiver = FrontendProfilesModel::getIdByDisplayName(trim($receiver));
+					// check if the to field has an existing profile
+					if($receiver == 0)
+					{
+						$txtTo->addError(FL::getError('InvalidUsername'));
+					}
 				}
 			}
 

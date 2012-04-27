@@ -560,6 +560,30 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * The function used to search users
+	 * 
+	 * @param string $term
+	 * @return array Users
+	 */
+	public static function search($term)
+	{
+		return (array) FrontendModel::getDB()->getRecords(
+			'SELECT p.display_name, ps1.value AS first_name, ps2.value AS last_name
+			 FROM profiles AS p
+			 INNER JOIN profiles_settings AS ps1 ON p.id = ps1.profile_id AND ps1.name = "first_name"
+			 INNER JOIN profiles_settings AS ps2 ON p.id = ps2.profile_id AND ps2.name = "last_name"
+			 WHERE ps1.value LIKE ?
+			 OR ps2.value LIKE ?
+			 OR display_name LIKE ?', 
+			array(
+				(string) 's:%:"%' . $term . '%";', 
+				(string) 's:%:"%' . $term . '%";', 
+				(string) '%' . $term . '%'
+			)
+		);
+	}
+
+	/**
 	 * Insert or update a single profile setting.
 	 *
 	 * @param int $id Profile id.
