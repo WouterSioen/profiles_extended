@@ -84,7 +84,7 @@ jsFrontend.profiles = {
 
 						if(data.code == 200)
 						{
-							for(var i in data.data) realData.push({ first_name: data.data[i].first_name, last_name: data.data[i].last_name, display_name: data.data[i].display_name });
+							for(var i in data.data) realData.push({ first_name: data.data[i].first_name, last_name: data.data[i].last_name, display_name: data.data[i].display_name, url: data.data[i].url });
 						}
 
 						// set response
@@ -94,15 +94,20 @@ jsFrontend.profiles = {
 			},
 			select: function(event, ui)
 			{
-				var terms = split($(this).val());
-				// remove the current input
-				terms.pop();
-				// add the selected item
-				terms.push(ui.item.display_name);
-				// add placeholder to get the comma-and-space at the end
-				terms.push("");
-				$(this).val(terms.join("; "));
-				return false;
+				if($(this).hasClass('redirect'))
+				{
+					window.location.href = ui.item.url;
+				}
+				else
+				{
+					// add the selected item after the previously added items
+					var terms = split($(this).val());
+					terms.pop();
+					terms.push(ui.item.display_name);
+					terms.push("");
+					$(this).val(terms.join("; "));
+					return false;
+				}
 			}
 		})
 		// and also: alter the autocomplete style: add description!

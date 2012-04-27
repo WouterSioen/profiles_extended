@@ -567,8 +567,8 @@ class FrontendProfilesModel
 	 */
 	public static function search($term)
 	{
-		return (array) FrontendModel::getDB()->getRecords(
-			'SELECT p.display_name, ps1.value AS first_name, ps2.value AS last_name
+		$items = (array) FrontendModel::getDB()->getRecords(
+			'SELECT p.display_name, p.url, ps1.value AS first_name, ps2.value AS last_name
 			 FROM profiles AS p
 			 INNER JOIN profiles_settings AS ps1 ON p.id = ps1.profile_id AND ps1.name = "first_name"
 			 INNER JOIN profiles_settings AS ps2 ON p.id = ps2.profile_id AND ps2.name = "last_name"
@@ -581,6 +581,16 @@ class FrontendProfilesModel
 				(string) '%' . $term . '%'
 			)
 		);
+
+		if(!empty($items))
+		{
+			foreach($items as &$item)
+			{
+				$item['url'] = FrontendNavigation::getURLForBlock('profiles') . '/' . $item['url'];
+			}
+		}
+
+		return $items;
 	}
 
 	/**
