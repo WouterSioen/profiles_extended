@@ -419,12 +419,19 @@ class FrontendProfilesModel
 		$db = FrontendModel::getDB(true);
 
 		// get al the receiving users of the thread
-		$receivingUsers = $db->getRecords(
+		$receivingUsers = (array) $db->getRecords(
 			'SELECT pms.receiver_id AS id
 			 FROM profiles_message_status AS pms
 			 INNER JOIN profiles_message AS pm ON pms.message_id = pm.id
 			 WHERE pm.thread_id = ?
 			 GROUP BY id', (int) $threadId
+		);
+
+		// get the user id of the user starting the thread
+		$receivingUsers[] = (array) $db->getRecord(
+			'SELECT pm.created_by AS id
+			 FROM profiles_message AS pm
+			 WHERE pm.thread_id = ?', (int) $threadId
 		);
 
 		// insert the message

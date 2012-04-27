@@ -78,6 +78,7 @@ class ProfilesInstaller extends ModuleInstaller
 		$facebookSettingsId = $this->insertExtra('profiles', 'block', 'FacebookSettings', 'facebook_settings', null, 'N', 5012);
 		$messagesId = $this->insertExtra('profiles', 'block', 'Messsages', 'messages', null, 'N', 5013);
 		$newMessageId = $this->insertExtra('profiles', 'block', 'New Message', 'new_message', null, 'N', 5014);
+		$messageDetailId = $this->insertExtra('profiles', 'block', 'Message Detail', 'message_detail', null, 'N', 5015);
 
 		// get search widget id
 		$searchId = (int) $this->getDB()->getVar('SELECT id FROM modules_extras WHERE module = ? AND action = ?', array('search', 'form'));
@@ -289,6 +290,17 @@ class ProfilesInstaller extends ModuleInstaller
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
 
+				// message detail
+				$this->insertPage(
+					array(
+						'title' => 'Message Detail',
+						'type' => 'root',
+						'language' => $language
+					),
+					null,
+					array('extra_id' => $messageDetailId, 'position' => 'main'),
+					array('extra_id' => $searchId, 'position' => 'top')
+				);
 			}
 		}
 	}

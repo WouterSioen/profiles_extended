@@ -54,7 +54,7 @@ class FrontendProfilesMessageDetail extends FrontendBaseBlock
 	 */
 	private function getData()
 	{
-		$threadId = $this->URL->getParameter(1);
+		$threadId = $this->URL->getParameter(0);
 		if($threadId)
 		{
 			$this->thread = FrontendProfilesModel::getMessagesByThreadId($threadId);
