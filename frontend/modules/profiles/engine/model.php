@@ -210,6 +210,7 @@ class FrontendProfilesModel
 			 INNER JOIN profiles_settings AS ps ON pm.created_by = ps.profile_id AND ps.name = "first_name"
 			 INNER JOIN profiles_settings AS ps2 ON pm.created_by = ps2.profile_id AND ps2.name = "last_name"
 			 WHERE pm.thread_id = ?
+			 GROUP BY pm.id
 			 ORDER BY pm.created_on DESC', (int) $id
 		);
 
@@ -460,11 +461,11 @@ class FrontendProfilesModel
 	 * Inserts a new message thread
 	 * 
 	 * @param int $id The user id of the person that started the thread
-	 * @param int $receiverId The user id of the person that will receive the message
+	 * @param array $receivers The user ids of the persons that will receive the message
 	 * @param string $text The text in the message
-	 * @return int
+	 * @return boolean
 	 */
-	public static function insertMessageThread($id, $receiverId, $text)
+	public static function insertMessageThread($id, $receivers, $text)
 	{
 		$time = date('Y-m-d H:i:s');
 		$db = FrontendModel::getDB(true);
@@ -483,14 +484,18 @@ class FrontendProfilesModel
 			)
 		);
 
-		// insert message_status
-		return (int) $db->insert(
-			'profiles_message_status',
-			array(
-				'message_id' => $messageId,
-				'receiver_id' => $receiverId
-			)
-		);
+		// insert message_status for every receiver
+		foreach ($receivers as $receiver) {
+			(int) $db->insert(
+				'profiles_message_status',
+				array(
+					'message_id' => $messageId,
+					'receiver_id' => $receiver
+				)
+			);
+		}
+
+		return true;
 	}
 
 	/**

@@ -73,18 +73,25 @@ class FrontendProfilesNewMessage extends FrontendBaseBlock
 			$txtTo->isFilled(FL::getError('ToIsRequired'));
 			$txtMessage->isFilled(FL::getError('MessageIsRequired'));
 
-			// check if the to field has an existing profile
-			if(!FrontendProfilesModel::existsDisplayName($txtTo->getValue()))
+			// create receivers array
+			$receivers = explode(';', $txtTo->getValue());
+
+			// get their id and check if they exist
+			foreach($receivers as &$receiver)
 			{
-				$txtTo->addError(FL::getError('InvalidUsername'));
+				$receiver = FrontendProfilesModel::getIdByDisplayName(trim($receiver));
+				// check if the to field has an existing profile
+				if($receiver == 0)
+				{
+					$txtTo->addError(FL::getError('InvalidUsername'));
+				}
 			}
 
 			// send the message
 			if($this->frm->isCorrect())
 			{
-				$receiver_id = FrontendProfilesModel::getIdByDisplayName($txtTo->getValue());
-				$messageId = FrontendProfilesModel::insertMessageThread(FrontendProfilesAuthentication::getProfile()->getId(), $receiver_id, $txtMessage->getValue());
-				if($messageId != 0)
+				$messageId = FrontendProfilesModel::insertMessageThread(FrontendProfilesAuthentication::getProfile()->getId(), $receivers, $txtMessage->getValue());
+				if($messageId == true)
 				{
 					// redirect
 					$this->redirect(FrontendNavigation::getURLForBlock('profiles', 'messages') . '?sent=true');
