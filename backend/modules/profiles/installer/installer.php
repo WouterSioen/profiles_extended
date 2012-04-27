@@ -241,6 +241,18 @@ class ProfilesInstaller extends ModuleInstaller
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
 
+				// profiles overview
+				$this->insertPage(
+					array(
+						'title' => 'Profielen',
+						'type' => 'root',
+						'language' => $langauge
+					),
+					null,
+					array('extra_id' => $overviewId, 'position' => 'main'),
+					array('extra_id' => $searchId, 'position' => 'top')
+				);
+
 				// index page
 				$this->insertPage(
 					array(
