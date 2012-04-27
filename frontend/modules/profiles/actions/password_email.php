@@ -31,6 +31,13 @@ class FrontendProfilesPasswordEmail extends FrontendBaseBlock
 	private $profile;
 
 	/**
+	 * Is the profile registered through facebook?
+	 * 
+	 * @var bool
+	 */
+	private $facebook_registered;
+
+	/**
 	 * Execute the extra.
 	 */
 	public function execute()
@@ -57,6 +64,8 @@ class FrontendProfilesPasswordEmail extends FrontendBaseBlock
 	{
 		// get profile
 		$this->profile = FrontendProfilesAuthentication::getProfile();
+		$facebook_id = $this->profile->getSetting('facebook_id');
+		$this->facebook_registered = (!empty($facebook_id));
 	}
 
 	/**
@@ -85,6 +94,8 @@ class FrontendProfilesPasswordEmail extends FrontendBaseBlock
 
 		// check if profile is active, cause it won't work with a non-active profile
 		$this->tpl->assign('nonactive', $this->profile->getStatus() != 'active');
+
+		$this->tpl->assign('facebook_registered', $this->facebook_registered);
 
 		// parse the form
 		$this->frm->parse($this->tpl);

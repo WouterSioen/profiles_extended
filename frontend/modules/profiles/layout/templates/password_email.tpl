@@ -14,6 +14,11 @@
 	<div class="message error"><p>{$errNonActiveError}</p></div>
 {/option:nonactive}
 
+{option:facebook_registered}
+	<div class="message"><p>{msgFacebookNoPasswordChange}</div>
+{/option:facebook_registered}
+
+{option:!facebook_registered}
 <section id="updatePasswordForm" class="mod">
 	<div class="inner">
 		<div class="bd">
@@ -49,3 +54,4 @@
 		</div>
 	</div>
 </section>
+{/option:!facebook_registered}
