@@ -54,7 +54,7 @@ class FrontendProfilesMessages extends FrontendBaseBlock
 	 */
 	private function parse()
 	{
-		if($this->url->getParameter('sent') == "true")
+		if($this->URL->getParameter('sent') == "true")
 		{
 			$this->tpl->assign('sentMessage', 'MessageSent');
 		}

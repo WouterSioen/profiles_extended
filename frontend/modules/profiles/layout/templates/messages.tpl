@@ -9,7 +9,7 @@
 			{option:threads}
 				{iteration:threads}
 					<header class="hd">
-						<h4><a href="{$var|geturlforblock:'profiles'}/{$threads.latestMessage.display_name}">{$threads.latestMessage.first_name} {$threads.latestMessage.last_name}</a></h4>
+						<h4><a href="{$var|geturlforblock:'profiles':'message_detail'}/{$threads.id}">{$threads.latestMessage.first_name} {$threads.latestMessage.last_name}</a></h4>
 						<ul>
 							<li>{$threads.latestMessage.created_on}</li>
 						</ul>

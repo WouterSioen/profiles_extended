@@ -138,10 +138,9 @@ class FrontendProfilesModel
 	private static function getLatestMessageByThreadId($threadId)
 	{
 		$message = (array) FrontendModel::getDB()->getRecord(
-			'SELECT pm.created_on, p.display_name, pm.text, ps.value AS first_name, ps2.value AS last_name
+			'SELECT pm.created_on, pm.text, ps.value AS first_name, ps2.value AS last_name
 			 FROM  profiles_message AS pm
 			 INNER JOIN profiles_message_status AS pms ON pm.id = pms.message_id
-			 INNER JOIN profiles AS p ON p.id = pm.created_by
 			 INNER JOIN profiles_settings AS ps ON pm.created_by = ps.profile_id AND ps.name = "first_name"
 			 INNER JOIN profiles_settings AS ps2 ON pm.created_by = ps2.profile_id AND ps2.name = "last_name"
 			 WHERE pm.thread_id = ?
@@ -183,6 +182,33 @@ class FrontendProfilesModel
 		}
 
 		return $latestThreads;
+	}
+
+	/**
+	 * Gets the messages of the given thread, Newest first
+	 * 
+	 * @param int $id The id of the thread
+	 * @return array The messages in the thread
+	 */
+	public static function getMessagesByThreadId($id)
+	{
+		$messages = (array) FrontendModel::getDB()->getRecords(
+			'SELECT pm.created_on, p.display_name, ps.value AS first_name, ps2.value AS last_name, pm.text 
+			 FROM profiles_message AS pm INNER JOIN profiles_message_status pms ON pm.id = pms.message_id
+			 INNER JOIN profiles AS p ON p.id = pm.created_by
+			 INNER JOIN profiles_settings AS ps ON pm.created_by = ps.profile_id AND ps.name = "first_name"
+			 INNER JOIN profiles_settings AS ps2 ON pm.created_by = ps2.profile_id AND ps2.name = "last_name"
+			 WHERE pm.thread_id = ?
+			 ORDER BY pm.created_on DESC', (int) $id
+		);
+
+		foreach($messages as &$message)
+		{
+			$message['first_name'] = unserialize($message['first_name']);
+			$message['last_name'] = unserialize($message['last_name']);
+		}
+
+		return $messages;
 	}
 
 	/**
@@ -364,11 +390,64 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Inserts a new message in an existing thread
+	 * 
+	 * @param int $threadId The id of the thread
+	 * @param int $senderId The profileId of the sender
+	 * @param string $text The text in the message
+	 * @return int
+	 */
+	public static function insertMessageInExistingThread($threadId, $senderId, $text)
+	{
+		$time = date('Y-m-d H:i:s');
+		$db = FrontendModel::getDB(true);
+
+		// get al the receiving users of the thread
+		$receivingUsers = $db->getRecords(
+			'SELECT pms.receiver_id AS id
+			 FROM profiles_message_status AS pms
+			 INNER JOIN profiles_message AS pm ON pms.message_id = pm.id
+			 WHERE pm.thread_id = ?
+			 GROUP BY id', (int) $threadId
+		);
+
+		// insert the message
+		$messageId = (int) $db->insert(
+			'profiles_message', 
+			array(
+				'thread_id' => $threadId,
+				'created_by' => $senderId,
+				'created_on' => $time,
+				'text' => $text
+			)
+		);
+
+		// for every receiving user of the thread that isn't you, add a message_status
+		foreach($receivingUsers as $receivingUser)
+		{
+			if($receivingUser['id'] != $senderId)
+			{
+				// insert message_status
+				$db->insert(
+					'profiles_message_status',
+					array(
+						'message_id' => $messageId,
+						'receiver_id' => $receivingUser['id']
+					)
+				);
+			}
+		}
+
+		return $messageId;
+	}
+
+	/**
 	 * Inserts a new message thread
 	 * 
 	 * @param int $id The user id of the person that started the thread
 	 * @param int $receiverId The user id of the person that will receive the message
 	 * @param string $text The text in the message
+	 * @return int
 	 */
 	public static function insertMessageThread($id, $receiverId, $text)
 	{
