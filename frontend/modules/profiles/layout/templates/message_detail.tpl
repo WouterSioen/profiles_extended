@@ -5,6 +5,9 @@
 <section id="messages" class="mod">
 	<div class="inner">
 		<div class="bd">
+			<p>
+				<a href="{$var|geturlforblock:'profiles':'messages'}">{$lblBackToOverview}</a>
+			</p>
 			{option:thread}
 				{iteration:thread}
 					<header class="hd">
@@ -33,6 +36,9 @@
 					<input class="inputSubmit" type="submit" value="{$lblSend|ucfirst}" />
 				</p>
 			{/form:message}
+			<p>
+				<a href="{$var|geturlforblock:'profiles':'messages'}">{$lblBackToOverview}</a>
+			</p>
 		</div>
 	</div>
 </section>

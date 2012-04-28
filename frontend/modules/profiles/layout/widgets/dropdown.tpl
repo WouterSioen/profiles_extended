@@ -22,7 +22,7 @@
 			</ul>
 			{/option:profile.display_name}
 			{option:!profile.display_name}
-				<span class="login"><a href="{$login_url}">{$lblLogin}</a></span>
+				<span class="login"><a href="{$register_url}">{$lblRegister}</a> - <a href="{$login_url}">{$lblLogin}</a></span>
 			{/option:!profile.display_name}
 		</div>
 	</div>

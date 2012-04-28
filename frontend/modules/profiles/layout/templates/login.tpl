@@ -55,6 +55,9 @@
 			<p>
 				<a href="{$var|geturlforblock:'profiles':'forgot_password'}" title="{$msgForgotPassword}">{$msgForgotPassword}</a>
 			</p>
+			<p>
+				{$msgNoAccountYet} <a href="{$var|geturlforblock:'profiles':'register'}">{$msgRegisterNow}</a>
+			</p>
 		</footer>
 	</div>
 </section>

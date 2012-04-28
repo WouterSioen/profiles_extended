@@ -55,6 +55,11 @@
 						</p>
 					</fieldset>
 				</div>
+				<footer class="ft">
+					<p>
+						{$msgAlreadyRegistered} <a href="{$var|geturlforblock:'profiles':'login'}">{$lblLogin}</a>
+					</p>
+				</footer>
 			</div>
 		</section>
 	{/form:register}
