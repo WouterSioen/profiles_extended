@@ -13,6 +13,8 @@ jsFrontend.profiles = {
 		jsFrontend.profiles.showPassword();
 
 		jsFrontend.profiles.autoSuggest();
+
+		jsFrontend.profiles.dropdown();
 	},
 
 	/**
@@ -46,6 +48,16 @@ jsFrontend.profiles = {
 	},
 
 	/**
+	 * Makes the profile dropdown work
+	 */
+	dropdown: function()
+	{
+		$('#openProfilesDropdown').on('click', function(){
+			$('#ddProfiles').slideToggle(250);
+		});
+	},
+
+	/**
 	 * Autosuggests users in the messaging system
 	 */
 	autoSuggest: function()
@@ -53,71 +65,74 @@ jsFrontend.profiles = {
 		// grab element
 		var $input = $('input.profilesAutoSuggest');
 
-		function split(val) {
-			return val.split(/;\s*/);
-		}
-		function extractLast(term) {
-			return split(term).pop();
-		}
-
-		// search widget suggestions
-		$input.autocomplete(
+		if($input.length > 0)
 		{
-			minLength: 1,
-			source: function(request, response)
-			{
-				// ajax call
-				$.ajax(
-				{
-					data:
-					{
-						fork: { module: 'profiles', action: 'autosuggest' },
-						term: extractLast(request.term)
-					},
-					success: function(data, textStatus)
-					{
-						// init var
-						var realData = [];
-
-						// alert the user
-						if(data.code != 200 && jsFrontend.debug) { alert(data.message); }
-
-						if(data.code == 200)
-						{
-							for(var i in data.data) realData.push({ first_name: data.data[i].first_name, last_name: data.data[i].last_name, display_name: data.data[i].display_name, url: data.data[i].url });
-						}
-
-						// set response
-						response(realData);
-					}
-				});
-			},
-			select: function(event, ui)
-			{
-				if($(this).hasClass('redirect'))
-				{
-					window.location.href = ui.item.url;
-				}
-				else
-				{
-					// add the selected item after the previously added items
-					var terms = split($(this).val());
-					terms.pop();
-					terms.push(ui.item.display_name);
-					terms.push("");
-					$(this).val(terms.join("; "));
-					return false;
-				}
+			function split(val) {
+				return val.split(/;\s*/);
 			}
-		})
-		// and also: alter the autocomplete style: add description!
-		.data('autocomplete')._renderItem = function(ul, item)
-		{
-			return $('<li></li>')
-			.data('item.autocomplete', item)
-			.append('<a><strong>' + item.display_name + '</strong><br \>' + item.first_name + ' ' + item.last_name + '</a>' )
-			.appendTo(ul);
-		};
+			function extractLast(term) {
+				return split(term).pop();
+			}
+	
+			// search widget suggestions
+			$input.autocomplete(
+			{
+				minLength: 1,
+				source: function(request, response)
+				{
+					// ajax call
+					$.ajax(
+					{
+						data:
+						{
+							fork: { module: 'profiles', action: 'autosuggest' },
+							term: extractLast(request.term)
+						},
+						success: function(data, textStatus)
+						{
+							// init var
+							var realData = [];
+	
+							// alert the user
+							if(data.code != 200 && jsFrontend.debug) { alert(data.message); }
+	
+							if(data.code == 200)
+							{
+								for(var i in data.data) realData.push({ first_name: data.data[i].first_name, last_name: data.data[i].last_name, display_name: data.data[i].display_name, url: data.data[i].url });
+							}
+	
+							// set response
+							response(realData);
+						}
+					});
+				},
+				select: function(event, ui)
+				{
+					if($(this).hasClass('redirect'))
+					{
+						window.location.href = ui.item.url;
+					}
+					else
+					{
+						// add the selected item after the previously added items
+						var terms = split($(this).val());
+						terms.pop();
+						terms.push(ui.item.display_name);
+						terms.push("");
+						$(this).val(terms.join("; "));
+						return false;
+					}
+				}
+			})
+			// and also: alter the autocomplete style: add description!
+			.data('autocomplete')._renderItem = function(ul, item)
+			{
+				return $('<li></li>')
+				.data('item.autocomplete', item)
+				.append('<a><strong>' + item.display_name + '</strong><br \>' + item.first_name + ' ' + item.last_name + '</a>' )
+				.appendTo(ul);
+			};
+		}
 	}
 }
 

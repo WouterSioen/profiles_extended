@@ -79,6 +79,28 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Gets the needed info for the dropdown
+	 * 
+	 * @param int $id ID of the logged in profile
+	 * @return array
+	 */
+	public static function getDropdownInfo($id)
+	{
+		$item = (array) FrontendModel::getDB()->getRecord(
+			'SELECT p.display_name, p.url, COUNT(pms.id) AS count, ps.value AS avatar, ps1.value AS facebook_id FROM profiles AS p
+			 LEFT JOIN profiles_message_status AS pms ON p.id = pms.receiver_id AND pms.status="unread"
+			 LEFT JOIN profiles_settings AS ps ON p.id = ps.profile_id AND ps.name = "avatar"
+			 LEFT JOIN profiles_settings AS ps1 ON p.id = ps1.profile_id AND ps1.name = "facebook_id"
+			 WHERE p.id = ?', 
+			(int) $id
+		);
+
+		$item['avatar'] = unserialize($item['avatar']);
+
+		return $item;
+	}
+
+	/**
 	 * Get an encrypted string.
 	 *
 	 * @param string $string String to encrypt.

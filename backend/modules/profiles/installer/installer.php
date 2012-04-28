@@ -79,6 +79,7 @@ class ProfilesInstaller extends ModuleInstaller
 		$messagesId = $this->insertExtra('profiles', 'block', 'Messsages', 'messages', null, 'N', 5013);
 		$newMessageId = $this->insertExtra('profiles', 'block', 'New Message', 'new_message', null, 'N', 5014);
 		$messageDetailId = $this->insertExtra('profiles', 'block', 'Message Detail', 'message_detail', null, 'N', 5015);
+		$profileDropdownId = $this->insertExtra('profiles', 'widget', 'Profile Dropdown', 'dropdown', null, 'N', 5016);
 
 		// get search widget id
 		$searchId = (int) $this->getDB()->getVar('SELECT id FROM modules_extras WHERE module = ? AND action = ?', array('search', 'form'));
@@ -105,6 +106,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $activateId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -117,6 +119,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $forgotPasswordId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -129,6 +132,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $resetPasswordId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -141,6 +145,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $resendActivationId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -153,6 +158,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $loginId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -165,6 +171,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $registerId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -177,6 +184,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $logoutId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -200,6 +208,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $settingsId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -212,6 +221,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $alertsNewslettreId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -225,6 +235,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $passwordEmailId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -238,6 +249,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'hidden' => 'Y'
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $facebookSettingsId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -250,6 +262,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $overviewId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -262,6 +275,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $indexId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -274,6 +288,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $messagesId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -286,6 +301,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $newMessageId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
@@ -298,6 +314,7 @@ class ProfilesInstaller extends ModuleInstaller
 						'language' => $language
 					),
 					null,
+					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $messageDetailId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
