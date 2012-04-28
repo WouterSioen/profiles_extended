@@ -11,7 +11,7 @@
 			{option:thread}
 				{iteration:thread}
 					<header class="hd">
-						<h4><a href="{$var|geturlforblock:'profiles'}/{$thread.url}">{$thread.first_name} {$thread.last_name}</a></h4>
+						<h4><a href="{$var|geturlforblock:'profiles'}/{$thread.url}">{$thread.display_name}</a></h4>
 						<ul>
 							<li>{$thread.created_on}</li>
 						</ul>

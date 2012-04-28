@@ -87,8 +87,8 @@ class FrontendProfilesModel
 	public static function getDropdownInfo($id)
 	{
 		$item = (array) FrontendModel::getDB()->getRecord(
-			'SELECT p.display_name, p.url, COUNT(pms.id) AS count, ps.value AS avatar, ps1.value AS facebook_id FROM profiles AS p
-			 LEFT JOIN profiles_message_status AS pms ON p.id = pms.receiver_id AND pms.status="unread"
+			'SELECT p.display_name, p.url, COUNT(pts.id) AS count, ps.value AS avatar, ps1.value AS facebook_id FROM profiles AS p
+			 LEFT JOIN profiles_thread_status AS pts ON p.id = pts.receiver_id AND pts.status="unread"
 			 LEFT JOIN profiles_settings AS ps ON p.id = ps.profile_id AND ps.name = "avatar"
 			 LEFT JOIN profiles_settings AS ps1 ON p.id = ps1.profile_id AND ps1.name = "facebook_id"
 			 WHERE p.id = ?', 
@@ -163,28 +163,6 @@ class FrontendProfilesModel
 	}
 
 	/**
-	 * Gets latest message by thread Id
-	 * 
-	 * @param int $threadId
-	 * @return array
-	 */
-	private static function getLatestMessageByThreadId($threadId)
-	{
-		$message = (array) FrontendModel::getDB()->getRecord(
-			'SELECT pm.created_on, pm.text, p.display_name AS sender
-			 FROM  profiles_message AS pm
-			 INNER JOIN profiles AS p ON p.id = pm.created_by
-			 INNER JOIN profiles_message_status AS pms ON pm.id = pms.message_id
-			 WHERE pm.thread_id = ?
-			 ORDER BY pm.created_on DESC
-			 LIMIT 1',
-			(int) $threadId
-		);
-
-		return $message;
-	}
-
-	/**
 	 * Get message_threads and it's latest messages for the given user
 	 * 
 	 * @param int $id
@@ -194,25 +172,21 @@ class FrontendProfilesModel
 	 */
 	public static function getLatestThreadsByUserId($id, $limit = 5, $offset = 0)
 	{
-		$latestThreads = (array) FrontendModel::getDB()->getRecords(
-			'SELECT pmt.id
-			 FROM profiles_message_thread AS pmt
-			 INNER JOIN profiles_message AS pm ON pmt.id = pm.thread_id
-			 INNER JOIN profiles_message_status AS pms ON pm.id = pms.message_id
-			 WHERE pms.receiver_id = ?
-			 GROUP BY pmt.id
-			 ORDER BY pmt.latest_message_time DESC
+		$threads = (array) FrontendModel::getDB()->getRecords(
+			'SELECT pt.id, pm.text, pm.created_on, pts.status
+			 FROM profiles_thread AS pt
+			 INNER JOIN profiles_message AS pm ON pt.latest_message_id = pm.id
+			 INNER JOIN profiles_thread_status AS pts ON pt.id = pts.thread_id
+			 WHERE pts.receiver_id = ?
+			 GROUP BY pt.id
 			 LIMIT ?,?',
 			array((int) $id, (int) $offset, (int) $limit)
 		);
 
-		foreach($latestThreads as &$thread)
-		{
-			$thread['latestMessage'] = FrontendProfilesModel::getLatestMessageByThreadId($thread['id']);
-			$thread['profiles'] = FrontendProfilesModel::getProfilesInThread($thread['id'], $id);
-		}
+		// get participating users for each thread
+		foreach($threads as &$thread) $thread['receivers'] = FrontendProfilesModel::getProfilesInThread($thread['id'], $id);
 
-		return $latestThreads;
+		return $threads;
 	}
 
 	/**
@@ -223,24 +197,13 @@ class FrontendProfilesModel
 	 */
 	public static function getMessagesByThreadId($id)
 	{
-		$messages = (array) FrontendModel::getDB()->getRecords(
-			'SELECT pm.created_on, p.display_name, p.url, ps.value AS first_name, ps2.value AS last_name, pm.text 
-			 FROM profiles_message AS pm INNER JOIN profiles_message_status pms ON pm.id = pms.message_id
-			 INNER JOIN profiles AS p ON p.id = pm.created_by
-			 INNER JOIN profiles_settings AS ps ON pm.created_by = ps.profile_id AND ps.name = "first_name"
-			 INNER JOIN profiles_settings AS ps2 ON pm.created_by = ps2.profile_id AND ps2.name = "last_name"
+		return (array) FrontendModel::getDB()->getRecords(
+			'SELECT pm.created_on, pm.text, p.display_name, p.url
+			 FROM profiles_message AS pm
+			 INNER JOIN profiles AS p ON pm.user_id = p.id
 			 WHERE pm.thread_id = ?
-			 GROUP BY pm.id
 			 ORDER BY pm.created_on DESC', (int) $id
 		);
-
-		foreach($messages as &$message)
-		{
-			$message['first_name'] = unserialize($message['first_name']);
-			$message['last_name'] = unserialize($message['last_name']);
-		}
-
-		return $messages;
 	}
 
 	/**
@@ -282,11 +245,11 @@ class FrontendProfilesModel
 	public static function getProfilesInThread($threadId, $exclude)
 	{
 		return (array) FrontendModel::getDB()->getRecords(
-			'SELECT p.display_name, pms.receiver_id
-			 FROM profiles_message AS pm INNER JOIN profiles_message_status pms ON pm.id = pms.message_id
-			 INNER JOIN profiles AS p ON p.id = pms.receiver_id
-			 WHERE pm.thread_id = ? AND pms.receiver_id != ?
-			 GROUP BY pms.receiver_id', array((int) $threadId, (int) $exclude)
+			'SELECT p.display_name, p.id
+			 FROM profiles_thread_status AS pts
+			 INNER JOIN profiles AS p ON p.id = pts.receiver_id
+			 WHERE pts.thread_id = ? AND pts.receiver_id != ?
+			 GROUP BY pts.receiver_id', array((int) $threadId, (int) $exclude)
 		);
 	}
 
@@ -457,47 +420,47 @@ class FrontendProfilesModel
 		$db = FrontendModel::getDB(true);
 
 		// get al the receiving users of the thread
-		$receivingUsers = (array) $db->getRecords(
-			'SELECT pms.receiver_id AS id
-			 FROM profiles_message_status AS pms
-			 INNER JOIN profiles_message AS pm ON pms.message_id = pm.id
-			 WHERE pm.thread_id = ?
-			 GROUP BY id', (int) $threadId
-		);
-
-		// get the user id of the user starting the thread
-		$receivingUsers[] = (array) $db->getRecord(
-			'SELECT pm.created_by AS id
-			 FROM profiles_message AS pm
-			 WHERE pm.thread_id = ?', (int) $threadId
-		);
+		$receivingUsers = FrontendProfilesModel::getProfilesInThread($threadId, 0);
 
 		// insert the message
 		$messageId = (int) $db->insert(
 			'profiles_message', 
 			array(
 				'thread_id' => $threadId,
-				'created_by' => $senderId,
+				'user_id' => $senderId,
 				'created_on' => $time,
 				'text' => $text
 			)
 		);
 
-		// for every receiving user of the thread that isn't you, add a message_status
+		// for every receiving user of the thread that isn't you, add a thread_status
 		foreach($receivingUsers as $receivingUser)
 		{
 			if($receivingUser['id'] != $senderId)
 			{
-				// insert message_status
 				$db->insert(
-					'profiles_message_status',
+					'profiles_thread_status',
 					array(
-						'message_id' => $messageId,
+						'thread_id' => $threadId,
 						'receiver_id' => $receivingUser['id']
 					)
 				);
 			}
+			else
+			{
+				$db->insert(
+					'profiles_thread_status',
+					array(
+						'thread_id' => $threadId,
+						'receiver_id' => $receivingUser['id'],
+						'status' => 'read'
+					)
+				);
+			}
 		}
+
+		// update thread
+		$db->update('profiles_thread', array('latest_message_id' => $messageId));
 
 		return $messageId;
 	}
@@ -516,30 +479,43 @@ class FrontendProfilesModel
 		$db = FrontendModel::getDB(true);
 
 		// insert thread
-		$threadId = (int) $db->insert('profiles_message_thread', array('latest_message_time' => $time));
+		$threadId = (int) $db->insert('profiles_thread', array('latest_message_id' => 0));
 
 		// insert message
 		$messageId = (int) $db->insert(
 			'profiles_message', 
 			array(
 				'thread_id' => $threadId,
-				'created_by' => $id,
+				'user_id' => $id,
 				'created_on' => $time,
 				'text' => $text
 			)
 		);
 
-		// insert message_status for every receiver
+		// update thread
+		$db->update('profiles_thread', array('latest_message_id' => $messageId));
+
+		// insert thread_status for every receiver
 		foreach($receivers as $receiver)
 		{
-			(int) $db->insert(
-				'profiles_message_status',
+			$db->insert(
+				'profiles_thread_status',
 				array(
-					'message_id' => $messageId,
+					'thread_id' => $threadId,
 					'receiver_id' => $receiver
 				)
 			);
 		}
+
+		// insert thread status for sender
+		$db->insert(
+			'profiles_thread_status',
+			array(
+				'thread_id' => $threadId,
+				'receiver_id' => $id,
+				'status' => 'read'
+			)
+		);
 
 		return true;
 	}
@@ -555,11 +531,10 @@ class FrontendProfilesModel
 	public static function markThreadAs($threadId, $receiverId, $status)
 	{
 		return FrontendModel::getDB()->execute(
-			'UPDATE profiles_message_status AS pms
-			 INNER JOIN profiles_message AS pm ON pms.message_id = pm.id
-			 SET pms.status = ?
-			 WHERE pm.thread_id = ?
-			 AND pms.receiver_id = ?',
+			'UPDATE profiles_thread_status AS pts
+			 SET pts.status = ?
+			 WHERE pts.thread_id = ?
+			 AND pts.receiver_id = ?',
 			array(
 				(string) $status,
 				(int) $threadId,

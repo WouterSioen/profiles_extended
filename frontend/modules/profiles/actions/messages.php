@@ -47,13 +47,6 @@ class FrontendProfilesMessages extends FrontendBaseBlock
 	{
 		$profile = FrontendProfilesAuthentication::getProfile();
 		$this->threads = FrontendProfilesModel::getLatestThreadsByUserId($profile->getId());
-		foreach($this->threads as &$thread)
-		{
-			if($thread['latestMessage']['sender'] == $profile->getDisplayName())
-			{
-				$thread['latestMessage']['sender'] == '';
-			}
-		}
 	}
 
 	/**

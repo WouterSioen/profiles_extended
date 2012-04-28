@@ -30,22 +30,22 @@ CREATE TABLE IF NOT EXISTS `profiles_message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `thread_id` int(11) NOT NULL,
   `created_on` datetime NOT NULL,
-  `created_by` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `text` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `profiles_message_status` (
+CREATE TABLE IF NOT EXISTS `profiles_thread_status` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `receiver_id` int(11) NOT NULL,
   `status` enum('unread','read','deleted') NOT NULL DEFAULT 'unread',
-  `message_id` int(11) NOT NULL,
+  `thread_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `profiles_message_thread` (
+CREATE TABLE IF NOT EXISTS `profiles_thread` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `latest_message_time` datetime NOT NULL,
+  `latest_message_id` int(11),
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

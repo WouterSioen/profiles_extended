@@ -15,21 +15,17 @@
 					<header class="hd">
 						<h4>
 							<a href="{$var|geturlforblock:'profiles':'message_detail'}/{$threads.id}">
-								{option:threads.latestMessage.sender}
-									{$threads.latestMessage.sender}{option:threads.profiles}, {/option:threads.profiles}
-								{/option:threads.latestMessage.sender}
-								{iteration:threads.profiles}
-									{$threads.profiles.display_name}{option:!threads.profiles.last}, {/option:!threads.profiles.last}
-								{/iteration:threads.profiles}
-								
+								{iteration:threads.receivers}
+									{$threads.receivers.display_name}{option:!threads.receivers.last}, {/option:!threads.receivers.last}
+								{/iteration:threads.receivers}
 							</a>
 						</h4>
 						<ul>
-							<li>{$threads.latestMessage.created_on}</li>
+							<li>{$threads.created_on}</li>
 						</ul>
 					</header>
 					<p>
-						{$threads.latestMessage.text|truncate:'250'}
+						{$threads.text|truncate:'250'}
 					</p>
 				{/iteration:threads}
 			{/option:threads}
