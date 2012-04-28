@@ -179,6 +179,7 @@ class FrontendProfilesModel
 			 INNER JOIN profiles_thread_status AS pts ON pt.id = pts.thread_id
 			 WHERE pts.receiver_id = ?
 			 GROUP BY pt.id
+			 ORDER BY pm.created_on DESC
 			 LIMIT ?,?',
 			array((int) $id, (int) $offset, (int) $limit)
 		);
@@ -460,7 +461,7 @@ class FrontendProfilesModel
 		}
 
 		// update thread
-		$db->update('profiles_thread', array('latest_message_id' => $messageId));
+		$db->update('profiles_thread', array('latest_message_id' => $messageId), 'id = ' . $threadId);
 
 		return $messageId;
 	}
