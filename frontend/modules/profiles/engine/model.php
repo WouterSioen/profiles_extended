@@ -224,7 +224,7 @@ class FrontendProfilesModel
 	public static function getMessagesByThreadId($id)
 	{
 		$messages = (array) FrontendModel::getDB()->getRecords(
-			'SELECT pm.created_on, p.display_name, ps.value AS first_name, ps2.value AS last_name, pm.text 
+			'SELECT pm.created_on, p.display_name, p.url, ps.value AS first_name, ps2.value AS last_name, pm.text 
 			 FROM profiles_message AS pm INNER JOIN profiles_message_status pms ON pm.id = pms.message_id
 			 INNER JOIN profiles AS p ON p.id = pm.created_by
 			 INNER JOIN profiles_settings AS ps ON pm.created_by = ps.profile_id AND ps.name = "first_name"
