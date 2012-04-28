@@ -6,6 +6,9 @@
 	<div class="inner">
 		<div class="bd">
 			<h3>{$lblMyMessages}</h3>
+			<p>
+				<a href="{$var|geturlforblock:'profiles':'new_message'}" class="button">{$lblNewMessage}</a>
+			</p>
 			{option:threads}
 				{iteration:threads}
 					<header class="hd">

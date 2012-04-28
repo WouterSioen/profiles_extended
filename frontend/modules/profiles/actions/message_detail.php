@@ -50,7 +50,7 @@ class FrontendProfilesMessageDetail extends FrontendBaseBlock
 	}
 
 	/**
-	 * Get's the thread
+	 * Get's the thread and marks is at unread
 	 */
 	private function getData()
 	{
@@ -60,6 +60,8 @@ class FrontendProfilesMessageDetail extends FrontendBaseBlock
 			$this->thread = FrontendProfilesModel::getMessagesByThreadId($threadId);
 		}
 		else $this->redirect(FrontendNavigation::getURLForBlock('profiles', 'messages'));
+
+		FrontendProfilesModel::markThreadAs($threadId, FrontendProfilesAuthentication::getProfile()->getId(), 'read');
 	}
 
 	/**

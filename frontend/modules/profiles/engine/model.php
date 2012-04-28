@@ -528,6 +528,30 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Marks a thread as read/unread/deleted for a certain user
+	 * 
+	 * @param int $threadId The id of the thread
+	 * @param int $receiverId The profile id of the receiving user
+	 * @param string 
+	 * @return int
+	 */
+	public static function markThreadAs($threadId, $receiverId, $status)
+	{
+		return FrontendModel::getDB()->execute(
+			'UPDATE profiles_message_status AS pms
+			 INNER JOIN profiles_message AS pm ON pms.message_id = pm.id
+			 SET pms.status = ?
+			 WHERE pm.thread_id = ?
+			 AND pms.receiver_id = ?',
+			array(
+				(string) $status,
+				(int) $threadId,
+				(int) $receiverId
+			)
+		);
+	}
+
+	/**
 	 * Parse the general profiles info into the template.
 	 */
 	public static function parse()
