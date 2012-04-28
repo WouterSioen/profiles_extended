@@ -74,11 +74,9 @@ class FrontendProfilesIndex extends FrontendBaseBlock
 			if(!empty($this->settings['birth_date']))
 			{
 				list($year, $month, $day) = explode("-", $this->settings['birth_date']);
-				$this->age = ( date("md") < $month.$day ? date("Y") - $year-1 : date("Y") - $year );
+				$this->age = (date("md") < $month . $day ? date("Y") - $year - 1 : date("Y") - $year);
 			}
-			else {
-				$this->age = '';
-			}
+			else $this->age = '';
 		}
 		else
 		{

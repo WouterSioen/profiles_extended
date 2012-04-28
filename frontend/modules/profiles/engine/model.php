@@ -210,9 +210,7 @@ class FrontendProfilesModel
 			array((int) $id, (int) $offset, (int) $limit)
 		);
 
-		foreach ($latestThreads as &$thread) {
-			$thread['latestMessage'] = FrontendProfilesModel::getLatestMessageByThreadId($thread['id']);
-		}
+		foreach($latestThreads as &$thread) $thread['latestMessage'] = FrontendProfilesModel::getLatestMessageByThreadId($thread['id']);
 
 		return $latestThreads;
 	}
@@ -514,7 +512,8 @@ class FrontendProfilesModel
 		);
 
 		// insert message_status for every receiver
-		foreach ($receivers as $receiver) {
+		foreach($receivers as $receiver)
+		{
 			(int) $db->insert(
 				'profiles_message_status',
 				array(
@@ -532,7 +531,7 @@ class FrontendProfilesModel
 	 * 
 	 * @param int $threadId The id of the thread
 	 * @param int $receiverId The profile id of the receiving user
-	 * @param string 
+	 * @param string $status
 	 * @return int
 	 */
 	public static function markThreadAs($threadId, $receiverId, $status)

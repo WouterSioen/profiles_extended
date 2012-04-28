@@ -190,9 +190,9 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 				if(!isset($data['name']) || !isset($data['email']))
 				{
 					// validate required fields
-					if($txtFirstName->isFilled(FL::getError('FirstNameIsRequired')));
-					if($txtLastName->isFilled(FL::getError('LastNameIsRequired')));
-					if($chkAcceptTerms->isChecked(FL::getError('AcceptTermsIsRequired')));
+					$txtFirstName->isFilled(FL::getError('FirstNameIsRequired'));
+					$txtLastName->isFilled(FL::getError('LastNameIsRequired'));
+					$chkAcceptTerms->isChecked(FL::getError('AcceptTermsIsRequired'));
 
 					// check password
 					$txtPassword->isFilled(FL::getError('PasswordIsRequired'));
@@ -201,10 +201,10 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 			else
 			{
 				// validate required fields
-				if($txtFirstName->isFilled(FL::getError('FirstNameIsRequired')));
-				if($txtLastName->isFilled(FL::getError('LastNameIsRequired')));
-				if($txtEmail->isEmail(FL::getError('EmailIsInvalid')));
-				if($chkAcceptTerms->isChecked(FL::getError('AcceptTermsIsRequired')));
+				$txtFirstName->isFilled(FL::getError('FirstNameIsRequired'));
+				$txtLastName->isFilled(FL::getError('LastNameIsRequired'));
+				$txtEmail->isEmail(FL::getError('EmailIsInvalid'));
+				$chkAcceptTerms->isChecked(FL::getError('AcceptTermsIsRequired'));
 
 				// check password
 				$txtPassword->isFilled(FL::getError('PasswordIsRequired'));
@@ -379,7 +379,7 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 				// not filled in
 				else $birthDate = null;
 
-				//update settings
+				// update settings
 				$this->profile->setSetting('birth_date', $birthDate);
 				$this->profile->setSetting('gender', $ddmGender->getValue());
 

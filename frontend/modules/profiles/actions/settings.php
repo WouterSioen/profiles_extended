@@ -67,9 +67,9 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 
 		// avatar
 		$this->avatar = $this->profile->getSetting('avatar');
-		if(empty($this->avatar))$this->avatar = '';
+		if(empty($this->avatar)) $this->avatar = '';
 		$this->facebook_id = $this->profile->getSetting('facebook_id');
-		if(empty($this->facebook_id))$this->facebook_id = '';
+		if(empty($this->facebook_id)) $this->facebook_id = '';
 	}
 
 	/**
