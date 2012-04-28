@@ -77,11 +77,11 @@ class FrontendProfilesNewMessage extends FrontendBaseBlock
 			$receivers = explode(';', $txtTo->getValue());
 
 			// get their id and check if they exist
-			foreach($receivers as &$receiver)
+			foreach($receivers as $key => &$receiver)
 			{
 				if(trim($receiver) == '')
 				{
-					unset($receiver);
+					unset($receivers[$key]);
 				}
 				else
 				{
@@ -90,6 +90,10 @@ class FrontendProfilesNewMessage extends FrontendBaseBlock
 					if($receiver == 0)
 					{
 						$txtTo->addError(FL::getError('InvalidUsername'));
+					}
+					else if($receiver == FrontendProfilesAuthentication::getProfile()->getId())
+					{
+						unset($receivers[$key]);
 					}
 				}
 			}

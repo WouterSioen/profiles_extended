@@ -171,19 +171,15 @@ class FrontendProfilesModel
 	private static function getLatestMessageByThreadId($threadId)
 	{
 		$message = (array) FrontendModel::getDB()->getRecord(
-			'SELECT pm.created_on, pm.text, ps.value AS first_name, ps2.value AS last_name
+			'SELECT pm.created_on, pm.text, p.display_name AS sender
 			 FROM  profiles_message AS pm
+			 INNER JOIN profiles AS p ON p.id = pm.created_by
 			 INNER JOIN profiles_message_status AS pms ON pm.id = pms.message_id
-			 INNER JOIN profiles_settings AS ps ON pm.created_by = ps.profile_id AND ps.name = "first_name"
-			 INNER JOIN profiles_settings AS ps2 ON pm.created_by = ps2.profile_id AND ps2.name = "last_name"
 			 WHERE pm.thread_id = ?
 			 ORDER BY pm.created_on DESC
 			 LIMIT 1',
 			(int) $threadId
 		);
-
-		$message['first_name'] = unserialize($message['first_name']);
-		$message['last_name'] = unserialize($message['last_name']);
 
 		return $message;
 	}
@@ -210,7 +206,11 @@ class FrontendProfilesModel
 			array((int) $id, (int) $offset, (int) $limit)
 		);
 
-		foreach($latestThreads as &$thread) $thread['latestMessage'] = FrontendProfilesModel::getLatestMessageByThreadId($thread['id']);
+		foreach($latestThreads as &$thread)
+		{
+			$thread['latestMessage'] = FrontendProfilesModel::getLatestMessageByThreadId($thread['id']);
+			$thread['profiles'] = FrontendProfilesModel::getProfilesInThread($thread['id'], $id);
+		}
 
 		return $latestThreads;
 	}
@@ -270,6 +270,24 @@ class FrontendProfilesModel
 		}
 
 		return $profiles;
+	}
+
+	/**
+	 * Get's all the profiles in a thread
+	 * 
+	 * @param int $threadId The id of the thread
+	 * @param int $exclude The user to exclude (normally the user getting this information)
+	 * @return array An array with display names and id's
+	 */
+	public static function getProfilesInThread($threadId, $exclude)
+	{
+		return (array) FrontendModel::getDB()->getRecords(
+			'SELECT p.display_name, pms.receiver_id
+			 FROM profiles_message AS pm INNER JOIN profiles_message_status pms ON pm.id = pms.message_id
+			 INNER JOIN profiles AS p ON p.id = pms.receiver_id
+			 WHERE pm.thread_id = ? AND pms.receiver_id != ?
+			 GROUP BY pms.receiver_id', array((int) $threadId, (int) $exclude)
+		);
 	}
 
 	/**
