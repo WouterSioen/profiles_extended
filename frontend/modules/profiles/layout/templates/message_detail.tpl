@@ -8,8 +8,8 @@
 			<a href="{$var|geturlforblock:'profiles':'messages'}">{$lblBackToOverview}</a>
 		</p>
 		{option:load_more}
-			<p>
-				<a href="#nonExistingId" class="4" id="loadMessages">{$lblLoadOlderMessages}</a>
+			<p class="ajaxLink">
+				<span class="4" id="loadMessages">{$lblLoadOlderMessages}</span>
 			</p>
 		{/option:load_more}
 		<div class="bd messages">

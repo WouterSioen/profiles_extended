@@ -140,6 +140,17 @@
 	color: #EF4D03;
 }
 
+.ajaxLink span {
+	cursor: pointer;
+	border-bottom: 1px solid #abdaee;
+	color: #018fcc;
+}
+
+.ajaxLink span:hover {
+	border-color: #ef4d03;
+	color: #ef4d03;
+}
+
 #newMessageButton {
 	float: right;
 	position: relative;

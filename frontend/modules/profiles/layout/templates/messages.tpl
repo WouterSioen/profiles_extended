@@ -33,8 +33,8 @@
 			{/option:!threads}
 		</div>
 		{option:load_more}
-			<p>
-				<a href="#nonExistingId" class="4" id="loadThreads">{$lblLoadOlderThreads}</a>
+			<p class="ajaxLink">
+				<span class="4" id="loadThreads">{$lblLoadOlderThreads}</span>
 			</p>
 		{/option:load_more}
 	</div>
