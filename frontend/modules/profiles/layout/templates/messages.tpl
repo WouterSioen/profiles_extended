@@ -13,7 +13,7 @@
 			{option:threads}
 				{iteration:threads}
 					<header class="hd">
-						<h4>
+						<h4{option:!threads.status} class="unread"{/option:!threads.status}>
 							<a href="{$var|geturlforblock:'profiles':'message_detail'}/{$threads.id}">
 								{iteration:threads.receivers}
 									{$threads.receivers.display_name}{option:!threads.receivers.last}, {/option:!threads.receivers.last}

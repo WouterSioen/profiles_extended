@@ -173,7 +173,7 @@ class FrontendProfilesModel
 	public static function getLatestThreadsByUserId($id, $limit = 5, $offset = 0)
 	{
 		$threads = (array) FrontendModel::getDB()->getRecords(
-			'SELECT pt.id, pm.text, pm.created_on, pts.status
+			'SELECT pt.id, pm.text, pm.created_on, IF(pts.status = "read", 1, 0) AS status
 			 FROM profiles_thread AS pt
 			 INNER JOIN profiles_message AS pm ON pt.latest_message_id = pm.id
 			 INNER JOIN profiles_thread_status AS pts ON pt.id = pts.thread_id
@@ -185,7 +185,11 @@ class FrontendProfilesModel
 		);
 
 		// get participating users for each thread
-		foreach($threads as &$thread) $thread['receivers'] = FrontendProfilesModel::getProfilesInThread($thread['id'], $id);
+		foreach($threads as &$thread)
+		{
+			$thread['receivers'] = FrontendProfilesModel::getProfilesInThread($thread['id'], $id);
+			$thread['status'] = (int) $thread['status'];
+		}
 
 		return $threads;
 	}
@@ -444,28 +448,15 @@ class FrontendProfilesModel
 			)
 		);
 
-		// for every receiving user of the thread that isn't you, add a thread_status
+		// for every receiving user of the thread that isn't you, update the status to unread
 		foreach($receivingUsers as $receivingUser)
 		{
 			if($receivingUser['id'] != $senderId)
 			{
-				$db->insert(
+				$db->update(
 					'profiles_thread_status',
-					array(
-						'thread_id' => $threadId,
-						'receiver_id' => $receivingUser['id']
-					)
-				);
-			}
-			else
-			{
-				$db->insert(
-					'profiles_thread_status',
-					array(
-						'thread_id' => $threadId,
-						'receiver_id' => $receivingUser['id'],
-						'status' => 'read'
-					)
+					array('status' => 'unread'),
+					'thread_id = ' . $threadId . ' AND receiver_id = ' . $receivingUser['id']
 				);
 			}
 		}

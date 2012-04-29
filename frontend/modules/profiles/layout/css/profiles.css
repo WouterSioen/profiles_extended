@@ -113,3 +113,11 @@
 	width: 64px;
 	height: 64px;
 }
+
+.unread a:link {
+	color: #001A77;
+}
+
+.unread a:hover, .unread a:active, .unread a:focus {
+	color: #EF4D03;
+}
