@@ -495,7 +495,7 @@ class FrontendProfilesModel
 		);
 
 		// update thread
-		$db->update('profiles_thread', array('latest_message_id' => $messageId));
+		$db->update('profiles_thread', array('latest_message_id' => $messageId), 'id = ' . $threadId);
 
 		// insert thread_status for every receiver
 		foreach($receivers as $receiver)
