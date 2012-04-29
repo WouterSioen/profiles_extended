@@ -180,7 +180,7 @@ jsFrontend.profiles = {
 								}
 								$html += 'width="64" height="64" /></div>';
 								// message part
-								$html += '<div class="messageContent"><header class="hd"><h4><a href="{$var|geturlforblock:'profiles'}/{$thread.url}">' + data.data[i].display_name;
+								$html += '<div class="messageContent"><header class="hd"><h4><a href="{$var|geturlforblock:'profiles'}/' + data.data[i].url + '">' + data.data[i].display_name;
 								$html += '</a></h4><ul><li>' + data.data[i].created_on + '</li></ul></header><p>' + data.data[i].text + '</p></div></div>';
 
 								$('.bd.messages').prepend($html);

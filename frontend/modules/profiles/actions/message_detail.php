@@ -120,7 +120,7 @@ class FrontendProfilesMessageDetail extends FrontendBaseBlock
 	private function parse()
 	{
 		$this->tpl->assign('messages', $this->messages);
-		$this->tpl->assign('load_more', ($this->count > 5));
+		$this->tpl->assign('load_more', ($this->count > 4));
 		$this->tpl->assign('thread_id', $this->threadId);
 		$this->frm->parse($this->tpl);
 	}

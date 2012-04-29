@@ -26,7 +26,7 @@
 						</div>
 						<div class="messageContent">
 							<header class="hd">
-								<h4><a href="{$var|geturlforblock:'profiles'}/{$thread.url}">{$messages.display_name}</a></h4>
+								<h4><a href="{$var|geturlforblock:'profiles'}/{$messages.url}">{$messages.display_name}</a></h4>
 								<ul>
 									<li>{$messages.created_on}</li>
 								</ul>
