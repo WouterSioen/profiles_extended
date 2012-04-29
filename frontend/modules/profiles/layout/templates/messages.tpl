@@ -9,7 +9,7 @@
 		<div class="bd threads">
 			{option:threads}
 				{iteration:threads}
-					<div class="thread">
+					<div class="thread {$threads.id}">
 						<header class="hd">
 							<h4{option:!threads.status} class="unread"{/option:!threads.status}>
 								<a href="{$var|geturlforblock:'profiles':'message_detail'}/{$threads.id}">
@@ -25,6 +25,11 @@
 						<p>
 							{$threads.text|truncate:'250'}
 						</p>
+						{option:!threads.status}
+							<p class="ajaxLink">
+								<span class="markRead" id="{$threads.id}" >{$lblMarkAsRead}</span>
+							</p>
+						{/option:!threads.status}
 					</div>
 				{/iteration:threads}
 			{/option:threads}

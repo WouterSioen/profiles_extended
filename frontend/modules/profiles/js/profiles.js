@@ -18,6 +18,8 @@ jsFrontend.profiles = {
 
 		jsFrontend.profiles.loadThreads();
 
+		jsFrontend.profiles.markRead();
+
 		jsFrontend.profiles.dropdown();
 	},
 
@@ -242,13 +244,47 @@ jsFrontend.profiles = {
 								}
 								// remove last two characters
 								$html = $html.substring(0, $html.length-2);
-								$html += '</a></h4><ul><li>' + data.data[i].created_on + '</li></ul></header><p>' + data.data[i].text + '</p></div>';
+								$html += '</a></h4><ul><li>' + data.data[i].created_on + '</li></ul></header><p>' + data.data[i].text + '</p>';
+								if(data.data[i].status == 0) $html += '<p class="ajaxLink"><span class="markRead" id="' + data.data[i].id + '>{$lblMarkAsRead}</span></p>';
+								$html += '</div>';
 
 								// give them a nice animation
 								$('.bd.threads').append($html);
 								$('.bd.threads .thread').slideDown(250);
 							}
 						}
+					}
+				});
+			});
+		}
+	},
+
+	/**
+	 * Marks a thread as read
+	 */
+	markRead: function()
+	{
+		// grab element(s)
+		var $button = $('.markRead');
+
+		if($button.length > 0)
+		{
+			$button.on('click',function()
+			{
+				$threadId = $(this).attr('id');
+				$userId = $('#messages').attr("class");
+				$.ajax(
+				{
+					data:
+					{
+						fork: { module: 'profiles', action: 'mark_as_read' },
+						threadId: $threadId,
+						userId: $userId
+					},
+					success: function(data, textStatus)
+					{
+						$('.' + $threadId + ' h4').removeClass('unread');
+						$('.markRead#' + $threadId).parent().remove();
 					}
 				});
 			});
