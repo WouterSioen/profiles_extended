@@ -2,33 +2,42 @@
 	<div class="message success"><p>{$msgMessageSent}</p></div>
 {/option:sentMessage}
 
-<section id="messages" class="mod">
+<section id="messages" class="{$thread_id}">
 	<div class="inner">
-		<div class="bd messages">
+		<p>
+			<a href="{$var|geturlforblock:'profiles':'messages'}">{$lblBackToOverview}</a>
+		</p>
+		{option:load_more}
 			<p>
-				<a href="{$var|geturlforblock:'profiles':'messages'}">{$lblBackToOverview}</a>
+				<a href="#nonExistingId" class="4" id="loadMessages">{$lblLoadOlderMessages}</a>
 			</p>
-			{option:thread}
-				{iteration:thread}
-					<div class="imageHolder">
-						{option:thread.avatar}
-							<img src="{$FRONTEND_FILES_URL}/profiles/avatars/64x64/{$thread.avatar}" width="64" height="64" alt="" />
-						{/option:thread.avatar}
-						{option:!thread.avatar}
-							<img src="{$FRONTEND_CORE_URL}/layout/images/default_author_avatar.gif" width="64" height="64" alt="{$thread.display_name}" class="replaceWithFacebook" {option:thread.facebook_id}data-facebook-id="{$thread.facebook_id}"{/option:thread.facebook_id} />
-						{/option:!thread.avatar}
+		{/option:load_more}
+		<div class="bd messages">
+			{option:messages}
+				{iteration:messages}
+					<div class="messageHolder clearfix">
+						<div class="imageHolder">
+							{option:messages.avatar}
+								<img src="{$FRONTEND_FILES_URL}/profiles/avatars/64x64/{$messages.avatar}" width="64" height="64" alt="" />
+							{/option:messages.avatar}
+							{option:!messages.avatar}
+								<img src="{$FRONTEND_CORE_URL}/layout/images/default_author_avatar.gif" width="64" height="64" alt="{$messages.display_name}" class="replaceWithFacebook" {option:messages.facebook_id}data-facebook-id="{$messages.facebook_id}"{/option:messages.facebook_id} />
+							{/option:!messages.avatar}
+						</div>
+						<div class="messageContent">
+							<header class="hd">
+								<h4><a href="{$var|geturlforblock:'profiles'}/{$thread.url}">{$messages.display_name}</a></h4>
+								<ul>
+									<li>{$messages.created_on}</li>
+								</ul>
+							</header>
+							<p>
+								{$messages.text}
+							</p>
+						</div>
 					</div>
-					<header class="hd">
-						<h4><a href="{$var|geturlforblock:'profiles'}/{$thread.url}">{$thread.display_name}</a></h4>
-						<ul>
-							<li>{$thread.created_on}</li>
-						</ul>
-					</header>
-					<p>
-						{$thread.text}
-					</p>
-				{/iteration:thread}
-			{/option:thread}
+				{/iteration:messages}
+			{/option:messages}
 		</div>
 	</div>
 </section>

@@ -114,7 +114,23 @@
 	height: 64px;
 }
 
-.unread a:link {
+.messages .messageContent {
+	float: left;
+}
+
+.messageHolder {
+	border-bottom: 1px solid #D8D8D8;
+	margin-bottom: 10px;
+}
+
+.messageHolder:last-child {
+	border: none;
+	margin-bottom: 0;
+}
+
+.unread a,
+.unread a:link,
+.unread a:visited {
 	color: #001A77;
 }
 

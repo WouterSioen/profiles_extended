@@ -79,6 +79,21 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Get Count messages in a thread
+	 * 
+	 * @param int $id The id of the thread
+	 * @return int
+	 */
+	public static function getCountMessagesInThread($threadId)
+	{
+		return (int) FrontendModel::getDB()->getVar(
+			'SELECT count(pm.id)
+			 FROM profiles_message AS pm
+			 WHERE pm.thread_id = ?', (int) $threadId
+		);
+	}
+
+	/**
 	 * Gets the needed info for the dropdown
 	 * 
 	 * @param int $id ID of the logged in profile
@@ -198,9 +213,11 @@ class FrontendProfilesModel
 	 * Gets the messages of the given thread, Newest first
 	 * 
 	 * @param int $id The id of the thread
+	 * @param int[optional] $limit The number of items to get.
+	 * @param int[optional] $offset The offset.
 	 * @return array The messages in the thread
 	 */
-	public static function getMessagesByThreadId($id)
+	public static function getMessagesByThreadId($id, $limit = 4, $offset = 0)
 	{
 		$messages = (array) FrontendModel::getDB()->getRecords(
 			'SELECT pm.created_on, pm.text, p.display_name, p.url, ps.value AS facebook_id, ps1.value AS avatar
@@ -209,7 +226,8 @@ class FrontendProfilesModel
 			 LEFT JOIN profiles_settings AS ps ON p.id = ps.profile_id AND ps.name = "facebook_id"
 			 LEFT JOIN profiles_settings AS ps1 ON p.id = ps1.profile_id AND ps1.name = "avatar"
 			 WHERE pm.thread_id = ?
-			 ORDER BY pm.created_on DESC', (int) $id
+			 ORDER BY pm.created_on DESC
+			 LIMIT ?,?', array((int) $id, (int) $offset, (int) $limit)
 		);
 
 		foreach($messages as &$message)
@@ -218,7 +236,7 @@ class FrontendProfilesModel
 			$message['avatar'] = unserialize($message['avatar']);
 		}
 
-		return $messages;
+		return array_reverse($messages);
 	}
 
 	/**

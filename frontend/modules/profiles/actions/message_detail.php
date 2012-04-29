@@ -22,11 +22,25 @@ class FrontendProfilesMessageDetail extends FrontendBaseBlock
 	private $frm;
 
 	/**
-	 * The thread
+	 * The messages
 	 * 
 	 * @var array
 	 */
-	private $thread;
+	private $messages;
+
+	/**
+	 * The id of the thread
+	 * 
+	 * @var int
+	 */
+	private $threadId;
+
+	/**
+	 * The amount of messages in the thread
+	 * 
+	 * @var int
+	 */
+	private $count;
 
 	/**
 	 * Execute the extra.
@@ -36,19 +50,26 @@ class FrontendProfilesMessageDetail extends FrontendBaseBlock
 		// only logged in profiles can see profiles
 		if(FrontendProfilesAuthentication::isLoggedIn())
 		{
-			if($this->getAllowed())
-			{
-				// call the parent
-				parent::execute();
-				$this->loadTemplate();
-				$this->getData();
-				$this->loadForm();
-				$this->parse();
-				$this->validateForm();
-			}
-			else $this->redirect(FrontendNavigation::getURLForBlock('profiles', 'messages'));
-		}
+			$this->threadId = $this->URL->getParameter(0);
 
+			if(is_numeric($this->threadId))
+			{
+				if($this->getAllowed())
+				{
+					// call the parent
+					parent::execute();
+					$this->loadTemplate();
+					$this->getData();
+					$this->loadForm();
+					$this->parse();
+					$this->validateForm();
+				}
+				// not allowed to see it
+				else $this->redirect(FrontendNavigation::getURLForBlock('profiles', 'messages'));
+			}
+			// no correct parameter
+			else $this->redirect(FrontendNavigation::getURL(404));
+		}
 		// profile not logged in
 		else $this->redirect(FrontendNavigation::getURLForBlock('profiles', 'login'));
 	}
@@ -58,7 +79,7 @@ class FrontendProfilesMessageDetail extends FrontendBaseBlock
 	 */
 	private function getAllowed()
 	{
-		$receivers = FrontendProfilesModel::getProfilesInThread($this->URL->getParameter(0), 0);
+		$receivers = FrontendProfilesModel::getProfilesInThread($this->threadId, 0);
 		$userId = FrontendProfilesAuthentication::getProfile()->getId();
 
 		foreach($receivers as $receiver)
@@ -74,14 +95,14 @@ class FrontendProfilesMessageDetail extends FrontendBaseBlock
 	 */
 	private function getData()
 	{
-		$threadId = $this->URL->getParameter(0);
-		if($threadId)
+		if($this->threadId)
 		{
-			$this->thread = FrontendProfilesModel::getMessagesByThreadId($threadId);
+			$this->messages = FrontendProfilesModel::getMessagesByThreadId($this->threadId);
+			$this->count = FrontendProfilesModel::getCountMessagesInThread($this->threadId);
 		}
 		else $this->redirect(FrontendNavigation::getURLForBlock('profiles', 'messages'));
 
-		FrontendProfilesModel::markThreadAs($threadId, FrontendProfilesAuthentication::getProfile()->getId(), 'read');
+		FrontendProfilesModel::markThreadAs($this->threadId, FrontendProfilesAuthentication::getProfile()->getId(), 'read');
 	}
 
 	/**
@@ -98,7 +119,9 @@ class FrontendProfilesMessageDetail extends FrontendBaseBlock
 	 */
 	private function parse()
 	{
-		$this->tpl->assign('thread', $this->thread);
+		$this->tpl->assign('messages', $this->messages);
+		$this->tpl->assign('load_more', ($this->count > 5));
+		$this->tpl->assign('thread_id', $this->threadId);
 		$this->frm->parse($this->tpl);
 	}
 
@@ -117,7 +140,7 @@ class FrontendProfilesMessageDetail extends FrontendBaseBlock
 			// send the message
 			if($this->frm->isCorrect())
 			{
-				$messageId = FrontendProfilesModel::insertMessageInExistingThread($this->URL->getParameter(0), FrontendProfilesAuthentication::getProfile()->getId(), $txtMessage->getValue());
+				$messageId = FrontendProfilesModel::insertMessageInExistingThread($this->threadId, FrontendProfilesAuthentication::getProfile()->getId(), $txtMessage->getValue());
 				if($messageId != 0)
 				{
 					// redirect

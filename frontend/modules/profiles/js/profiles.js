@@ -14,6 +14,8 @@ jsFrontend.profiles = {
 
 		jsFrontend.profiles.autoSuggest();
 
+		jsFrontend.profiles.loadMessages();
+
 		jsFrontend.profiles.dropdown();
 	},
 
@@ -132,6 +134,62 @@ jsFrontend.profiles = {
 				.append('<a><strong>' + item.display_name + '</strong><br \>' + item.first_name + ' ' + item.last_name + '</a>' )
 				.appendTo(ul);
 			};
+		}
+	},
+
+	/**
+	 * Loads more messages
+	 */
+	loadMessages: function()
+	{
+		// grab element
+		var $button = $('#loadMessages');
+
+		if($button.length > 0)
+		{
+			$button.on('click',function(){
+			$threadId = $('#messages').attr("class");
+			$offset = parseInt($button.attr("class"));
+			$.ajax(
+				{
+					data:
+					{
+						fork: { module: 'profiles', action: 'load_messages' },
+						offset: $offset,
+						threadId: $threadId
+					},
+					success: function(data, textStatus){
+						$offset += 4;
+						// remove the load messages button if there are no more messages
+						console.log($offset);
+						if(data.data['amount'] < $offset) $button.remove();
+						else $button.removeClass().addClass($offset + "");
+
+						// add the loaded messages to the DOM
+						for(var i in data.data)
+						{
+							if(i != "amount")
+							{
+								// add avatar part
+								$html = '<div class="messageHolder clearfix" style="display:none"><div class="imageHolder"><img src="{$FRONTEND_FILES_URL}';
+								if(data.data[i].avatar) $html += '/profiles/avatars/64x64/' + data.data[i].avatar + '" alt="" ';
+								else
+								{
+									$html += '/layout/images/default_author_avatar.gif" ';
+									if(data.data[i].facebook_id) $html += ' alt="' + data.data[i].display_name + '" class="replaceWithFacebook" data-facebook-id="' + data.data[i].facebook_id + '" ';
+								}
+								$html += 'width="64" height="64" /></div>';
+								// message part
+								$html += '<div class="messageContent"><header class="hd"><h4><a href="{$var|geturlforblock:'profiles'}/{$thread.url}">' + data.data[i].display_name;
+								$html += '</a></h4><ul><li>' + data.data[i].created_on + '</li></ul></header><p>' + data.data[i].text + '</p></div></div>';
+
+								$('.bd.messages').prepend($html);
+								$('.bd.messages .messageHolder').slideDown(250);
+							}
+						}
+					}
+				});
+			});
 		}
 	}
 }
