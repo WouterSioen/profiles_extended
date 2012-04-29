@@ -198,13 +198,23 @@ class FrontendProfilesModel
 	 */
 	public static function getMessagesByThreadId($id)
 	{
-		return (array) FrontendModel::getDB()->getRecords(
-			'SELECT pm.created_on, pm.text, p.display_name, p.url
+		$messages = (array) FrontendModel::getDB()->getRecords(
+			'SELECT pm.created_on, pm.text, p.display_name, p.url, ps.value AS facebook_id, ps1.value AS avatar
 			 FROM profiles_message AS pm
 			 INNER JOIN profiles AS p ON pm.user_id = p.id
+			 LEFT JOIN profiles_settings AS ps ON p.id = ps.profile_id AND ps.name = "facebook_id"
+			 LEFT JOIN profiles_settings AS ps1 ON p.id = ps1.profile_id AND ps1.name = "avatar"
 			 WHERE pm.thread_id = ?
 			 ORDER BY pm.created_on DESC', (int) $id
 		);
+
+		foreach($messages as &$message)
+		{
+			$message['facebook_id'] = unserialize($message['facebook_id']);
+			$message['avatar'] = unserialize($message['avatar']);
+		}
+
+		return $messages;
 	}
 
 	/**
