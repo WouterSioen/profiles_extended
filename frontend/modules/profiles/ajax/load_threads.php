@@ -8,32 +8,32 @@
  */
 
 /**
- * This is the load messages actions, it loads extra messages
+ * This is the load threads action, it loads extra threads
  *
  * @author Wouter Sioen <wouter.sioen@gmail.com>
  */
-class FrontendProfilesAjaxLoadMessages extends FrontendBaseAJAXAction
+class FrontendProfilesAjaxLoadThreads extends FrontendBaseAJAXAction
 {
 	/**
 	 * The offset
 	 * 
-	 * @var int $offset
+	 * @var int
 	 */
 	private $offset;
 
 	/**
-	 * The id of the thread
+	 * The id of the user
 	 * 
-	 * @var int $threadId
+	 * @var int
 	 */
-	private $threadId;
+	private $userId;
 
 	/**
 	 * The messages
 	 * 
-	 * @var array $messages
+	 * @var array
 	 */
-	private $messages;
+	private $threads;
 
 	/**
 	 * Execute the action
@@ -51,9 +51,9 @@ class FrontendProfilesAjaxLoadMessages extends FrontendBaseAJAXAction
 	 */
 	private function getData()
 	{
-		$this->messages = array_reverse(FrontendProfilesModel::getMessagesByThreadId($this->threadId, 4, $this->offset));
-		$count = FrontendProfilesModel::getCountMessagesInThread($this->threadId);
-		$this->messages['amount'] = $count;
+		$this->threads = FrontendProfilesModel::getLatestThreadsByUserId($this->userId, 4, $this->offset);
+		$count = FrontendProfilesModel::getCountThreadsByUserId($this->userId);
+		$this->threads['amount'] = $count;
 	}
 
 	/**
@@ -62,7 +62,7 @@ class FrontendProfilesAjaxLoadMessages extends FrontendBaseAJAXAction
 	private function parse()
 	{
 		// output
-		$this->output(self::OK, $this->messages);
+		$this->output(self::OK, $this->threads);
 	}
 
 	/**
@@ -73,13 +73,13 @@ class FrontendProfilesAjaxLoadMessages extends FrontendBaseAJAXAction
 		// set values
 		$postOffset = SpoonFilter::getPostValue('offset', null, '');
 		$this->offset = (SPOON_CHARSET == 'utf-8') ? SpoonFilter::htmlspecialchars($postOffset) : SpoonFilter::htmlentities($postOffset);
-		$postThreadId = SpoonFilter::getPostValue('threadId', null, '');
-		$this->threadId = (SPOON_CHARSET == 'utf-8') ? SpoonFilter::htmlspecialchars($postThreadId) : SpoonFilter::htmlentities($postThreadId);
+		$postUserId = SpoonFilter::getPostValue('userId', null, '');
+		$this->userId = (SPOON_CHARSET == 'utf-8') ? SpoonFilter::htmlspecialchars($postUserId) : SpoonFilter::htmlentities($postUserId);
 
 		// validate
 		if($this->offset == '') $this->output(self::BAD_REQUEST, null, 'offset-parameter is missing.');
 		if(!is_numeric($this->offset)) $this->output(self::BAD_REQUEST, null, 'offset-parameter is no number.');
-		if($this->threadId == '') $this->output(self::BAD_REQUEST, null, 'threadId-parameter is missing.');
-		if(!is_numeric($this->threadId)) $this->output(self::BAD_REQUEST, null, 'threadId-parameter is no number.');
+		if($this->userId == '') $this->output(self::BAD_REQUEST, null, 'userId-parameter is missing.');
+		if(!is_numeric($this->userId)) $this->output(self::BAD_REQUEST, null, 'userId-parameter is no number.');
 	}
 }

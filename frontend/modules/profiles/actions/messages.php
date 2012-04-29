@@ -22,6 +22,20 @@ class FrontendProfilesMessages extends FrontendBaseBlock
 	private $threads;
 
 	/**
+	 * The amount of threads for the user
+	 * 
+	 * @var int
+	 */
+	private $count;
+
+	/**
+	 * The id of the user
+	 * 
+	 * @var int
+	 */
+	private $userId;
+
+	/**
 	 * Execute the extra.
 	 */
 	public function execute()
@@ -45,8 +59,9 @@ class FrontendProfilesMessages extends FrontendBaseBlock
 	 */
 	private function getData()
 	{
-		$profile = FrontendProfilesAuthentication::getProfile();
-		$this->threads = FrontendProfilesModel::getLatestThreadsByUserId($profile->getId());
+		$this->userId = FrontendProfilesAuthentication::getProfile()->getId();
+		$this->threads = FrontendProfilesModel::getLatestThreadsByUserId($this->userId);
+		$this->count = FrontendProfilesModel::getCountThreadsByUserId($this->userId);
 	}
 
 	/**
@@ -59,5 +74,7 @@ class FrontendProfilesMessages extends FrontendBaseBlock
 			$this->tpl->assign('sentMessage', 'MessageSent');
 		}
 		$this->tpl->assign('threads', $this->threads);
+		$this->tpl->assign('load_more', ($this->count > 4));
+		$this->tpl->assign('user_id', $this->userId);
 	}
 }

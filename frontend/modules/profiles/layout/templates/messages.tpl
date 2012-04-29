@@ -1,36 +1,41 @@
 {option:sentMessage}
 	<div class="message success"><p>{$msgMessageSent}</p></div>
 {/option:sentMessage}
-
-<section id="messages" class="mod">
+<p>
+	<a href="{$var|geturlforblock:'profiles':'new_message'}" id="newMessageButton" class="button">{$lblNewMessage}</a>
+</p>
+<section id="messages" class="{$user_id}">
 	<div class="inner">
-		<div class="bd">
-			<h3>{$lblMyMessages}</h3>
-			<p>
-				<a href="{$var|geturlforblock:'profiles':'new_message'}" class="button">{$lblNewMessage}</a>
-			</p>
-			
+		<div class="bd threads">
 			{option:threads}
 				{iteration:threads}
-					<header class="hd">
-						<h4{option:!threads.status} class="unread"{/option:!threads.status}>
-							<a href="{$var|geturlforblock:'profiles':'message_detail'}/{$threads.id}">
-								{iteration:threads.receivers}
-									{$threads.receivers.display_name}{option:!threads.receivers.last}, {/option:!threads.receivers.last}
-								{/iteration:threads.receivers}
-							</a>
-						</h4>
-						<ul>
-							<li>{$threads.created_on}</li>
-						</ul>
-					</header>
-					<p>
-						{$threads.text|truncate:'250'}
-					</p>
+					<div class="thread">
+						<header class="hd">
+							<h4{option:!threads.status} class="unread"{/option:!threads.status}>
+								<a href="{$var|geturlforblock:'profiles':'message_detail'}/{$threads.id}">
+									{iteration:threads.receivers}
+										{$threads.receivers.display_name}{option:!threads.receivers.last}, {/option:!threads.receivers.last}
+									{/iteration:threads.receivers}
+								</a>
+							</h4>
+							<ul>
+								<li>{$threads.created_on}</li>
+							</ul>
+						</header>
+						<p>
+							{$threads.text|truncate:'250'}
+						</p>
+					</div>
 				{/iteration:threads}
 			{/option:threads}
 			{option:!threads}
+				{$lblNoThreads}
 			{/option:!threads}
 		</div>
+		{option:load_more}
+			<p>
+				<a href="#nonExistingId" class="4" id="loadThreads">{$lblLoadOlderThreads}</a>
+			</p>
+		{/option:load_more}
 	</div>
 </section>

@@ -94,6 +94,21 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Get count threads for a user
+	 * 
+	 * @param int $id The id of the user
+	 * @return int
+	 */
+	public static function getCountThreadsByUserId($id)
+	{
+		return (int) FrontendModel::getDB()->getVar(
+			'SELECT count(pts.id)
+			 FROM profiles_thread_status AS pts
+			 WHERE pts.receiver_id = ?', (int) $id
+		);
+	}
+
+	/**
 	 * Gets the needed info for the dropdown
 	 * 
 	 * @param int $id ID of the logged in profile
@@ -185,7 +200,7 @@ class FrontendProfilesModel
 	 * @param int[optional] $offset The offset.
 	 * @return array
 	 */
-	public static function getLatestThreadsByUserId($id, $limit = 5, $offset = 0)
+	public static function getLatestThreadsByUserId($id, $limit = 4, $offset = 0)
 	{
 		$threads = (array) FrontendModel::getDB()->getRecords(
 			'SELECT pt.id, pm.text, pm.created_on, IF(pts.status = "read", 1, 0) AS status

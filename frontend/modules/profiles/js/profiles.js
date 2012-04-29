@@ -16,6 +16,8 @@ jsFrontend.profiles = {
 
 		jsFrontend.profiles.loadMessages();
 
+		jsFrontend.profiles.loadThreads();
+
 		jsFrontend.profiles.dropdown();
 	},
 
@@ -147,10 +149,11 @@ jsFrontend.profiles = {
 
 		if($button.length > 0)
 		{
-			$button.on('click',function(){
-			$threadId = $('#messages').attr("class");
-			$offset = parseInt($button.attr("class"));
-			$.ajax(
+			$button.on('click',function()
+			{
+				$threadId = $('#messages').attr("class");
+				$offset = parseInt($button.attr("class"));
+				$.ajax(
 				{
 					data:
 					{
@@ -185,6 +188,65 @@ jsFrontend.profiles = {
 
 								$('.bd.messages').prepend($html);
 								$('.bd.messages .messageHolder').slideDown(250);
+							}
+						}
+					}
+				});
+			});
+		}
+	},
+
+	/**
+	 * Loads more threads
+	 */
+	loadThreads: function()
+	{
+		// grab element
+		var $button = $('#loadThreads');
+
+		if($button.length > 0)
+		{
+			$button.on('click',function()
+			{
+				$userId = $('#messages').attr("class");
+				$offset = parseInt($button.attr("class"));
+				$.ajax(
+				{
+					data:
+					{
+						fork: { module: 'profiles', action: 'load_threads' },
+						offset: $offset,
+						userId: $userId
+					},
+					success: function(data, textStatus)
+					{
+						$offset += 4;
+						// remove the load messages button if there are no more messages
+						console.log($offset);
+						if(data.data['amount'] < $offset) $button.remove();
+						else $button.removeClass().addClass($offset + "");
+
+						// add the loaded messages to the DOM
+						for(var i in data.data)
+						{
+							if(i != "amount")
+							{
+								// create html
+								$html = '<div class="thread" style="display:none;"><header class="hd"><h4';
+								if(data.data[i].status == 0) $html += ' class="unread"';
+								$html += '><a href="{$var|geturlforblock:'profiles':'message_detail'}/' + data.data[i].id + '">';
+								// loop through receivers
+								for(var j in data.data[i].receivers)
+								{
+									$html += data.data[i].receivers[j].display_name + ', ';
+								}
+								// remove last two characters
+								$html = $html.substring(0, $html.length-2);
+								$html += '</a></h4><ul><li>' + data.data[i].created_on + '</li></ul></header><p>' + data.data[i].text + '</p></div>';
+
+								// give them a nice animation
+								$('.bd.threads').append($html);
+								$('.bd.threads .thread').slideDown(250);
 							}
 						}
 					}
