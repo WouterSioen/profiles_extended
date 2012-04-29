@@ -155,7 +155,7 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 
 		// add avatar
 		$this->tpl->assign('avatar', $this->avatar);
-		$this->tpl->assign('avatar', $this->facebook_id);
+		$this->tpl->assign('facebook_id', $this->facebook_id);
 
 		// display name changes
 		$this->tpl->assign('maxDisplayNameChanges', FrontendProfilesModel::MAX_DISPLAY_NAME_CHANGES);
