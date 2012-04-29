@@ -36,17 +36,37 @@ class FrontendProfilesMessageDetail extends FrontendBaseBlock
 		// only logged in profiles can see profiles
 		if(FrontendProfilesAuthentication::isLoggedIn())
 		{
-			// call the parent
-			parent::execute();
-			$this->loadTemplate();
-			$this->getData();
-			$this->loadForm();
-			$this->parse();
-			$this->validateForm();
+			if($this->getAllowed())
+			{
+				// call the parent
+				parent::execute();
+				$this->loadTemplate();
+				$this->getData();
+				$this->loadForm();
+				$this->parse();
+				$this->validateForm();
+			}
+			else $this->redirect(FrontendNavigation::getURLForBlock('profiles', 'messages'));
 		}
 
 		// profile not logged in
 		else $this->redirect(FrontendNavigation::getURLForBlock('profiles', 'login'));
+	}
+
+	/**
+	 * Check if the user is allowed here
+	 */
+	private function getAllowed()
+	{
+		$receivers = FrontendProfilesModel::getProfilesInThread($this->URL->getParameter(0), 0);
+		$userId = FrontendProfilesAuthentication::getProfile()->getId();
+
+		foreach($receivers as $receiver)
+		{
+			if($receiver['id'] == $userId) return true;
+		}
+
+		return false;
 	}
 
 	/**
