@@ -37,6 +37,7 @@ class ProfilesInstaller extends ModuleInstaller
 		$this->setActionRights(1, 'profiles', 'add');
 		$this->setActionRights(1, 'profiles', 'add_group');
 		$this->setActionRights(1, 'profiles', 'add_profile_group');
+		$this->setActionRights(1, 'profiles', 'add_user_info');
 		$this->setActionRights(1, 'profiles', 'block');
 		$this->setActionRights(1, 'profiles', 'delete_group');
 		$this->setActionRights(1, 'profiles', 'delete_profile_group');
@@ -47,6 +48,7 @@ class ProfilesInstaller extends ModuleInstaller
 		$this->setActionRights(1, 'profiles', 'groups');
 		$this->setActionRights(1, 'profiles', 'index');
 		$this->setActionRights(1, 'profiles', 'mass_action');
+		$this->setActionRights(1, 'profiles', 'user_info');
 
 		// set navigation
 		$navigationModulesId = $this->setNavigation(null, 'Modules');
@@ -60,6 +62,9 @@ class ProfilesInstaller extends ModuleInstaller
 		$this->setNavigation($navigationProfilesId, 'Groups', 'profiles/groups', array(
 			'profiles/add_group',
 			'profiles/edit_group'
+		));
+		$this->setNavigation($navigationProfilesId, 'Userinfo', 'profiles/user_info', array(
+			'profiles/add_user_info'
 		));
 
 		// add extra
@@ -77,9 +82,9 @@ class ProfilesInstaller extends ModuleInstaller
 		$overviewId = $this->insertExtra('profiles', 'block', 'Overview', 'overview', null, 'N', 5011);
 		$facebookSettingsId = $this->insertExtra('profiles', 'block', 'FacebookSettings', 'facebook_settings', null, 'N', 5012);
 		$messagesId = $this->insertExtra('profiles', 'block', 'Messsages', 'messages', null, 'N', 5013);
-		$newMessageId = $this->insertExtra('profiles', 'block', 'New Message', 'new_message', null, 'N', 5014);
-		$messageDetailId = $this->insertExtra('profiles', 'block', 'Message Detail', 'message_detail', null, 'N', 5015);
-		$profileDropdownId = $this->insertExtra('profiles', 'widget', 'Profile Dropdown', 'dropdown', null, 'N', 5016);
+		$newMessageId = $this->insertExtra('profiles', 'block', 'NewMessage', 'new_message', null, 'N', 5014);
+		$messageDetailId = $this->insertExtra('profiles', 'block', 'MessageDetail', 'message_detail', null, 'N', 5015);
+		$profileDropdownId = $this->insertExtra('profiles', 'widget', 'ProfileDropdown', 'dropdown', null, 'N', 5016);
 
 		// get search widget id
 		$searchId = (int) $this->getDB()->getVar('SELECT id FROM modules_extras WHERE module = ? AND action = ?', array('search', 'form'));

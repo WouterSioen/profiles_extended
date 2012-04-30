@@ -493,6 +493,17 @@ class BackendProfilesModel
 	}
 
 	/**
+	 * Add's a custom profile info item
+	 * 
+	 * @param array $values Info data
+	 * @return int
+	 */
+	public static function insertUserInfo(array $values)
+	{
+		return (int) BackendModel::getDB(true)->insert('profiles_info', $values);
+	}
+
+	/**
 	 * Insert or update a single profile setting.
 	 *
 	 * @param int $id Profile id.

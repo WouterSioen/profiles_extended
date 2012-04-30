@@ -8,6 +8,8 @@ jsBackend.profiles =
 	init: function()
 	{
 		jsBackend.profiles.addToGroup.init();
+
+		jsBackend.profiles.showWhenEnum.init();
 	},
 
 	addToGroup:
@@ -34,6 +36,24 @@ jsBackend.profiles =
 					})
 					.val(window.name)
 			);
+		}
+	},
+
+	showWhenEnum:
+	{
+		init: function()
+		{
+			$dropdown = $('.showValues');
+			if($dropdown.length = 1)
+			{
+				if($dropdown.val() == 'Enum') $('#showWhenEnum').removeClass();
+				else $('#showWhenEnum').removeClass().addClass('hidden');
+
+				$dropdown.on('change', function(){
+					if($dropdown.val() == 'Enum') $('#showWhenEnum').removeClass();
+					else $('#showWhenEnum').removeClass().addClass('hidden');
+				});
+			}
 		}
 	}
 }

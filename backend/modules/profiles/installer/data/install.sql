@@ -26,6 +26,15 @@ CREATE TABLE IF NOT EXISTS `profiles_groups_rights` (
   UNIQUE KEY `profile_id__group__id__expires_on` (`profile_id`,`group_id`,`expires_on`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `profiles_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `db_title` varchar(255) NOT NULL COMMENT 'The way it is referenced in the profile_settings table',
+  `datatype` enum('Varchar','Text','Number','Enum','Bool') NOT NULL,
+  `values` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `profiles_message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `thread_id` int(11) NOT NULL,
