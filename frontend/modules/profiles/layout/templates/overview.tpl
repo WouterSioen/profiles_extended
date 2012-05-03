@@ -8,11 +8,9 @@
 				{/iteration:alphabet}
 			</ul>
 			{form:search}
-				<p{option:txtToError} class="errorArea"{/option:txtToError}>
+				<p{option:txtToError} class="oneLiner errorArea"{/option:txtToError}>
 					<label for="profile">{$lblProfile|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
 					{$txtProfile}{$txtProfileError}
-				</p>
-				<p>
 					<input class="inputSubmit" type="submit" value="{$lblSearch|ucfirst}" />
 				</p>
 			{/form:search}
