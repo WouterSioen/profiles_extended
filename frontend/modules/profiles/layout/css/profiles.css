@@ -157,3 +157,24 @@
 	right: 15px;
 	top: -40px;
 }
+
+.alphabet {
+	padding-bottom: 12px;
+}
+
+	.alphabet li {
+		display: inline;
+		padding-right: 10px;
+	}
+
+.profilePreview {
+	width: 30%;
+	padding-right: 3%;
+	float: left;
+	padding-bottom: 12px;
+}
+
+	.profilePreview .avatar {
+		float: left;
+		padding-right: 10px;
+	}
