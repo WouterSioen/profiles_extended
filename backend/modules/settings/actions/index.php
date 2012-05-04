@@ -272,6 +272,9 @@ class BackendSettingsIndex extends BackendBaseActionIndex
 
 							// insert the blocks
 							BackendPagesModel::insertBlocks($blocks);
+
+							// build cache
+							BackendPagesModel::buildCache($language);
 						}
 					}
 				}
