@@ -637,11 +637,19 @@
       <item type="label" name="AlphabeticalList">
         <translation language="nl"><![CDATA[Alphabetische lijst]]></translation>
         <translation language="en"><![CDATA[Alphabetical list]]></translation>
+      </item type="label" name="AlreadyConnected">
+      <item>
+        <translation language="nl"><![CDATA[dit profiel is al verbonden aan Facebook]]></translation>
+        <translation language="en"><![CDATA[this profile is already connected to Facebook]]></translation>
       </item>
       <item type="label" name="Avatar">
         <translation language="nl"><![CDATA[Avatar]]></translation>
         <translation language="en"><![CDATA[Avatar]]></translation>
       </item>
+      <item type="label" name="BackToOverview">
+        <translation language="nl"><![CDATA[Terug naar het overzicht]]></translation>
+        <translation language="en"><![CDATA[Back to overview]]></translation>
+      </item>
       <item type="label" name="CurrentPassword">
         <translation language="nl"><![CDATA[Huidig wachtwoord]]></translation>
         <translation language="en"><![CDATA[Current password]]></translation>
@@ -649,10 +657,38 @@
       <item type="label" name="CurrentPassword">
         <translation language="nl"><![CDATA[Huidig wachtwoord]]></translation>
         <translation language="en"><![CDATA[Current password]]></translation>
+      </item>
+      <item type="label" name="ExtraInfo">
+        <translation language="nl"><![CDATA[Meer informatie]]></translation>
+        <translation language="en"><![CDATA[More information]]></translation>
+      </item>
+      <item type="label" name="FacebookSettings">
+        <translation language="nl"><![CDATA[Facebook instellingen]]></translation>
+        <translation language="en"><![CDATA[Facebook settings]]></translation>
       </item>
       <item type="label" name="LivesIn">
         <translation language="nl"><![CDATA[Woont in]]></translation>
         <translation language="en"><![CDATA[Lives in]]></translation>
+      </item>
+      <item type="label" name="LoadOlderMessages">
+        <translation language="nl"><![CDATA[Laadt oudere berichten]]></translation>
+        <translation language="en"><![CDATA[Load older messages]]></translation>
+      </item>
+      <item type="label" name="LoadOlderThreads">
+        <translation language="nl"><![CDATA[Laadt oudere conversaties]]></translation>
+        <translation language="en"><![CDATA[Load older threads]]></translation>
+      </item>
+      <item type="label" name="MarkAsRead">
+        <translation language="nl"><![CDATA[Markeer als gelezen]]></translation>
+        <translation language="en"><![CDATA[Mark as read]]></translation>
+      </item>
+      <item type="label" name="MyMessages">
+        <translation language="nl"><![CDATA[Mijn berichten]]></translation>
+        <translation language="en"><![CDATA[My messages]]></translation>
+      </item>
+      <item type="label" name="MyProfile">
+        <translation language="nl"><![CDATA[Mijn profiel]]></translation>
+        <translation language="en"><![CDATA[My profile]]></translation>
       </item>
       <item type="label" name="Newsletter">
         <translation language="nl"><![CDATA[Nieuwsbrief]]></translation>
@@ -661,6 +697,10 @@
       <item type="label" name="NoProfilesFound">
         <translation language="nl"><![CDATA[Er zijn geen profielen gevonden.]]></translation>
         <translation language="en"><![CDATA[There are no profiles found.]]></translation>
+      </item>
+      <item type="label" name="NoThreads">
+        <translation language="nl"><![CDATA[Er zijn geen conversaties.]]></translation>
+        <translation language="en"><![CDATA[There are no threads.]]></translation>
       </item>
       <item type="label" name="Number">
         <translation language="nl"><![CDATA[Nummer]]></translation>
@@ -674,6 +714,10 @@
         <translation language="nl"><![CDATA[Profielen]]></translation>
         <translation language="en"><![CDATA[Profiles]]></translation>
       </item>
+      <item type="label" name="RegisterNow">
+        <translation language="nl"><![CDATA[Registreer nu]]></translation>
+        <translation language="en"><![CDATA[Register now]]></translation>
+      </item>
       <item type="label" name="RegisterWithFacebook">
         <translation language="nl"><![CDATA[Registreer via Facebook]]></translation>
         <translation language="en"><![CDATA[register with Facebook]]></translation>
@@ -682,9 +726,17 @@
         <translation language="nl"><![CDATA[Herhaal nieuw wachtwoord]]></translation>
         <translation language="en"><![CDATA[Confirm new password]]></translation>
       </item>
+      <item type="label" name="Settings">
+        <translation language="nl"><![CDATA[Instellingen]]></translation>
+        <translation language="en"><![CDATA[Settings]]></translation>
+      </item>
       <item type="label" name="Street">
         <translation language="nl"><![CDATA[Straat]]></translation>
         <translation language="en"><![CDATA[Street]]></translation>
+      </item>
+      <item type="label" name="To">
+        <translation language="nl"><![CDATA[Ontvangers]]></translation>
+        <translation language="en"><![CDATA[Recipients]]></translation>
       </item>
       <item type="label" name="YearsOld">
         <translation language="nl"><![CDATA[jaar oud]]></translation>
@@ -726,9 +778,25 @@
         <translation language="nl"><![CDATA[Ik ga akkoord met de <a href="%1$s">algemene voorwaarden</a> en de <a href="%2$s">privacy policy</a>.]]></translation>
         <translation language="en"><![CDATA[Ik agree to the <a href="%1$s">terms and conditions</a> and the <a href="%2$s">privacy policy</a>.]]></translation>
       </item>
+      <item type="message" name="AlreadyRegistered">
+        <translation language="nl"><![CDATA[Al geregistreerd?]]></translation>
+        <translation language="en"><![CDATA[Already registered?]]></translation>
+      </item>
+      <item type="message" name="FacebookConnectInfo">
+        <translation language="nl"><![CDATA[Door te 'connecten' met Facebook kan je:<ul>
+          <li>aanmelden op deze website zonder wachtwoord (gebruik de Facebook login knop)</li>
+          <li>je vrienden op Facebook op de hoogte houden van wat je hier uitspookt</li></ul>]]></translation>
+        <translation language="en"><![CDATA[With Facebook Connect, you can:<ul>
+          <li>Register on this website without password</li>
+          <li>Keep your friends informed of what you're doing on this website</li></ul>]]></translation>
+      </item>
       <item type="message" name="FacebookLoggedInAs">
         <translation language="nl"><![CDATA[Aangemeld als: <a href="%2$s">%1$s</a>.]]></translation>
         <translation language="en"><![CDATA[Signed in as: <a href="%2$s">%1$s</a>.]]></translation>
+      </item>
+      <item type="message" name="FacebookNoPasswordChange">
+        <translation language="nl"><![CDATA[Wachtwoord veranderen is niet toegestaan als je geregistreerd bent via Facebook.]]></translation>
+        <translation language="en"><![CDATA[Changing your password isn't allowed if you're registered through Facebook.]]></translation>
       </item>
       <item type="message" name="HelpAvatar">
         <translation language="nl"><![CDATA[Toegestane bestandstypes zijn: .jpg, .jpeg, .gif en .png.]]></translation>
