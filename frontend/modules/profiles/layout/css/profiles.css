@@ -168,13 +168,20 @@
 	}
 
 .profilePreview {
-	width: 30%;
-	padding-right: 3%;
 	float: left;
 	padding-bottom: 12px;
+}
+
+#overview .profilePreview {
+	width: 30%;
+	padding-right: 3%;
 }
 
 	.profilePreview .avatar {
 		float: left;
 		padding-right: 10px;
+	}
+
+	#profile .profilePreview .avatar {
+		padding-top: 7px;
 	}

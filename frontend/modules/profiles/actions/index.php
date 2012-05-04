@@ -31,6 +31,13 @@ class FrontendProfilesIndex extends FrontendBaseBlock
 	private $settings;
 
 	/**
+	 * The site specific settings
+	 * 
+	 * @var arrar
+	 */
+	private $customSettings;
+
+	/**
 	 * The Age of the logged in profile
 	 * 
 	 * @var int
@@ -77,6 +84,7 @@ class FrontendProfilesIndex extends FrontendBaseBlock
 				$this->age = (date("md") < $month . $day ? date("Y") - $year - 1 : date("Y") - $year);
 			}
 			else $this->age = '';
+			$this->customSettings = FrontendProfilesModel::getCustomSettings($id);
 		}
 		else
 		{
@@ -89,8 +97,10 @@ class FrontendProfilesIndex extends FrontendBaseBlock
 	 */
 	private function parse()
 	{
+		$this->tpl->assign('hideContentTitle', true);
 		$this->tpl->assign('profile', $this->profile);
 		$this->tpl->assign('settings', $this->settings);
+		$this->tpl->assign('info', $this->customSettings);
 		$this->tpl->assign('age', $this->age);
 	}
 }
