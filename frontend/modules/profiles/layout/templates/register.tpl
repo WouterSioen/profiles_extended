@@ -80,11 +80,11 @@
 							<label for="day">{$lblBirthDate|ucfirst}</label>
 							{$ddmDay} {$ddmMonth} {$ddmYear} {$ddmYearError}
 						</p>
-						{option:allowNewslettre}
+						{option:allowNewsletter}
 							<p>
-								<label for="newslettre">{$chkNewslettre} {$lblNewslettre|ucfirst} </label>
+								<label for="newsletter">{$chkNewsletter} {$lblNewsletter|ucfirst} </label>
 							</p>
-						{/option:allowNewslettre}
+						{/option:allowNewsletter}
 						<p>
 							<input class="inputSubmit" type="submit" value="{$lblSave|ucfirst}" />
 						</p>

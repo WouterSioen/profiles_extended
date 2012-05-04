@@ -36,7 +36,7 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 	 * 
 	 * @var boolean
 	 */
-	private $allowNewslettre = false;
+	private $allowNewsletter = false;
 
 	/**
 	 * Execute the extra.
@@ -77,7 +77,7 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 		$this->profile = FrontendProfilesAuthentication::getProfile();
 
 		// check if a campagin monitor was linked already and/or client ID was set
-		$this->allowNewslettre = (FrontendModel::getModuleSetting('mailmotor', 'cm_client_id') != null);
+		$this->allowNewsletter = (FrontendModel::getModuleSetting('mailmotor', 'cm_client_id') != null);
 	}
 
 	/**
@@ -117,7 +117,7 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 		$this->frmPartTwo->addDropdown('day', array_combine($days, $days));
 		$this->frmPartTwo->addDropdown('month', $months);
 		$this->frmPartTwo->addDropdown('year', array_combine($years, $years));
-		$this->frmPartTwo->addCheckbox('newslettre');
+		$this->frmPartTwo->addCheckbox('newsletter');
 
 		// set default elements dropdowns
 		$this->frmPartTwo->getField('day')->setDefaultElement('');
@@ -147,7 +147,7 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 			// parse the form
 			$this->frm->parse($this->tpl);
 
-			$this->tpl->assign('allowNewslettre', $this->allowNewslettre);
+			$this->tpl->assign('allowNewsletter', $this->allowNewsletter);
 		}
 	}
 
@@ -348,7 +348,7 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 			$ddmDay = $this->frmPartTwo->getField('day');
 			$ddmMonth = $this->frmPartTwo->getField('month');
 			$ddmYear = $this->frmPartTwo->getField('year');
-			$chkNewslettre = $this->frmPartTwo->getField('newslettre');
+			$chkNewsletter = $this->frmPartTwo->getField('newsletter');
 
 			// birthdate is not required but if one is filled we need all
 			if($ddmMonth->isFilled() || $ddmDay->isFilled() || $ddmYear->isFilled())
@@ -387,7 +387,7 @@ class FrontendProfilesRegister extends FrontendBaseBlock
 				FrontendModel::triggerEvent('profiles', 'after_saved_settings', array('id' => $this->profile->getId()));
 
 				// subscribe to newsletter if checked
-				if($this->allowNewslettre && $chkNewslettre->isChecked())
+				if($this->allowNewsletter && $chkNewsletter->isChecked())
 				{
 					// check if the e-mailaddress is subscribed
 					if(!FrontendMailmotorModel::isSubscribed($this->profile->getEmail()))

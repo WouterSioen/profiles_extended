@@ -74,7 +74,7 @@ class ProfilesInstaller extends ModuleInstaller
 		$loginId = $this->insertExtra('profiles', 'block', 'Login', 'login', null, 'N', 5003);
 		$logoutId = $this->insertExtra('profiles', 'block', 'Logout', 'logout', null, 'N', 5004);
 		$passwordEmailId = $this->insertExtra('profiles', 'block', 'PasswordEmail', 'password_email', null, 'N', 5005);
-		$alertsNewslettreId = $this->insertExtra('profiles', 'block','AlertsNewslettre', 'alerts_newslettre', null, 'N', 5006);
+		$alertsNewsletterId = $this->insertExtra('profiles', 'block','AlertsNewsletter', 'alerts_newsletter', null, 'N', 5006);
 		$settingsId = $this->insertExtra('profiles', 'block', 'Settings', 'settings', null, 'N', 5007);
 		$registerId = $this->insertExtra('profiles', 'block', 'Register', 'register', null, 'N', 5008);
 		$resetPasswordId = $this->insertExtra('profiles', 'block', 'ResetPassword', 'reset_password', null, 'N', 5009);
@@ -218,16 +218,16 @@ class ProfilesInstaller extends ModuleInstaller
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
 
-				// alerts and newslettre settings page
+				// alerts and newsletter settings page
 				$this->insertPage(
 					array(
-						'title' => 'Alerts and newslettre',
+						'title' => 'Alerts and newsletter',
 						'parent_id' => $settingsOverviewId,
 						'language' => $language
 					),
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
-					array('extra_id' => $alertsNewslettreId, 'position' => 'main'),
+					array('extra_id' => $alertsNewsletterId, 'position' => 'main'),
 					array('extra_id' => $searchId, 'position' => 'top')
 				);
 				

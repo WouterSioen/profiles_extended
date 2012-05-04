@@ -654,9 +654,9 @@
         <translation language="nl"><![CDATA[Woont in]]></translation>
         <translation language="en"><![CDATA[Lives in]]></translation>
       </item>
-      <item type="label" name="Newslettre">
+      <item type="label" name="Newsletter">
         <translation language="nl"><![CDATA[Nieuwsbrief]]></translation>
-        <translation language="en"><![CDATA[Newslettre]]></translation>
+        <translation language="en"><![CDATA[Newsletter]]></translation>
       </item>
       <item type="label" name="NoProfilesFound">
         <translation language="nl"><![CDATA[Er zijn geen profielen gevonden.]]></translation>

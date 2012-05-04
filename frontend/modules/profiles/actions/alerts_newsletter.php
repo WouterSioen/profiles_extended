@@ -8,11 +8,11 @@
  */
 
 /**
- * Change the alert and newslettre settings of the current logged in profile.
+ * Change the alert and newsletter settings of the current logged in profile.
  *
  * @author Wouter Sioen <wouter.sioen@gmail.com>
  */
-class FrontendProfilesAlertsNewslettre extends FrontendBaseBlock
+class FrontendProfilesAlertsNewsletter extends FrontendBaseBlock
 {
 	/**
 	 * FrontendForm instance.
@@ -29,11 +29,11 @@ class FrontendProfilesAlertsNewslettre extends FrontendBaseBlock
 	private $profile;
 
 	/**
-	 * Do we have a newslettre?
+	 * Do we have a newsletter?
 	 * 
 	 * @var boolean
 	 */
-	private $allowNewslettre = false;
+	private $allowNewsletter = false;
 
 	/**
 	 * Execute the extra.
@@ -64,7 +64,7 @@ class FrontendProfilesAlertsNewslettre extends FrontendBaseBlock
 		$this->profile = FrontendProfilesAuthentication::getProfile();
 
 		// check if a campagin monitor was linked already and/or client ID was set
-		$this->allowNewslettre = (FrontendModel::getModuleSetting('mailmotor', 'cm_client_id') != null);
+		$this->allowNewsletter = (FrontendModel::getModuleSetting('mailmotor', 'cm_client_id') != null);
 	}
 
 	/**
@@ -74,7 +74,7 @@ class FrontendProfilesAlertsNewslettre extends FrontendBaseBlock
 	{
 		$this->frm = new FrontendForm('updateAlert', null, null, 'updateAlertForm');
 		$this->frm->addCheckbox('alerts', $this->profile->getSetting('alerts', true));
-		$this->frm->addCheckbox('newslettre', FrontendMailmotorModel::isSubscribed($this->profile->getEmail()));
+		$this->frm->addCheckbox('newsletter', FrontendMailmotorModel::isSubscribed($this->profile->getEmail()));
 	}
 
 	/**
@@ -92,7 +92,7 @@ class FrontendProfilesAlertsNewslettre extends FrontendBaseBlock
 		// check if profile is active, cause it won't work with a non-active profile
 		$this->tpl->assign('nonactive', $this->profile->getStatus() != 'active');
 
-		$this->tpl->assign('allowNewslettre', $this->allowNewslettre);
+		$this->tpl->assign('allowNewsletter', $this->allowNewsletter);
 
 		// parse the form
 		$this->frm->parse($this->tpl);
@@ -108,12 +108,12 @@ class FrontendProfilesAlertsNewslettre extends FrontendBaseBlock
 		{
 			// get fields
 			$chkAlerts = $this->frm->getField('alerts');
-			$chkNewslettre = $this->frm->getField('newslettre');
+			$chkNewsletter = $this->frm->getField('newsletter');
 
 			// set the alerts setting
 			FrontendProfilesModel::setSetting($this->profile->getId(), 'alerts', $chkAlerts->isFilled());
 
-			if($this->allowNewslettre && $chkNewslettre->isFilled())
+			if($this->allowNewsletter && $chkNewsletter->isFilled())
 			{
 				FrontendMailmotorModel::subscribe($this->profile->getEmail());
 

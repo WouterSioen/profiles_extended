@@ -24,14 +24,14 @@
 						<label for="alerts">{$chkAlerts} {$lblAlerts|ucfirst} </label>
 					</p>
 				</fieldset>
-				{option:allowNewslettre}
+				{option:allowNewsletter}
 					<fieldset>
-						<legend>{$lblNewslettre|ucfirst}</legend>
+						<legend>{$lblNewsletter|ucfirst}</legend>
 						<p>
-							<label for="newslettre">{$chkNewslettre} {$lblNewslettre|ucfirst} </label>
+							<label for="newsletter">{$chkNewsletter} {$lblNewsletter|ucfirst} </label>
 						</p>
 					</fieldset>
-				{/option:allowNewslettre}
+				{/option:allowNewsletter}
 				<p>
 					<input class="inputSubmit" type="submit" value="{$lblSave|ucfirst}" />
 				</p>
