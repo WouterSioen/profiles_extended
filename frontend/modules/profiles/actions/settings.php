@@ -38,6 +38,20 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 	private $avatar, $facebook_id;
 
 	/**
+	 * The site specific settings
+	 * 
+	 * @var array
+	 */
+	private $settings;
+
+	/**
+	 * The custom fields
+	 * 
+	 * @var array
+	 */
+	private $customFields;
+
+	/**
 	 * Execute the extra.
 	 */
 	public function execute()
@@ -70,6 +84,9 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 		if(empty($this->avatar)) $this->avatar = '';
 		$this->facebook_id = $this->profile->getSetting('facebook_id');
 		if(empty($this->facebook_id)) $this->facebook_id = '';
+
+		// custom settings
+		$this->settings = FrontendProfilesModel::getCustomSettings($this->profile->getId());
 	}
 
 	/**
@@ -128,6 +145,41 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 		$this->frm->getField('year')->setDefaultElement('');
 		$this->frm->getField('country')->setDefaultElement('');
 
+		// add custom fields
+		$this->customFields = array();
+		foreach($this->settings as $field)
+		{
+			if($field['datatype'] == 'Varchar' || $field['datatype'] == 'Number')
+			{
+				$this->customFields[] = array(
+					'label' => $field['title'],
+					'txt' => $this->frm->addText($field['db_title'], $field['value'])->parse()
+				);
+			}
+			else if($field['datatype'] == 'Text')
+			{
+				$this->customFields[] = array(
+					'label' => $field['title'],
+					'txt' => $this->frm->addTextarea($field['db_title'], $field['value'])->parse()
+				);
+			}
+			else if($field['datatype'] == 'Enum')
+			{
+				$field['values'] = explode(';', $field['values']);
+				$this->customFields[] = array(
+					'label' => $field['title'],
+					'txt' => $this->frm->addDropdown($field['db_title'], $field['values'], $field['value'])->parse()
+				);
+			}
+			else if($field['datatype'] == 'Bool')
+			{
+				$this->customFields[] = array(
+					'label' => $field['title'],
+					'txt' => $this->frm->addCheckbox($field['db_title'], $field['value'])->parse()
+				);
+			}
+		}
+
 		// when user exceeded the number of name changes set field disabled
 		if($nameChanges >= FrontendProfilesModel::MAX_DISPLAY_NAME_CHANGES) $this->frm->getField('display_name')->setAttribute('disabled', 'disabled');
 	}
@@ -160,6 +212,9 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 		// display name changes
 		$this->tpl->assign('maxDisplayNameChanges', FrontendProfilesModel::MAX_DISPLAY_NAME_CHANGES);
 		$this->tpl->assign('displayNameChangesLeft', FrontendProfilesModel::MAX_DISPLAY_NAME_CHANGES - $this->profile->getSetting('display_name_changes'));
+
+		// add custom fields
+		$this->tpl->assign('fields', $this->customFields);
 	}
 
 	/**
@@ -235,6 +290,14 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 				}
 			}
 
+			// validate custom fields
+			foreach($this->settings as $field)
+			{
+				// get field and validate if it's a number
+				$formField = $this->frm->getField($field['db_title']);
+				if($field['datatype'] == 'Number') $formField->isNumeric(FL::getError('NumberIsInvalid'));
+			}
+
 			// no errors
 			if($this->frm->isCorrect())
 			{
@@ -302,6 +365,14 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 					$imgAvatar->createThumbnail($avatarsPath . '/128x128/' . $filename, 128, 128, true, false, 100);
 					$imgAvatar->createThumbnail($avatarsPath . '/64x64/' . $filename, 64, 64, true, false, 100);
 					$imgAvatar->createThumbnail($avatarsPath . '/32x32/' . $filename, 32, 32, true, false, 100);
+				}
+
+				// update custom fields
+				foreach($this->settings as $field)
+				{
+					// get field and update
+					$formField = $this->frm->getField($field['db_title']);
+					if($formField->isFilled()) $this->profile->setSetting($field['db_title'], $formField->getValue());
 				}
 
 				// trigger event

@@ -109,6 +109,24 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Get site specific settings
+	 * 
+	 * @param int $id The id of the user
+	 * @return array
+	 */
+	public static function getCustomSettings($id)
+	{
+		$customSettings = (array) FrontendModel::getDB()->getRecords(
+			'SELECT pi.title, pi.db_title, pi.datatype, pi.values FROM profiles_info AS pi'
+		);
+
+		// get the data for the given user
+		foreach($customSettings as &$customSetting) $customSetting['value'] = FrontendProfilesModel::getSetting($id, $customSetting['db_title']);
+
+		return $customSettings;
+	}
+
+	/**
 	 * Gets the needed info for the dropdown
 	 * 
 	 * @param int $id ID of the logged in profile

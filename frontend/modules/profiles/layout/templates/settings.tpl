@@ -39,14 +39,16 @@
 				<fieldset>
 					<legend>{$lblYourData|ucfirst}</legend>
 
-					<p{option:txtFirstNameError} class="errorArea"{/option:txtFirstNameError}>
-						<label for="firstName">{$lblFirstName|ucfirst}</label>
-						{$txtFirstName}{$txtFirstNameError}
-					</p>
-					<p{option:txtLastNameError} class="errorArea"{/option:txtLastNameError}>
-						<label for="lastName">{$lblLastName|ucfirst}</label>
-						{$txtLastName}{$txtLastNameError}
-					</p>
+					<div class="alignBlocks">
+						<p{option:txtFirstNameError} class="errorArea"{/option:txtFirstNameError}>
+							<label for="firstName">{$lblFirstName|ucfirst}</label>
+							{$txtFirstName}{$txtFirstNameError}
+						</p>
+						<p{option:txtLastNameError} class="errorArea"{/option:txtLastNameError}>
+							<label for="lastName">{$lblLastName|ucfirst}</label>
+							{$txtLastName}{$txtLastNameError}
+						</p>
+					</div>
 					<p{option:ddmGenderError} class="errorArea"{/option:ddmGenderError}>
 						<label for="gender">{$lblGender|ucfirst}</label>
 						{$ddmGender} {$ddmGenderError}
@@ -59,27 +61,41 @@
 				<fieldset>
 					<legend>{$lblYourLocationData|ucfirst}</legend>
 
-					<p{option:txtStreetError} class="errorArea"{/option:txtStreetError}>
-						<label for="street">{$lblStreet|ucfirst}</label>
-						{$txtStreet}{$txtStreetError}
-					</p>
-					<p{option:txtNumberError} class="errorArea"{/option:txtNumberError}>
-						<label for="number">{$lblNumber|ucfirst}</label>
-						{$txtNumber}{$txtNumberError}
-					</p>
-					<p{option:txtPostalCodeError} class="errorArea"{/option:txtPostalCodeError}>
-						<label for="city">{$lblPostalCode|ucfirst}</label>
-						{$txtPostalCode}{$txtPostalCodeError}
-					</p>
-					<p{option:txtCityError} class="errorArea"{/option:txtCityError}>
-						<label for="city">{$lblCity|ucfirst}</label>
-						{$txtCity}{$txtCityError}
-					</p>
+					<div class="alignBlocks">
+						<p{option:txtStreetError} class="errorArea"{/option:txtStreetError}>
+							<label for="street">{$lblStreet|ucfirst}</label>
+							{$txtStreet}{$txtStreetError}
+						</p>
+						<p{option:txtNumberError} class="errorArea"{/option:txtNumberError}>
+							<label for="number">{$lblNumber|ucfirst}</label>
+							{$txtNumber}{$txtNumberError}
+						</p>
+					</div>
+					<div class="alignBlocks">
+						<p{option:txtPostalCodeError} class="errorArea"{/option:txtPostalCodeError}>
+							<label for="city">{$lblPostalCode|ucfirst}</label>
+							{$txtPostalCode}{$txtPostalCodeError}
+						</p>
+						<p{option:txtCityError} class="errorArea"{/option:txtCityError}>
+							<label for="city">{$lblCity|ucfirst}</label>
+							{$txtCity}{$txtCityError}
+						</p>
+					</div>
 					<p{option:ddmCountryError} class="errorArea"{/option:ddmCountryError}>
 						<label for="country">{$lblCountry|ucfirst}</label>
 						{$ddmCountry} {$ddmCountryError}
 					</p>
 				</fieldset>
+				{option:fields}
+					<fieldset>
+						<legend>{$lblExtraInfo|ucfirst}</legend>
+						{iteration:fields}
+							<p>
+								<label for="{$fields.label}">{$fields.label}</label>{$fields.txt}
+							</p>
+						{/iteration:fields}
+					</fieldset>
+				{/option:fields}
 				<p>
 					<input class="inputSubmit" type="submit" value="{$lblSave|ucfirst}" />
 				</p>
