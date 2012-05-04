@@ -12,6 +12,7 @@
  *
  * @author Tijs Verkoyen <tijs@sumocoders.be>
  * @author Davy Hellemans <davy.hellemans@netlash.com>
+ * @author Wouter Sioen <wouter.sioen@gmail.com>
  */
 class BackendSettingsIndex extends BackendBaseActionIndex
 {
@@ -238,6 +239,42 @@ class BackendSettingsIndex extends BackendBaseActionIndex
 				BackendModel::setModuleSetting('core', 'facebook_admin_ids', ($this->frm->getField('facebook_admin_ids')->isFilled()) ? $this->frm->getField('facebook_admin_ids')->getValue() : null);
 				BackendModel::setModuleSetting('core', 'facebook_app_id', ($this->frm->getField('facebook_application_id')->isFilled()) ? $this->frm->getField('facebook_application_id')->getValue() : null);
 				BackendModel::setModuleSetting('core', 'facebook_app_secret', ($this->frm->getField('facebook_application_secret')->isFilled()) ? $this->frm->getField('facebook_application_secret')->getValue() : null);
+
+				// make facebook settings page from the profiles module to visible
+				$keys = BackendModel::getKeys();
+
+				// loop through the pages and if the value matches, change the page for this id
+				foreach($keys as $key => $value)
+				{
+					if($value == 'settings/facebook-settings')
+					{
+						// loop through all languages
+						$languages = BackendLanguage::getActiveLanguages();
+						foreach($languages as $language)
+						{
+							$page = BackendPagesModel::get($key, null, $language);
+							$previousRevision = $page['revision_id'];
+							unset($page['revision_id']);
+							unset($page['has_extra']);
+							unset($page['extra_ids']);
+							unset($page['move_allowed']);
+							unset($page['children_allowed']);
+							unset($page['edit_allowed']);
+							unset($page['delete_allowed']);
+							$page['hidden'] = ($this->frm->getField('facebook_application_id')->isFilled() && $this->frm->getField('facebook_application_secret')->isFilled()) ? 'N' : 'Y';
+							$revisionId = BackendPagesModel::update($page);
+
+							// get blocks
+							$blocks = BackendPagesModel::getBlocks($page['id'], $previousRevision);
+
+							// loop through them and readd them
+							foreach($blocks as $i => $block) $blocks[$i]['revision_id'] = $revisionId;
+
+							// insert the blocks
+							BackendPagesModel::insertBlocks($blocks);
+						}
+					}
+				}
 
 				// ckfinder settings
 				BackendModel::setModuleSetting('core', 'ckfinder_license_name', ($this->frm->getField('ckfinder_license_name')->isFilled()) ? $this->frm->getField('ckfinder_license_name')->getValue() : null);
