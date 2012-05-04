@@ -11,6 +11,10 @@
 			* Registration
 			* Login/Logout
 			* Forgot password
+			* Facebook connect
+			* Profile page and overview
+			* Site specific profile information
+			* Threaded messaging system
 			* Modifying profile settings
 			* Resending activation mails
 		]]>
@@ -23,6 +27,10 @@
 		<author>
 			<name><![CDATA[Lester Lievens]]></name>
 			<url><![CDATA[http://www.twitter.com/ElLesso]]></url>
+		</author>
+		<author>
+			<name><![CDATA[Wouter Sioen]]></name>
+			<url><![CDATA[http://woutersioen.be]]></url>
 		</author>
 	</authors>
 	<events>
