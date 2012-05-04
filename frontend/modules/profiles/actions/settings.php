@@ -165,7 +165,13 @@ class FrontendProfilesSettings extends FrontendBaseBlock
 			}
 			else if($field['datatype'] == 'Enum')
 			{
+				// make sure the values of the array are the same as the text
 				$field['values'] = explode(';', $field['values']);
+				foreach($field['values'] as $i => $value)
+				{
+					$field['values'][$value] = $field['values'][$i];
+					unset($field['values'][$i]);
+				}
 				$this->customFields[] = array(
 					'label' => $field['title'],
 					'txt' => $this->frm->addDropdown($field['db_title'], $field['values'], $field['value'])->parse()
