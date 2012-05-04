@@ -637,8 +637,8 @@
       <item type="label" name="AlphabeticalList">
         <translation language="nl"><![CDATA[Alphabetische lijst]]></translation>
         <translation language="en"><![CDATA[Alphabetical list]]></translation>
-      </item type="label" name="AlreadyConnected">
-      <item>
+      </item>
+      <item type="label" name="AlreadyConnected">
         <translation language="nl"><![CDATA[dit profiel is al verbonden aan Facebook]]></translation>
         <translation language="en"><![CDATA[this profile is already connected to Facebook]]></translation>
       </item>
@@ -665,6 +665,10 @@
       <item type="label" name="FacebookSettings">
         <translation language="nl"><![CDATA[Facebook instellingen]]></translation>
         <translation language="en"><![CDATA[Facebook settings]]></translation>
+      </item>
+      <item type="label" name="Info">
+        <translation language="nl"><![CDATA[Informatie]]></translation>
+        <translation language="en"><![CDATA[Information]]></translation>
       </item>
       <item type="label" name="LivesIn">
         <translation language="nl"><![CDATA[Woont in]]></translation>
@@ -694,6 +698,10 @@
         <translation language="nl"><![CDATA[Nieuwsbrief]]></translation>
         <translation language="en"><![CDATA[Newsletter]]></translation>
       </item>
+      <item type="label" name="NewMessage">
+        <translation language="nl"><![CDATA[Nieuw bericht]]></translation>
+        <translation language="en"><![CDATA[New message]]></translation>
+      </item>
       <item type="label" name="NoProfilesFound">
         <translation language="nl"><![CDATA[Er zijn geen profielen gevonden.]]></translation>
         <translation language="en"><![CDATA[There are no profiles found.]]></translation>
@@ -709,6 +717,10 @@
       <item type="label" name="PostalCode">
         <translation language="nl"><![CDATA[Postcode]]></translation>
         <translation language="en"><![CDATA[Postal code]]></translation>
+      </item>
+      <item type="label" name="Profile">
+        <translation language="nl"><![CDATA[Profiel]]></translation>
+        <translation language="en"><![CDATA[Profile]]></translation>
       </item>
       <item type="label" name="Profiles">
         <translation language="nl"><![CDATA[Profielen]]></translation>
@@ -801,6 +813,10 @@
       <item type="message" name="HelpAvatar">
         <translation language="nl"><![CDATA[Toegestane bestandstypes zijn: .jpg, .jpeg, .gif en .png.]]></translation>
         <translation language="en"><![CDATA[Allowed file formats are: .jpg, .jpeg, .gif en .png]]></translation>
+      </item>
+      <item type="message" name="MessageSent">
+        <translation language="nl"><![CDATA[Het bericht is verzonden.]]></translation>
+        <translation language="en"><![CDATA[The message has been sent.]]></translation>
       </item>
       <item type="message" name="UpdateSucces">
         <translation language="nl"><![CDATA[De aanpassingen zijn opgeslaan.]]></translation>
