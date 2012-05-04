@@ -15,14 +15,14 @@
 				<span class="arrow">&#x25BC;</span>
 			</a>
 			<ul class="hidden" id="ddProfiles">
-				<li><a href="{$profile_url}/{$profile.url}">{$lblMyProfile}</a></li>
-				<li><a href="{$messages_url}">{$lblMyMessages}{option:profile.count} ({$profile.count}){/option:profile.count}</a></li>
-				<li><a href="{$settings_url}">{$lblSettings}</a></li>
+				<li><a href="{$profile_url}/{$profile.url}">{$lblMyProfile|ucfirst}</a></li>
+				<li><a href="{$messages_url}">{$lblMyMessages|ucfirst}{option:profile.count} ({$profile.count}){/option:profile.count}</a></li>
+				<li><a href="{$settings_url}">{$lblSettings|ucfirst}</a></li>
 				<li class="lastChild"><a href="{$logout_url}">Log uit</a></li>
 			</ul>
 			{/option:profile.display_name}
 			{option:!profile.display_name}
-				<span class="login"><a href="{$register_url}">{$lblRegister}</a> - <a href="{$login_url}">{$lblLogin}</a></span>
+				<span class="login"><a href="{$register_url}">{$lblRegister|ucfirst}</a> - <a href="{$login_url}">{$lblLogin|ucfirst}</a></span>
 			{/option:!profile.display_name}
 		</div>
 	</div>
