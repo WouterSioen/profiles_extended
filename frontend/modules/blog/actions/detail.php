@@ -200,6 +200,17 @@ class FrontendBlogDetail extends FrontendBaseBlock
 
 		// assign navigation
 		$this->tpl->assign('navigation', FrontendBlogModel::getNavigation($this->record['id']));
+
+		// if a useris logged in, add it to the activity stream
+		if(FrontendProfilesAuthentication::isLoggedIn())
+		{
+			FrontendProfilesModel::publishToActivityStream(
+				FrontendProfilesAuthentication::getProfile()->getId(),
+				'Read',
+				$this->record['title'],
+				'/' . $this->URL->getQueryString()
+			);
+		}
 	}
 
 	/**
@@ -294,6 +305,17 @@ class FrontendBlogDetail extends FrontendBaseBlock
 
 				// trigger event
 				FrontendModel::triggerEvent('blog', 'after_add_comment', array('comment' => $comment));
+
+				// if a useris logged in, add it to the activity stream
+				if(FrontendProfilesAuthentication::isLoggedIn())
+				{
+					FrontendProfilesModel::publishToActivityStream(
+						FrontendProfilesAuthentication::getProfile()->getId(),
+						'CommentedOn',
+						$this->record['title'],
+						'/' . $this->URL->getQueryString()
+					);
+				}
 
 				// append a parameter to the URL so we can show moderation
 				if(strpos($redirectLink, '?') === false)
