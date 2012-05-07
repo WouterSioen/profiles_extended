@@ -195,7 +195,7 @@ class FrontendProfilesProfile
 	{
 		// get profile data
 		$profileData = (array) FrontendModel::getDB()->getRecord(
-			'SELECT p.id, p.email, p.status, p.display_name, UNIX_TIMESTAMP(p.registered_on) AS registered_on
+			'SELECT p.id, p.email, p.status, p.display_name, p.url, UNIX_TIMESTAMP(p.registered_on) AS registered_on
 			 FROM profiles AS p
 			 WHERE p.id = ?',
 			(int) $id
@@ -207,6 +207,7 @@ class FrontendProfilesProfile
 		$this->setStatus($profileData['status']);
 		$this->setDisplayName($profileData['display_name']);
 		$this->setRegisteredOn($profileData['registered_on']);
+		$this->setUrl($profileData['url']);
 
 		// get the groups (only the ones we still have access to)
 		$this->groups = (array) FrontendModel::getDB()->getPairs(
