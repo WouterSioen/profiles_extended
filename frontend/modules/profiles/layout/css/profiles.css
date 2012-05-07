@@ -107,6 +107,10 @@
 		}
 
 /* other profiles styles */
+#profile .comments {
+	padding-left: 48px;
+}
+
 .messages .imageHolder,
 .comments .imageHolder {
 	float: left;

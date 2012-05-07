@@ -9,6 +9,16 @@ CREATE TABLE IF NOT EXISTS `profiles_activity` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `profiles_activity_comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `activity_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `text` text COLLATE utf8_unicode_ci NOT NULL,
+  `created_on` datetime NOT NULL,
+  `status` enum('visible','deleted','marked') COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `profiles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL,

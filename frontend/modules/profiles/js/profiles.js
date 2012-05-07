@@ -306,10 +306,10 @@ jsFrontend.profiles = {
 			$button.on('click', function()
 			{
 				// get data
-				$activity_id = $(this).parent().attr('id');
+				$activity_id = $(this).parent().parent().attr('id');
 				$user_id = $('#profileId').html();
 				$commentText = $(this).parent().find('.inputText').val();
-				$divToAdd = $(this).parent();
+				$divToAdd = $(this).parent().parent();
 
 				$.ajax(
 				{
@@ -324,15 +324,15 @@ jsFrontend.profiles = {
 					{
 						// add avatar part
 						$html = '<div class="messageHolder clearfix" style="display:none"><div class="imageHolder"><img src="{$FRONTEND_FILES_URL}';
-						if(data.avatar) $html += '/profiles/avatars/64x64/' + data.avatar + '" alt="" ';
+						if(data.data.avatar) $html += '/profiles/avatars/64x64/' + data.data.avatar + '" alt="" ';
 						else
 						{
 							$html += '/backend_users/avatars/64x64/no-avatar.gif" ';
-							if(data.facebook_id) $html += ' alt="' + data.url + '" class="replaceWithFacebook" data-facebook-id="' + data.facebook_id + '" ';
+							if(data.data.facebook_id) $html += ' alt="' + data.data.url + '" class="replaceWithFacebook" data-facebook-id="' + data.fdata.acebook_id + '" ';
 						}
 						$html += 'width="48" height="48" /></div>';
 						// add text
-						$html += '<div class="messageContent"><header class="hd"><h4><a href="{$var|geturlforblock:'profiles'}/' + data.url + '">' + data.first_name + ' ' + data.last_name;
+						$html += '<div class="messageContent"><header class="hd"><h4><a href="{$var|geturlforblock:'profiles'}/' + data.data.url + '">' + data.data.first_name + ' ' + data.data.last_name;
 						$html += '</a></h4><ul><li>{$lblJustNow}</li></ul></header><p>' + $commentText + '</p></div></div>';
 
 						$divToAdd.prepend($html);

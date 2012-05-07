@@ -79,6 +79,34 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Gets the commetns for an activity
+	 * 
+	 * @param int $activity_id The id of the activity
+	 * @return array
+	 */
+	public static function getActivityComments($activity_id)
+	{
+		$comments = (array) FrontendModel::getDB()->getRecords(
+			'SELECT pac.text, pac.created_on, pac.user_id
+			 FROM profiles_activity_comments AS pac
+			 WHERE pac.activity_id = ? AND pac.status = ?', 
+			array((int) $activity_id, (string) 'visible')
+		);
+
+		// add userinfo
+		foreach($comments as &$comment)
+		{
+			$profile = FrontendProfilesModel::get($comment['user_id']);
+			$comment['username'] = $profile->getDisplayName();
+			$comment['avatar'] = $profile->getSetting('avatar');
+			$comment['facebook_id'] = $profile->getSetting('facebook_id');
+			$comment['url'] = $profile->getUrl();
+		}
+
+		return $comments;
+	}
+
+	/**
 	 * Get Count messages in a thread
 	 * 
 	 * @param int $id The id of the thread
@@ -471,7 +499,7 @@ class FrontendProfilesModel
 	 */
 	public static function getUserActivities($user_id, $offset = 0, $limit = 10)
 	{
-		return (array) FrontendModel::getDB()->getRecords(
+		$activities = (array) FrontendModel::getDB()->getRecords(
 			'SELECT *
 			 FROM profiles_activity AS pa
 			 WHERE pa.user_id = ?
@@ -483,6 +511,11 @@ class FrontendProfilesModel
 				(int) $limit
 			)
 		);
+
+		// add comments
+		foreach($activities as &$activity) $activity['comments'] = FrontendProfilesModel::getActivityComments($activity['id']);
+
+		return $activities;
 	}
 
 	/**
