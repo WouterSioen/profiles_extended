@@ -89,7 +89,8 @@ class FrontendProfilesModel
 		$comments = (array) FrontendModel::getDB()->getRecords(
 			'SELECT pac.text, pac.created_on, pac.user_id
 			 FROM profiles_activity_comments AS pac
-			 WHERE pac.activity_id = ? AND pac.status = ?', 
+			 WHERE pac.activity_id = ? AND pac.status = ?
+			 ORDER BY pac.created_on ASC', 
 			array((int) $activity_id, (string) 'visible')
 		);
 

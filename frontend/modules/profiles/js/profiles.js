@@ -310,6 +310,7 @@ jsFrontend.profiles = {
 				$user_id = $('#profileId').html();
 				$commentText = $(this).parent().find('.inputText').val();
 				$divToAdd = $(this).parent().parent();
+				$divToRemove = $(this).parent();
 
 				$.ajax(
 				{
@@ -335,7 +336,8 @@ jsFrontend.profiles = {
 						$html += '<div class="messageContent"><header class="hd"><h4><a href="{$var|geturlforblock:'profiles'}/' + data.data.url + '">' + data.data.first_name + ' ' + data.data.last_name;
 						$html += '</a></h4><ul><li>{$lblJustNow}</li></ul></header><p>' + $commentText + '</p></div></div>';
 
-						$divToAdd.prepend($html);
+						$divToRemove.remove();
+						$divToAdd.append($html);
 						$('.messageHolder').slideDown(250);
 					}
 				});
