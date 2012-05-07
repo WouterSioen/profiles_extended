@@ -27,9 +27,16 @@
 					{iteration:activities}
 						{$settings.first_name} {$settings.last_name} {$activities.action} <a href="{$activities.url}">{$activities.title}</a>.
 						<p class="date">{$activities.created_on}</p>
+						<div class="comments">
+							<p id="{$activities.id}" class="bigInput">
+								<input type="text" class="inputText">
+								<input class="inputSubmit addComment" type="submit" value="{$lblComment|ucfirst}">
+							</p>
+						</div>
 					{/iteration:activities}
 				</section>
 			{/option:activities}
 		</div>
+		<span id="profileId" class="hidden">{$loggedInProfileId}</span>
 	</div>
 </section>

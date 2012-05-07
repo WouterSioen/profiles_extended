@@ -45,7 +45,7 @@ class FrontendProfilesIndex extends FrontendBaseBlock
 	private $customSettings;
 
 	/**
-	 * The Age of the logged in profile
+	 * The Age of the in profile
 	 * 
 	 * @var int
 	 */
@@ -110,5 +110,6 @@ class FrontendProfilesIndex extends FrontendBaseBlock
 		$this->tpl->assign('info', $this->customSettings);
 		$this->tpl->assign('age', $this->age);
 		$this->tpl->assign('activities', $this->activities);
+		$this->tpl->assign('loggedInProfileId', FrontendProfilesAuthentication::getProfile()->getId());
 	}
 }

@@ -497,6 +497,27 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Inserst a comment
+	 * 
+	 * @param int $activity_id
+	 * @param int $user_id
+	 * @param string $text
+	 * @return int
+	 */
+	public static function insertComment($activity_id, $user_id, $text)
+	{
+		$values = array(
+			'activity_id' => $activity_id,
+			'user_id' => $user_id,
+			'text' => $text,
+			'created_on' => date('Y-m-d H:i:s'),
+			'status' => 'visible'
+		);
+
+		return FrontendModel::getDB(true)->insert('profiles_activity_comments', $values);
+	}
+
+	/**
 	 * Inserts a new message in an existing thread
 	 * 
 	 * @param int $threadId The id of the thread

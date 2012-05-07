@@ -21,6 +21,8 @@ jsFrontend.profiles = {
 		jsFrontend.profiles.markRead();
 
 		jsFrontend.profiles.dropdown();
+
+		jsFrontend.profiles.addComment();
 	},
 
 	/**
@@ -285,6 +287,56 @@ jsFrontend.profiles = {
 					{
 						$('.' + $threadId + ' h4').removeClass('unread');
 						$('.markRead#' + $threadId).parent().remove();
+					}
+				});
+			});
+		}
+	},
+
+	/**
+	 * Ajax action to add comments on an activity stream item
+	 */
+	addComment: function()
+	{
+		// grab element(s)
+		$button = $('.addComment');
+
+		if($button.length > 0)
+		{
+			$button.on('click', function()
+			{
+				// get data
+				$activity_id = $(this).parent().attr('id');
+				$user_id = $('#profileId').html();
+				$commentText = $(this).parent().find('.inputText').val();
+				$divToAdd = $(this).parent();
+
+				$.ajax(
+				{
+					data:
+					{
+						fork: { module: 'profiles', action: 'add_comment'},
+						activity: $activity_id,
+						userId: $user_id,
+						text: $commentText
+					},
+					success: function(data, textStatus)
+					{
+						// add avatar part
+						$html = '<div class="messageHolder clearfix" style="display:none"><div class="imageHolder"><img src="{$FRONTEND_FILES_URL}';
+						if(data.avatar) $html += '/profiles/avatars/64x64/' + data.avatar + '" alt="" ';
+						else
+						{
+							$html += '/backend_users/avatars/64x64/no-avatar.gif" ';
+							if(data.facebook_id) $html += ' alt="' + data.url + '" class="replaceWithFacebook" data-facebook-id="' + data.facebook_id + '" ';
+						}
+						$html += 'width="48" height="48" /></div>';
+						// add text
+						$html += '<div class="messageContent"><header class="hd"><h4><a href="{$var|geturlforblock:'profiles'}/' + data.url + '">' + data.first_name + ' ' + data.last_name;
+						$html += '</a></h4><ul><li>{$lblJustNow}</li></ul></header><p>' + $commentText + '</p></div></div>';
+
+						$divToAdd.prepend($html);
+						$('.messageHolder').slideDown(250);
 					}
 				});
 			});
