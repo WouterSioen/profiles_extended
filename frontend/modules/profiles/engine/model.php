@@ -462,6 +462,21 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Gets the activity stream for a user
+	 * 
+	 * @param int $user_id
+	 * @return array
+	 */
+	public static function getUserActivities($user_id)
+	{
+		return (array) FrontendModel::getDB()->getRecords(
+			'SELECT *
+			 FROM profiles_activity AS pa
+			 WHERE pa.user_id = ?', (int) $user_id
+		);
+	}
+
+	/**
 	 * Insert a new profile.
 	 *
 	 * @param array $values Profile data.
@@ -648,6 +663,28 @@ class FrontendProfilesModel
 		$tpl->assign('loginUrl', FrontendNavigation::getURLForBlock('profiles', 'login') . $queryString);
 		$tpl->assign('registerUrl', FrontendNavigation::getURLForBlock('profiles', 'register'));
 		$tpl->assign('forgotPasswordUrl', FrontendNavigation::getURLForBlock('profiles', 'forgot_password'));
+	}
+
+	/**
+	 * Publish to a uses activity stream
+	 * 
+	 * @param int $user_id
+	 * @param string $action
+	 * @param string $title
+	 * @param string $url
+	 * @return int
+	 */
+	public static function publishToActivityStream($user_id, $action, $title, $url)
+	{
+		$values = array(
+			'user_id' => $user_id,
+			'action' => $action,
+			'title' => $title,
+			'url' => $url,
+			'created_on' => date('Y-m-d H:i:s', time())
+		);
+
+		return FrontendModel::getDB(true)->insert('profiles_activity', $values);
 	}
 
 	/**
