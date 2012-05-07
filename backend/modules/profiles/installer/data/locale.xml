@@ -630,6 +630,10 @@
   </backend>
   <frontend>
     <core>
+      <item type="label" name="Activities">
+        <translation language="nl"><![CDATA[Activiteiten.]]></translation>
+        <translation language="en"><![CDATA[Activities.]]></translation>
+      </item>
       <item type="label" name="Alerts">
         <translation language="nl"><![CDATA[Stuur mij de tweewekelijkse nieuwsbrief met info over nieuwe activiteiten.]]></translation>
         <translation language="en"><![CDATA[Send me the biweekly newslettre with info about new activities.]]></translation>
@@ -669,6 +673,10 @@
       <item type="label" name="Info">
         <translation language="nl"><![CDATA[Informatie]]></translation>
         <translation language="en"><![CDATA[Information]]></translation>
+      </item>
+      <item type="label" name="JustNow">
+        <translation language="nl"><![CDATA[Net toegevoegd]]></translation>
+        <translation language="en"><![CDATA[Added just now]]></translation>
       </item>
       <item type="label" name="LivesIn">
         <translation language="nl"><![CDATA[Woont in]]></translation>
