@@ -17,6 +17,13 @@
 class FrontendProfilesIndex extends FrontendBaseBlock
 {
 	/**
+	 * The activities of the user
+	 * 
+	 * @var array
+	 */
+	private $activities;
+
+	/**
 	 * The current profile.
 	 *
 	 * @var FrontendProfilesProfile
@@ -85,11 +92,11 @@ class FrontendProfilesIndex extends FrontendBaseBlock
 			}
 			else $this->age = '';
 			$this->customSettings = FrontendProfilesModel::getCustomSettings($id);
+			$this->activities = FrontendProfilesModel::getUserActivities($id);
+			// change the action of the activity to the right label
+			foreach($this->activities as &$activity) $activity['action'] = FL::lbl($activity['action']);
 		}
-		else
-		{
-			$this->redirect(FrontendNavigation::getURL(404));
-		}
+		else $this->redirect(FrontendNavigation::getURL(404));
 	}
 
 	/**
@@ -102,5 +109,6 @@ class FrontendProfilesIndex extends FrontendBaseBlock
 		$this->tpl->assign('settings', $this->settings);
 		$this->tpl->assign('info', $this->customSettings);
 		$this->tpl->assign('age', $this->age);
+		$this->tpl->assign('activities', $this->activities);
 	}
 }

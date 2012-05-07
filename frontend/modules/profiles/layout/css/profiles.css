@@ -185,3 +185,7 @@
 	#profile .profilePreview .avatar {
 		padding-top: 7px;
 	}
+
+	#activities .date {
+		color: #444;
+	}

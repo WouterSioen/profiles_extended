@@ -12,13 +12,24 @@
 				{option:age}{$age} {$lblYearsOld}{/option:age}{option:settings.city} - {$lblLivesIn} {$settings.city}{/option:settings.city}
 			</p>
 			{option:info}
-				<h4>{$lblInfo}</h4>
-				{iteration:info}
-					{option:info.value}
-						{$info.title}: {$info.value}<br/>
-					{/option:info.value}
-				{/iteration:info}
+				<section id="info" class="mod">
+					<h4>{$lblInfo}</h4>
+					{iteration:info}
+						{option:info.value}
+							{$info.title}: {$info.value}<br/>
+						{/option:info.value}
+					{/iteration:info}
+				</section>
 			{/option:info}
+			{option:activities}
+				<section id="activities" class="mod">
+					<h4>{$lblActivities}</h4>
+					{iteration:activities}
+						{$settings.first_name} {$settings.last_name} {$activities.action} <a href="{$activities.url}">{$activities.title}</a>.
+						<p class="date">{$activities.created_on}</p>
+					{/iteration:activities}
+				</section>
+			{/option:activities}
 		</div>
 	</div>
 </section>
