@@ -19,7 +19,7 @@
 								</a>
 							</h4>
 							<ul>
-								<li>{$threads.created_on}</li>
+								<li>{$threads.created_on|date:{$dateFormatLong}:{$LANGUAGE}} {$threads.created_on|date:'H:i'}</li>
 							</ul>
 						</header>
 						<p>

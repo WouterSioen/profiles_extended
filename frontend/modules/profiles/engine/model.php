@@ -87,7 +87,7 @@ class FrontendProfilesModel
 	public static function getActivityComments($activity_id)
 	{
 		$comments = (array) FrontendModel::getDB()->getRecords(
-			'SELECT pac.text, pac.created_on, pac.user_id
+			'SELECT pac.text, UNIX_TIMESTAMP(pac.created_on) AS created_on, pac.user_id
 			 FROM profiles_activity_comments AS pac
 			 WHERE pac.activity_id = ? AND pac.status = ?
 			 ORDER BY pac.created_on ASC', 
@@ -501,7 +501,7 @@ class FrontendProfilesModel
 	public static function getUserActivities($user_id, $offset = 0, $limit = 10)
 	{
 		$activities = (array) FrontendModel::getDB()->getRecords(
-			'SELECT *
+			'SELECT pa.id, pa.user_id, pa.action, pa.title, pa.url, pa.status, UNIX_TIMESTAMP(pa.created_on) AS created_on
 			 FROM profiles_activity AS pa
 			 WHERE pa.user_id = ?
 			 ORDER BY pa.created_on DESC

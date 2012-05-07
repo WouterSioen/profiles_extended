@@ -28,7 +28,7 @@
 							<header class="hd">
 								<h4><a href="{$var|geturlforblock:'profiles'}/{$messages.url}">{$messages.display_name}</a></h4>
 								<ul>
-									<li>{$messages.created_on}</li>
+									<li>{$messages.created_on|date:{$dateFormatLong}:{$LANGUAGE}} {$messages.created_on|date:'H:i'}</li>
 								</ul>
 							</header>
 							<p>

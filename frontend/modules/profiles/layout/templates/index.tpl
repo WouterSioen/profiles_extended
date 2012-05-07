@@ -26,7 +26,7 @@
 					<h3>{$lblActivities}</h3>
 					{iteration:activities}
 						{$settings.first_name} {$settings.last_name} {$activities.action} <a href="{$activities.url}">{$activities.title}</a>.
-						<p class="date">{$activities.created_on}</p>
+						<p class="date">{$activities.created_on|timeago}</p>
 						<div class="comments" id="{$activities.id}" >
 							{option:activities.comments}
 								{iteration:activities.comments}
@@ -42,7 +42,7 @@
 										<div class="messageContent">
 											<header class="hd">
 												<h4><a href="{$var|geturlforblock:'profiles'}/{$activities.comments.url">{$activities.comments.username}</a></h4>
-												<ul><li>{$activities.comments.created_on}</li></ul>
+												<ul><li>{$activities.comments.created_on|timeago}</li></ul>
 											</header>
 											<p>{$activities.comments.text}</p>
 										</div>
