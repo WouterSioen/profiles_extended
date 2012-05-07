@@ -201,8 +201,8 @@ class FrontendBlogDetail extends FrontendBaseBlock
 		// assign navigation
 		$this->tpl->assign('navigation', FrontendBlogModel::getNavigation($this->record['id']));
 
-		// if a useris logged in, add it to the activity stream
-		if(FrontendProfilesAuthentication::isLoggedIn())
+		// if a useris logged in, add it to the activity stream, but not if it he's redirected after commenting
+		if(FrontendProfilesAuthentication::isLoggedIn() && !$this->URL->getParameter('comment', 'string'))
 		{
 			FrontendProfilesModel::publishToActivityStream(
 				FrontendProfilesAuthentication::getProfile()->getId(),
