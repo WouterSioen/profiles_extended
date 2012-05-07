@@ -465,14 +465,23 @@ class FrontendProfilesModel
 	 * Gets the activity stream for a user
 	 * 
 	 * @param int $user_id
+	 * @param int [optional] $offset The offset
+	 * @param int [optional] $limit The limit
 	 * @return array
 	 */
-	public static function getUserActivities($user_id)
+	public static function getUserActivities($user_id, $offset = 0, $limit = 10)
 	{
 		return (array) FrontendModel::getDB()->getRecords(
 			'SELECT *
 			 FROM profiles_activity AS pa
-			 WHERE pa.user_id = ?', (int) $user_id
+			 WHERE pa.user_id = ?
+			 ORDER BY pa.created_on DESC
+			 LIMIT ?,?', 
+			array(
+				(int) $user_id,
+				(int) $offset,
+				(int) $limit
+			)
 		);
 	}
 
