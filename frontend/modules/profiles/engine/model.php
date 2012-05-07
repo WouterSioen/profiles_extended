@@ -676,6 +676,18 @@ class FrontendProfilesModel
 	 */
 	public static function publishToActivityStream($user_id, $action, $title, $url)
 	{
+		// check if action already exists
+		$item = FrontendModel::getDB()->getVar(
+			'SELECT pa.id
+			 FROM profiles_activity AS pa
+			 WHERE pa.user_id = ? AND pa.action = ? AND pa.title = ?',
+			array(
+				(int) $user_id,
+				(string) $action,
+				(string) $title
+			)
+		);
+
 		$values = array(
 			'user_id' => $user_id,
 			'action' => $action,
@@ -684,7 +696,8 @@ class FrontendProfilesModel
 			'created_on' => date('Y-m-d H:i:s', time())
 		);
 
-		return FrontendModel::getDB(true)->insert('profiles_activity', $values);
+		if($item > 0) return FrontendModel::getDB(true)->update('profiles_activity', $values, 'id = ?', (int) $item);
+		else return FrontendModel::getDB(true)->insert('profiles_activity', $values);
 	}
 
 	/**
