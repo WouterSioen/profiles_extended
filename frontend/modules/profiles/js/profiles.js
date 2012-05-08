@@ -334,7 +334,7 @@ jsFrontend.profiles = {
 						$html += 'width="48" height="48" /></div>';
 						// add text
 						$html += '<div class="messageContent"><p><a href="{$var|geturlforblock:'profiles'}/' + data.data.url + '">' + data.data.first_name + ' ' + data.data.last_name;
-						$html += '</a></p> - {$lblJustNow}<p>' + $commentText + '</p></div></div>';
+						$html += '</a> - {$lblAddedJustNow}</p><p>' + $commentText + '</p></div></div>';
 
 						$divToRemove.remove();
 						$divToAdd.append($html);
