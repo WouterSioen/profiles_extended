@@ -40,7 +40,7 @@ class FrontendProfilesLogin extends FrontendBaseBlock
 		}
 
 		// profile already logged in
-		else $this->redirect(FrontendNavigation::getURLForBlock('profiles'));
+		else $this->redirect(FrontendNavigation::getURLForBlock('profiles') . '/' . FrontendProfilesAuthentication::getProfile()->getUrl());
 	}
 
 	/**
@@ -164,8 +164,10 @@ class FrontendProfilesLogin extends FrontendBaseBlock
 				// trigger event
 				FrontendModel::triggerEvent('profiles', 'after_logged_in', array('id' => $profileId));
 
+				$redirect = FrontendProfilesAuthentication::getProfile()->getUrl();
+
 				// redirect
-				$this->redirect(FrontendNavigation::getURLForBlock('profiles'));
+				$this->redirect(FrontendNavigation::getURLForBlock('profiles') . '/' . $redirect);
 			}
 		}
 	}
