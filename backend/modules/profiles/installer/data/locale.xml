@@ -106,6 +106,14 @@
         <translation language="uk"><![CDATA[Країна]]></translation>
         <translation language="lt"><![CDATA[šalis]]></translation>
       </item>
+      <item type="label" name="Datatype">
+        <translation language="nl"><![CDATA[datatype]]></translation>
+        <translation language="en"><![CDATA[datatype]]></translation>
+      </item>
+      <item type="label" name="DbTable">
+        <translation language="nl"><![CDATA[databank tabel]]></translation>
+        <translation language="en"><![CDATA[database table]]></translation>
+      </item>
       <item type="label" name="Deleted">
         <translation language="nl"><![CDATA[verwijderd]]></translation>
         <translation language="en"><![CDATA[deleted]]></translation>
@@ -317,6 +325,10 @@
         <translation language="hu"><![CDATA[visszaállít]]></translation>
         <translation language="es"><![CDATA[rescuperar]]></translation>
         <translation language="uk"><![CDATA[Поновити]]></translation>
+      </item>
+      <item type="label" name="Values">
+        <translation language="nl"><![CDATA[waardes]]></translation>
+        <translation language="en"><![CDATA[values]]></translation>
       </item>
       <item type="message" name="ConfirmBlock">
         <translation language="nl"><![CDATA[Ben je zeker dat je "%1$s" wil blokkeren?]]></translation>
@@ -627,12 +639,54 @@
         <translation language="es"><![CDATA[Acción desconocida.]]></translation>
       </item>
     </profiles>
+    <core>
+      <item type="label" name="AlertsNewsletter">
+        <translation language="nl"><![CDATA[notificaties en niewsbrief]]></translation>
+        <translation language="en"><![CDATA[alerts and newsletter]]></translation>
+      </item>
+      <item type="label" name="FacebookSettings">
+        <translation language="nl"><![CDATA[Facebook instellingen]]></translation>
+        <translation language="en"><![CDATA[Facebook settings]]></translation>
+      </item>
+      <item type="label" name="ProfileDropdown">
+        <translation language="nl"><![CDATA[Profielmenu]]></translation>
+        <translation language="en"><![CDATA[Profile menu]]></translation>
+      </item>
+      <item type="label" name="Userinfo">
+        <translation language="nl"><![CDATA[gebruikers info]]></translation>
+        <translation language="en"><![CDATA[User info]]></translation>
+      </item>
+      <item type="label" name="MessageDetail">
+        <translation language="nl"><![CDATA[bericht detail]]></translation>
+        <translation language="en"><![CDATA[message detail]]></translation>
+      </item>
+      <item type="label" name="Messages">
+        <translation language="nl"><![CDATA[berichten]]></translation>
+        <translation language="en"><![CDATA[messages]]></translation>
+      </item>
+      <item type="label" name="NewMessage">
+        <translation language="nl"><![CDATA[nieuw bericht]]></translation>
+        <translation language="en"><![CDATA[new message]]></translation>
+      </item>
+      <item type="label" name="PasswordEmail">
+        <translation language="nl"><![CDATA[wachtwoord en email instellingen]]></translation>
+        <translation language="en"><![CDATA[password and email settings]]></translation>
+      </item>
+      <item type="label" name="Userinfo">
+        <translation language="nl"><![CDATA[gebruikers info]]></translation>
+        <translation language="en"><![CDATA[User info]]></translation>
+      </item>
+    </core>
   </backend>
   <frontend>
     <core>
       <item type="label" name="Activities">
         <translation language="nl"><![CDATA[Activiteiten.]]></translation>
         <translation language="en"><![CDATA[Activities.]]></translation>
+      </item>
+      <item type="label" name="AddedJustNow">
+        <translation language="nl"><![CDATA[net toegevoegd]]></translation>
+        <translation language="en"><![CDATA[added just now]]></translation>
       </item>
       <item type="label" name="Alerts">
         <translation language="nl"><![CDATA[Stuur mij de tweewekelijkse nieuwsbrief met info over nieuwe activiteiten.]]></translation>
@@ -673,10 +727,6 @@
       <item type="label" name="Info">
         <translation language="nl"><![CDATA[Informatie]]></translation>
         <translation language="en"><![CDATA[Information]]></translation>
-      </item>
-      <item type="label" name="JustNow">
-        <translation language="nl"><![CDATA[Net toegevoegd]]></translation>
-        <translation language="en"><![CDATA[Added just now]]></translation>
       </item>
       <item type="label" name="LivesIn">
         <translation language="nl"><![CDATA[Woont in]]></translation>
@@ -733,6 +783,10 @@
       <item type="label" name="Profiles">
         <translation language="nl"><![CDATA[Profielen]]></translation>
         <translation language="en"><![CDATA[Profiles]]></translation>
+      </item>
+      <item type="label" name="Read">
+        <translation language="nl"><![CDATA[las]]></translation>
+        <translation language="en"><![CDATA[read]]></translation>
       </item>
       <item type="label" name="RegisterNow">
         <translation language="nl"><![CDATA[Registreer nu]]></translation>

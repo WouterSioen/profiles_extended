@@ -81,7 +81,7 @@ class ProfilesInstaller extends ModuleInstaller
 		$resendActivationId = $this->insertExtra('profiles', 'block', 'ResendActivation', 'resend_activation', null, 'N', 5010);
 		$overviewId = $this->insertExtra('profiles', 'block', 'Overview', 'overview', null, 'N', 5011);
 		$facebookSettingsId = $this->insertExtra('profiles', 'block', 'FacebookSettings', 'facebook_settings', null, 'N', 5012);
-		$messagesId = $this->insertExtra('profiles', 'block', 'Messsages', 'messages', null, 'N', 5013);
+		$messagesId = $this->insertExtra('profiles', 'block', 'Messages', 'messages', null, 'N', 5013);
 		$newMessageId = $this->insertExtra('profiles', 'block', 'NewMessage', 'new_message', null, 'N', 5014);
 		$messageDetailId = $this->insertExtra('profiles', 'block', 'MessageDetail', 'message_detail', null, 'N', 5015);
 		$profileDropdownId = $this->insertExtra('profiles', 'widget', 'ProfileDropdown', 'dropdown', null, 'N', 5016);
