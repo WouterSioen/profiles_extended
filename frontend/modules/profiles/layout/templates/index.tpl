@@ -40,10 +40,8 @@
 											{/option:!activities.comments.avatar}
 										</div>
 										<div class="messageContent">
-											<header class="hd">
-												<h4><a href="{$var|geturlforblock:'profiles'}/{$activities.comments.url">{$activities.comments.username}</a></h4>
-												<ul><li>{$activities.comments.created_on|timeago}</li></ul>
-											</header>
+											<p><a href="{$var|geturlforblock:'profiles'}/{$activities.comments.url">{$activities.comments.username}</a>
+											{$lblWrote} {$activities.comments.created_on|timeago}</p>
 											<p>{$activities.comments.text}</p>
 										</div>
 									</div>

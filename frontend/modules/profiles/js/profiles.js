@@ -333,8 +333,8 @@ jsFrontend.profiles = {
 						}
 						$html += 'width="48" height="48" /></div>';
 						// add text
-						$html += '<div class="messageContent"><header class="hd"><h4><a href="{$var|geturlforblock:'profiles'}/' + data.data.url + '">' + data.data.first_name + ' ' + data.data.last_name;
-						$html += '</a></h4><ul><li>{$lblJustNow}</li></ul></header><p>' + $commentText + '</p></div></div>';
+						$html += '<div class="messageContent"><p><a href="{$var|geturlforblock:'profiles'}/' + data.data.url + '">' + data.data.first_name + ' ' + data.data.last_name;
+						$html += '</a></p> - {$lblJustNow}<p>' + $commentText + '</p></div></div>';
 
 						$divToRemove.remove();
 						$divToAdd.append($html);
