@@ -40,7 +40,7 @@ class FrontendProfilesLogin extends FrontendBaseBlock
 		}
 
 		// profile already logged in
-		else $this->redirect(SITE_URL);
+		else $this->redirect(FrontendNavigation::getURLForBlock('profiles'));
 	}
 
 	/**
