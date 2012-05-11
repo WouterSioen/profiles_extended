@@ -70,7 +70,7 @@ class BackendProfilesAddUserinfo extends BackendBaseActionEdit
 				$values['title'] = $txtTitle->getValue();
 				$values['db_title'] = SpoonFilter::urlise($txtTitle->getValue());
 				$values['datatype'] = $ddmType->getValue();
-				if($ddmType->getValue() == 'Enum') $values['values'] = ' ;' . $txtValues->getValue();
+				if($ddmType->getValue() == 'Enum') $values['values'] = ';' . str_replace('; ', ';', $txtValues->getValue());
 
 				$infoId = BackendProfilesModel::insertUserInfo($values);
 			}
