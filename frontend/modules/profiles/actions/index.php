@@ -111,5 +111,7 @@ class FrontendProfilesIndex extends FrontendBaseBlock
 		$this->tpl->assign('age', $this->age);
 		$this->tpl->assign('activities', $this->activities);
 		$this->tpl->assign('loggedInProfileId', FrontendProfilesAuthentication::getProfile()->getId());
+		// boolean to check if delete buttons should be added to activities
+		$this->tpl->assign('deletable', (FrontendProfilesAuthentication::getProfile()->getId() == $this->profile->getId()));
 	}
 }

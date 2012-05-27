@@ -20,6 +20,19 @@ class FrontendProfilesModel
 	const MAX_DISPLAY_NAME_CHANGES = 2;
 
 	/**
+	 * Delete an activity
+	 * 
+	 * @param int $id The id of the activity
+	 * @return int
+	 */
+	public static function deleteActivity($id)
+	{
+		FrontendModel::getDB(true)->delete('profiles_activity', 'id = ?', (int) $id);
+		// also remove the comments
+		FrontendModel::getDB(true)->delete('profiles_activity_comments', 'activity_id = ?', (int) $id);
+	}
+
+	/**
 	 * Delete a setting.
 	 *
 	 * @param int $id Profile id.

@@ -23,6 +23,8 @@ jsFrontend.profiles = {
 		jsFrontend.profiles.dropdown();
 
 		jsFrontend.profiles.addComment();
+
+		jsFrontend.profiles.removeActivity();
 	},
 
 	/**
@@ -306,7 +308,7 @@ jsFrontend.profiles = {
 			$button.on('click', function()
 			{
 				// get data
-				$activity_id = $(this).parent().parent().attr('id');
+				$activity_id = $(this).parent().parent().parent().attr('id');
 				$user_id = $('#profileId').html();
 				$commentText = $(this).parent().find('.inputText').val();
 				$divToAdd = $(this).parent().parent();
@@ -339,6 +341,39 @@ jsFrontend.profiles = {
 						$divToRemove.remove();
 						$divToAdd.append($html);
 						$('.messageHolder').slideDown(250);
+					}
+				});
+			});
+		}
+	},
+
+	/**
+	 * Ajax action to remove an activity
+	 */
+	removeActivity: function()
+	{
+		// grab element(s)
+		$button = $('.deleteButton');
+
+		if($button.length > 0)
+		{
+			$button.on('click', function()
+			{
+				// get data
+				$activity_id = $(this).parent().attr('id');
+				$divToRemove = $(this).parent();
+
+				$.ajax(
+				{
+					data:
+					{
+						fork: { module: 'profiles', action: 'remove_activity'},
+						activityId: $activity_id,
+					},
+					success: function(data, textStatus)
+					{
+						// remove activity
+						$divToRemove.remove();
 					}
 				});
 			});

@@ -200,3 +200,13 @@
 	#activities .date {
 		color: #444;
 	}
+
+.deleteButton {
+	float: right;
+	cursor: pointer;
+	display: none;
+}
+
+.activity:hover > .deleteButton {
+	display: block;
+}

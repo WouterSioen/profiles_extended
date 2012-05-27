@@ -25,32 +25,35 @@
 				<section id="activities" class="mod">
 					<h3>{$lblActivities}</h3>
 					{iteration:activities}
-						{$settings.first_name} {$settings.last_name} {$activities.action} <a href="{$activities.url}">{$activities.title}</a>.
-						<p class="date">{$activities.created_on|timeago}</p>
-						<div class="comments" id="{$activities.id}" >
-							{option:activities.comments}
-								{iteration:activities.comments}
-									<div class="messageHolder clearfix" >
-										<div class="imageHolder">
-											{option:activities.comments.avatar}
-												<img src="{$FRONTEND_FILES_URL}/profiles/avatars/64x64/{$activities.comments.avatar}" class="avatar" width="48" height="48" alt="" />
-											{/option:activities.comments.avatar}
-											{option:!activities.comments.avatar}
-												<img src="{$FRONTEND_CORE_URL}/layout/images/default_author_avatar.gif" width="48" height="48" alt="{$activities.comments.displayName}" class="avatar replaceWithFacebook" data-facebook-id="{option:activities.comments.facebook_id}{$activities.comments.facebook_id}{/option:activities.comments.facebook_id}" />
-											{/option:!activities.comments.avatar}
+						<div class="activity" id="{$activities.id}">
+							{option:deletable}<img class="deleteButton" src="http://log.concept2.com/images/delete.png"/>{/option:deletable}
+							{$settings.first_name} {$settings.last_name} {$activities.action} <a href="{$activities.url}">{$activities.title}</a>.
+							<p class="date">{$activities.created_on|timeago}</p>
+							<div class="comments">
+								{option:activities.comments}
+									{iteration:activities.comments}
+										<div class="messageHolder clearfix" >
+											<div class="imageHolder">
+												{option:activities.comments.avatar}
+													<img src="{$FRONTEND_FILES_URL}/profiles/avatars/64x64/{$activities.comments.avatar}" class="avatar" width="48" height="48" alt="" />
+												{/option:activities.comments.avatar}
+												{option:!activities.comments.avatar}
+													<img src="{$FRONTEND_CORE_URL}/layout/images/default_author_avatar.gif" width="48" height="48" alt="{$activities.comments.displayName}" class="avatar replaceWithFacebook" data-facebook-id="{option:activities.comments.facebook_id}{$activities.comments.facebook_id}{/option:activities.comments.facebook_id}" />
+												{/option:!activities.comments.avatar}
+											</div>
+											<div class="messageContent">
+												<p><a href="{$var|geturlforblock:'profiles'}/{$activities.comments.url">{$activities.comments.username}</a>
+												{$lblWrote} {$activities.comments.created_on|timeago}</p>
+												<p>{$activities.comments.text}</p>
+											</div>
 										</div>
-										<div class="messageContent">
-											<p><a href="{$var|geturlforblock:'profiles'}/{$activities.comments.url">{$activities.comments.username}</a>
-											{$lblWrote} {$activities.comments.created_on|timeago}</p>
-											<p>{$activities.comments.text}</p>
-										</div>
-									</div>
-								{/iteration:activities.comments}
-							{/option:activities.comments}
-							<p class="bigInput">
-								<input type="text" class="inputText">
-								<input class="inputSubmit addComment" type="submit" value="{$lblComment|ucfirst}">
-							</p>
+									{/iteration:activities.comments}
+								{/option:activities.comments}
+								<p class="bigInput">
+									<input type="text" class="inputText">
+									<input class="inputSubmit addComment" type="submit" value="{$lblComment|ucfirst}">
+								</p>
+							</div>
 						</div>
 					{/iteration:activities}
 				</section>
