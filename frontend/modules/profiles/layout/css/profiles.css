@@ -201,12 +201,14 @@
 		color: #444;
 	}
 
-.deleteButton {
+.deleteButton,
+.deleteCommentButton {
 	float: right;
 	cursor: pointer;
 	display: none;
 }
 
-.activity:hover > .deleteButton {
+.activity:hover > .deleteButton,
+.messageHolder:hover > .deleteCommentButton {
 	display: block;
 }

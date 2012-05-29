@@ -32,7 +32,13 @@
 							<div class="comments">
 								{option:activities.comments}
 									{iteration:activities.comments}
-										<div class="messageHolder clearfix" >
+										<div class="messageHolder clearfix" id="comment-{$activities.comments.id}">
+											{option:deletable}<img class="deleteCommentButton" src="http://log.concept2.com/images/delete.png"/>{/option:deletable}
+											{option:!deletable}
+												{option:activities.comments.deletable}
+													<img class="deleteCommentButton" src="http://log.concept2.com/images/delete.png"/>
+												{/option:activities.comments.deletable}
+											{/option:!deletable}
 											<div class="imageHolder">
 												{option:activities.comments.avatar}
 													<img src="{$FRONTEND_FILES_URL}/profiles/avatars/64x64/{$activities.comments.avatar}" class="avatar" width="48" height="48" alt="" />

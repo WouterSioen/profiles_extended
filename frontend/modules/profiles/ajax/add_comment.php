@@ -57,6 +57,7 @@ class FrontendProfilesAjaxAddComment extends FrontendBaseAJAXAction
 		$profile = FrontendProfilesModel::get($this->user_id);
 		$settings = $profile->getSettings();
 		$settings['url'] = $profile->getUrl();
+		$settings['id'] = $data;
 		$this->output(self::OK, $settings);
 	}
 

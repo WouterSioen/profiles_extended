@@ -33,6 +33,17 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Delete a comment from an activity
+	 * 
+	 * @param int $id The id of the comment
+	 * @return int
+	 */
+	public static function deleteActivityComment($id)
+	{
+		FrontendModel::getDB(true)->delete('profiles_activity_comments', 'id = ?', (int) $id);
+	}
+
+	/**
 	 * Delete a setting.
 	 *
 	 * @param int $id Profile id.
@@ -100,7 +111,7 @@ class FrontendProfilesModel
 	public static function getActivityComments($activity_id)
 	{
 		$comments = (array) FrontendModel::getDB()->getRecords(
-			'SELECT pac.text, UNIX_TIMESTAMP(pac.created_on) AS created_on, pac.user_id
+			'SELECT pac.id, pac.text, UNIX_TIMESTAMP(pac.created_on) AS created_on, pac.user_id
 			 FROM profiles_activity_comments AS pac
 			 WHERE pac.activity_id = ? AND pac.status = ?
 			 ORDER BY pac.created_on ASC', 
@@ -115,6 +126,7 @@ class FrontendProfilesModel
 			$comment['avatar'] = $profile->getSetting('avatar');
 			$comment['facebook_id'] = $profile->getSetting('facebook_id');
 			$comment['url'] = $profile->getUrl();
+			$comment['deletable'] = ($profile->getId() == FrontendProfilesAuthentication::getProfile()->getId());
 		}
 
 		return $comments;

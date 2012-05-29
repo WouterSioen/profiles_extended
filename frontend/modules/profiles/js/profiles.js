@@ -25,6 +25,8 @@ jsFrontend.profiles = {
 		jsFrontend.profiles.addComment();
 
 		jsFrontend.profiles.removeActivity();
+
+		jsFrontend.profiles.removeActivityComment();
 	},
 
 	/**
@@ -325,8 +327,9 @@ jsFrontend.profiles = {
 					},
 					success: function(data, textStatus)
 					{
+						console.log(data.data);
 						// add avatar part
-						$html = '<div class="messageHolder clearfix" style="display:none"><div class="imageHolder"><img src="{$FRONTEND_FILES_URL}';
+						$html = '<div class="messageHolder clearfix" id="comment-' + data.data.id + '" style="display:none"><img class="deleteCommentButton" src="http://log.concept2.com/images/delete.png"/><div class="imageHolder"><img src="{$FRONTEND_FILES_URL}';
 						if(data.data.avatar) $html += '/profiles/avatars/64x64/' + data.data.avatar + '" alt="" ';
 						else
 						{
@@ -341,6 +344,9 @@ jsFrontend.profiles = {
 						$divToRemove.remove();
 						$divToAdd.append($html);
 						$('.messageHolder').slideDown(250);
+
+						// reinitialize the removecomment part
+						jsFrontend.profiles.removeActivityComment();
 					}
 				});
 			});
@@ -369,6 +375,39 @@ jsFrontend.profiles = {
 					{
 						fork: { module: 'profiles', action: 'remove_activity'},
 						activityId: $activity_id,
+					},
+					success: function(data, textStatus)
+					{
+						// remove activity
+						$divToRemove.remove();
+					}
+				});
+			});
+		}
+	},
+
+	/**
+	 * Ajax action to remove a comment from an activity stream
+	 */
+	removeActivityComment: function()
+	{
+		// grab element(s)
+		$button = $('.deleteCommentButton');
+
+		if($button.length > 0)
+		{
+			$button.on('click', function()
+			{
+				// get data
+				$comment_id = $(this).parent().attr('id').replace('comment-', '');
+				$divToRemove = $(this).parent();
+
+				$.ajax(
+				{
+					data:
+					{
+						fork: { module: 'profiles', action: 'remove_activity_comment'},
+						commentId: $comment_id,
 					},
 					success: function(data, textStatus)
 					{
