@@ -206,6 +206,9 @@
 	float: right;
 	cursor: pointer;
 	display: none;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/delete.gif');
 }
 
 .activity:hover > .deleteButton,

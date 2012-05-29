@@ -26,17 +26,17 @@
 					<h3>{$lblActivities}</h3>
 					{iteration:activities}
 						<div class="activity" id="{$activities.id}">
-							{option:deletable}<img class="deleteButton" src="http://log.concept2.com/images/delete.png"/>{/option:deletable}
+							{option:deletable}<span class="deleteButton"></span>{/option:deletable}
 							{$settings.first_name} {$settings.last_name} {$activities.action} <a href="{$activities.url}">{$activities.title}</a>.
 							<p class="date">{$activities.created_on|timeago}</p>
 							<div class="comments">
 								{option:activities.comments}
 									{iteration:activities.comments}
 										<div class="messageHolder clearfix" id="comment-{$activities.comments.id}">
-											{option:deletable}<img class="deleteCommentButton" src="http://log.concept2.com/images/delete.png"/>{/option:deletable}
+											{option:deletable}<span class="deleteCommentButton"></span>{/option:deletable}
 											{option:!deletable}
 												{option:activities.comments.deletable}
-													<img class="deleteCommentButton" src="http://log.concept2.com/images/delete.png"/>
+													<span class="deleteCommentButton"></span>
 												{/option:activities.comments.deletable}
 											{/option:!deletable}
 											<div class="imageHolder">
