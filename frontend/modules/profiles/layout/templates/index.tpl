@@ -38,6 +38,9 @@
 												{option:activities.comments.deletable}
 													<span class="deleteCommentButton"></span>
 												{/option:activities.comments.deletable}
+												{option:!activities.comments.deletable}
+													<span class="report"><a href="#report">{$lblReport}</a></span>
+												{/option:!activities.comments.deletable}
 											{/option:!deletable}
 											<div class="imageHolder">
 												{option:activities.comments.avatar}

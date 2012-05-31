@@ -27,6 +27,8 @@ jsFrontend.profiles = {
 		jsFrontend.profiles.removeActivity();
 
 		jsFrontend.profiles.removeActivityComment();
+
+		jsFrontend.profiles.report();
 	},
 
 	/**
@@ -413,6 +415,39 @@ jsFrontend.profiles = {
 					{
 						// remove activity
 						$divToRemove.remove();
+					}
+				});
+			});
+		}
+	},
+
+	/**
+	 * Ajax action to report comments as inapropriate
+	 */
+	report: function()
+	{
+		// grab element(s)
+		$button = $('.report');
+
+		if($button.length > 0)
+		{
+			$button.on('click', function()
+			{
+				// get data
+				$comment_id = $(this).parent().attr('id').replace('comment-', '');
+				$divToRemove = $(this).parent();
+
+				$.ajax(
+				{
+					data:
+					{
+						fork: { module: 'profiles', action: 'report_comment'},
+						commentId: $comment_id,
+					},
+					success: function(data, textStatus)
+					{
+						// show message
+						$divToRemove.parent().prepend('<div class="message warning"><p>{$msgReported}</p></div>');
 					}
 				});
 			});

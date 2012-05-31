@@ -790,6 +790,17 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Reports a comment as inappropriate
+	 * 
+	 * @param int $id The id of the comment
+	 * @return int
+	 */
+	public static function reportComment($id)
+	{
+		return (int) FrontendModel::getDB(true)->update('profiles_activity_comments', array('status' => 'marked'), 'id = ?', (int) $id);
+	}
+
+	/**
 	 * The function used to search users
 	 * 
 	 * @param string $term

@@ -800,6 +800,10 @@
         <translation language="nl"><![CDATA[Herhaal nieuw wachtwoord]]></translation>
         <translation language="en"><![CDATA[Confirm new password]]></translation>
       </item>
+      <item type="label" name="Report">
+        <translation language="nl"><![CDATA[Rapporteer bericht]]></translation>
+        <translation language="en"><![CDATA[Report message]]></translation>
+      </item>
       <item type="label" name="Settings">
         <translation language="nl"><![CDATA[Instellingen]]></translation>
         <translation language="en"><![CDATA[Settings]]></translation>
@@ -879,6 +883,10 @@
       <item type="message" name="MessageSent">
         <translation language="nl"><![CDATA[Het bericht is verzonden.]]></translation>
         <translation language="en"><![CDATA[The message has been sent.]]></translation>
+      </item>
+      <item type="message" name="Raported">
+        <translation language="nl"><![CDATA[Het bericht is gerapporteerd.]]></translation>
+        <translation language="en"><![CDATA[The message is reported.]]></translation>
       </item>
       <item type="message" name="UpdateSucces">
         <translation language="nl"><![CDATA[De aanpassingen zijn opgeslaan.]]></translation>
