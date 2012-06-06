@@ -148,6 +148,22 @@ class FrontendProfilesModel
 	}
 
 	/**
+	 * Get's all the amount of profiles starting with the given lettre
+	 * 
+	 * @param string $lettre The lettre
+	 * @return array
+	 */
+	public static function getCountProfilesByFirstLettre($lettre)
+	{
+		return (int) FrontendModel::getDB()->getVar(
+			'SELECT count(p.id) AS count
+			 FROM profiles AS p
+			 INNER JOIN profiles_settings AS ps ON p.id = ps.profile_id AND ps.name = "last_name"
+			 WHERE ps.value LIKE ?', 's:%:"' . $lettre . '%";'
+		);
+	}
+
+	/**
 	 * Get count threads for a user
 	 * 
 	 * @param int $id The id of the user
@@ -330,9 +346,11 @@ class FrontendProfilesModel
 	 * Get's all the profiles starting with the given lettre
 	 * 
 	 * @param string $lettre The lettre
+	 * @param int[optional] $limit The number of items to get.
+	 * @param int[optional] $offset The offset.
 	 * @return array
 	 */
-	public static function getProfilesByFirstLettre($lettre)
+	public static function getProfilesByFirstLettre($lettre, $limit = 15, $offset = 0)
 	{
 		$profiles = (array) FrontendModel::getDB()->getRecords(
 			'SELECT p.url, ps1.value AS first_name, ps2.value AS last_name, ps3.value AS facebook_id, ps4.value AS avatar
@@ -341,7 +359,8 @@ class FrontendProfilesModel
 			 INNER JOIN profiles_settings AS ps2 ON p.id = ps2.profile_id AND ps2.name = "last_name"
 			 LEFT JOIN profiles_settings AS ps3 ON p.id = ps3.profile_id AND ps3.name = "facebook_id"
 			 LEFT JOIN profiles_settings AS ps4 ON p.id = ps4.profile_id AND ps4.name = "avatar"
-			 WHERE ps1.value LIKE ?', 's:%:"' . $lettre . '%";'
+			 WHERE ps2.value LIKE ?
+			 LIMIT ?,?', array((string) 's:%:"' . $lettre . '%";', (int) $offset, (int) $limit)
 		);
 
 		foreach($profiles as &$profile)

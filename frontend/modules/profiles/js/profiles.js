@@ -29,6 +29,8 @@ jsFrontend.profiles = {
 		jsFrontend.profiles.removeActivityComment();
 
 		jsFrontend.profiles.report();
+
+		jsFrontend.profiles.loadProfiles();
 	},
 
 	/**
@@ -174,7 +176,6 @@ jsFrontend.profiles = {
 					success: function(data, textStatus){
 						$offset += 4;
 						// remove the load messages button if there are no more messages
-						console.log($offset);
 						if(data.data['amount'] < $offset) $button.remove();
 						else $button.removeClass().addClass($offset + "");
 
@@ -232,7 +233,6 @@ jsFrontend.profiles = {
 					{
 						$offset += 4;
 						// remove the load messages button if there are no more messages
-						console.log($offset);
 						if(data.data['amount'] < $offset) $button.remove();
 						else $button.removeClass().addClass($offset + "");
 
@@ -448,6 +448,68 @@ jsFrontend.profiles = {
 					{
 						// show message
 						$divToRemove.parent().prepend('<div class="message warning"><p>{$msgReported}</p></div>');
+					}
+				});
+			});
+		}
+	},
+
+	/**
+	 * Ajax actions to load more profiles
+	 */
+	loadProfiles: function()
+	{
+		// grab element
+		$button = $('#loadProfiles');
+
+		if($button.length > 0)
+		{
+			$button.on('click', function()
+			{
+				// get data
+				$offset = $('.profilePreview').size()
+				$limit = 15;
+				// get lettre out of url
+				$results = new RegExp('[\\?&]lettre=([^&#]*)').exec(window.location.href);
+				$lettre = $results[1] || 0;
+
+				$.ajax(
+				{
+					data:
+					{
+						fork: { module: 'profiles', action: 'load_profiles'},
+						offset: $offset,
+						limit: $limit,
+						lettre: $lettre
+					},
+					success: function(data, textStatus)
+					{
+						if(data.data['amount'] < $offset + $limit) $button.remove();
+
+						// add the loaded profiles to the DOM
+						for(var i in data.data)
+						{
+							if(i != "amount")
+							{
+								// create html
+								$html = '<div class="profilePreview" style="display: none;"><img src="{$FRONTEND_FILES_URL}';
+
+								if(data.data[i].avatar) $html += '/profiles/avatars/64x64/' + data.data[i].avatar + '" alt="" ';
+								else
+								{
+									$html += '/layout/images/default_author_avatar.gif" ';
+									if(data.data[i].facebook_id) $html += ' alt="' + data.data[i].display_name + '" class="replaceWithFacebook" data-facebook-id="' + data.data[i].facebook_id + '" ';
+								}
+								$html += 'width="64" height="64" class="avatar" />';
+
+								$html += '<a href="{$var|geturlforblock:'profiles'}/' + data.data[i].url + '">' + data.data[i].first_name + ' ' + data.data[i].last_name + '</a>'
+								$html += '</div>';
+
+								// give them a nice animation
+								$('.profiles').append($html);
+								$('.profiles .profilePreview').slideDown(250);
+							}
+						}
 					}
 				});
 			});

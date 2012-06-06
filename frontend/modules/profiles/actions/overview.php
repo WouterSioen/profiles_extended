@@ -22,6 +22,13 @@ class FrontendProfilesOverview extends FrontendBaseBlock
 	private $profiles;
 
 	/**
+	 * The total amount of profiles
+	 * 
+	 * @var int
+	 */
+	private $count;
+
+	/**
 	 * The lettre to select
 	 * 
 	 * @var string
@@ -70,8 +77,11 @@ class FrontendProfilesOverview extends FrontendBaseBlock
 		$lettreParam = strtoupper($this->URL->getParameter('lettre'));
 		if($lettreParam && ((strlen($lettreParam) == 1 && in_array($lettreParam, range('A', 'Z'))) || $lettreParam == '0-9')) $this->lettre = $lettreParam;
 
-		// get all the profiles with this lettre
+		// get the profiles with this lettre
 		$this->profiles = FrontendProfilesModel::getProfilesByFirstLettre($this->lettre);
+
+		// get the total amount of profiles with this lettre
+		$this->count = FrontendProfilesModel::getCountProfilesByFirstLettre($this->lettre);
 	}
 
 	/**
@@ -91,6 +101,7 @@ class FrontendProfilesOverview extends FrontendBaseBlock
 		$this->frm->parse($this->tpl);
 		$this->tpl->assign('alphabet', $this->alphabet);
 		$this->tpl->assign('profiles', $this->profiles);
+		$this->tpl->assign('loadMore', $this->count > count($this->profiles));
 	}
 
 	/**
