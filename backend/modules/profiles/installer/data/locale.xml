@@ -852,9 +852,9 @@
         <translation language="nl"><![CDATA[De postcode is incorrect.]]></translation>
         <translation language="en"><![CDATA[The postal code is invalid.]]></translation>
       </item>
-      <item type="message" name="Accept Terms">
+      <item type="message" name="AcceptTerms">
         <translation language="nl"><![CDATA[Ik ga akkoord met de <a href="%1$s">algemene voorwaarden</a> en de <a href="%2$s">privacy policy</a>.]]></translation>
-        <translation language="en"><![CDATA[Ik agree to the <a href="%1$s">terms and conditions</a> and the <a href="%2$s">privacy policy</a>.]]></translation>
+        <translation language="en"><![CDATA[I agree to the <a href="%1$s">terms and conditions</a> and the <a href="%2$s">privacy policy</a>.]]></translation>
       </item>
       <item type="message" name="AlreadyRegistered">
         <translation language="nl"><![CDATA[Al geregistreerd?]]></translation>
