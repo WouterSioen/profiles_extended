@@ -221,3 +221,9 @@
 .messageHolder:hover > .report {
 	display: block;
 }
+
+.facebookLoginWrapper,
+.showOnFacebookLogout {
+	float: left;
+	margin-right: 40px;
+}

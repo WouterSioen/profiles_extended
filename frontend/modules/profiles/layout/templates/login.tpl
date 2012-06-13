@@ -30,10 +30,15 @@
 							{$chkRememberError}
 						</p>
 					</fieldset>
+					<fieldset>
+						<p>
+							<input class="inputSubmit" type="submit" value="{$lblLogin|ucfirst}" />
+						</p>
+					</fieldset>
 				</div>
 				{option:FACEBOOK_HAS_APP}
 					<div class="facebookLoginWrapper">
-						<h3>{$lblLoginWithFacebook}</h3>
+						<p>{$lblLoginWithFacebook}</p>
 						<div class="facebookLoggedInAs showOnFacebookLogin hideOnFacebookLogout"{option:!facebookUserData} style="display: none;"{/option:!facebookUserData}>
 							<img src="{$FRONTEND_CORE_URL}/layout/images/default_author_avatar.gif" width="48" height="48" alt="{option:facebookUserData}{$facebookUserData.name}{/option:facebookUserData}" class="replaceWithFacebook" data-facebook-id="{option:facebookUserData}{$facebookUserData.id}{/option:facebookUserData}" />
 							{option:facebookUserData}{$msgFacebookLoggedInAs|sprintf:{$facebookUserData.name}:{$facebookUserData.link}} - <a href="#" class="facebookLogout">{$lblLogout|ucfirst}</a>{/option:facebookUserData}
@@ -44,11 +49,6 @@
 						</div>
 					</div>
 				{/option:FACEBOOK_HAS_APP}
-				<fieldset>
-					<p>
-						<input class="inputSubmit" type="submit" value="{$lblLogin|ucfirst}" />
-					</p>
-				</fieldset>
 			{/form:login}
 		</div>
 		<footer class="ft">
@@ -56,7 +56,7 @@
 				<a href="{$var|geturlforblock:'profiles':'forgot_password'}" title="{$msgForgotPassword}">{$msgForgotPassword}</a>
 			</p>
 			<p>
-				{$msgNoAccountYet} <a href="{$var|geturlforblock:'profiles':'register'}">{$msgRegisterNow}</a>
+				{$msgNoAccountYet} <a href="{$var|geturlforblock:'profiles':'register'}">{$lblRegisterNow}</a>
 			</p>
 		</footer>
 	</div>

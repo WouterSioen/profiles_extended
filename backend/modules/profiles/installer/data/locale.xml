@@ -764,6 +764,10 @@
         <translation language="nl"><![CDATA[Nieuw bericht]]></translation>
         <translation language="en"><![CDATA[New message]]></translation>
       </item>
+      <item type="label" name="NoAccountYet">
+        <translation language="nl"><![CDATA[Heb je nog geen profiel?]]></translation>
+        <translation language="en"><![CDATA[No account yet?]]></translation>
+      </item>
       <item type="label" name="NoProfilesFound">
         <translation language="nl"><![CDATA[Er zijn geen profielen gevonden.]]></translation>
         <translation language="en"><![CDATA[There are no profiles found.]]></translation>
@@ -793,8 +797,8 @@
         <translation language="en"><![CDATA[read]]></translation>
       </item>
       <item type="label" name="RegisterNow">
-        <translation language="nl"><![CDATA[Registreer nu]]></translation>
-        <translation language="en"><![CDATA[Register now]]></translation>
+        <translation language="nl"><![CDATA[Registreer nu!]]></translation>
+        <translation language="en"><![CDATA[Register now!]]></translation>
       </item>
       <item type="label" name="RegisterWithFacebook">
         <translation language="nl"><![CDATA[Registreer via Facebook]]></translation>
