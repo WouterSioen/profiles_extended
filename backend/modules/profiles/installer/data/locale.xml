@@ -740,6 +740,10 @@
         <translation language="nl"><![CDATA[Laadt oudere conversaties]]></translation>
         <translation language="en"><![CDATA[Load older threads]]></translation>
       </item>
+      <item type="label" name="LoginWithFacebook">
+        <translation language="nl"><![CDATA[Log in via Facebook]]></translation>
+        <translation language="en"><![CDATA[Login through Facebook]]></translation>
+      </item>
       <item type="label" name="MarkAsRead">
         <translation language="nl"><![CDATA[Markeer als gelezen]]></translation>
         <translation language="en"><![CDATA[Mark as read]]></translation>
