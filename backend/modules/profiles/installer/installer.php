@@ -204,6 +204,7 @@ class ProfilesInstaller extends ModuleInstaller
 				// insert terms and conditions
 				$this->insertPage(
 					array(
+						'id' => 450,
 						'title' => SpoonFilter::ucfirst($this->getLocale('TermsAndConditions', 'profiles', $language, 'lbl', 'frontend')),
 						'type' => 'root',
 						'language' => $language
@@ -217,6 +218,7 @@ class ProfilesInstaller extends ModuleInstaller
 				// insert privacy policy
 				$this->insertPage(
 					array(
+						'id' => 451,
 						'title' => SpoonFilter::ucfirst($this->getLocale('PrivacyPolicy', 'profiles', $language, 'lbl', 'frontend')),
 						'type' => 'root',
 						'language' => $language
