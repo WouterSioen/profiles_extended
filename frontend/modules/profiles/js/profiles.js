@@ -500,10 +500,8 @@ jsFrontend.profiles = {
 									$html += '/layout/images/default_author_avatar.gif" ';
 									if(data.data[i].facebook_id) $html += ' alt="' + data.data[i].display_name + '" class="replaceWithFacebook" data-facebook-id="' + data.data[i].facebook_id + '" ';
 								}
-								$html += 'width="64" height="64" class="avatar" />';
 
-								$html += '<a href="{$var|geturlforblock:'profiles'}/' + data.data[i].url + '">' + data.data[i].first_name + ' ' + data.data[i].last_name + '</a>'
-								$html += '</div>';
+								$html += 'width="64" height="64" class="avatar" /><a href="{$var|geturlforblock:'profiles'}/' + data.data[i].url + '">' + data.data[i].first_name + ' ' + data.data[i].last_name + '</a></div>';
 
 								// give them a nice animation
 								$('.profiles').append($html);
