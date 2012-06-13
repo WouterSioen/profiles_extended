@@ -8,7 +8,7 @@
 						<img src="{$FRONTEND_FILES_URL}/profiles/avatars/64x64/{$profile.avatar}" alt="" />
 					{/option:profile.avatar}
 					{option:!profile.avatar}
-						<img src="{$FRONTEND_CORE_URL}/layout/images/default_author_avatar.gif" alt="{$profile.display_name}" {option:profile.facebook_id}class="replaceWithFacebook" data-facebook-id="{profile.facebook_id}"{/option:profile.facebook_id} />
+						<img src="{$FRONTEND_CORE_URL}/layout/images/default_author_avatar.gif" alt="{$profile.display_name}" {option:profile.facebook_id}class="replaceWithFacebook" data-facebook-id="{$profile.facebook_id}"{/option:profile.facebook_id} />
 					{/option:!profile.avatar}
 				</span>
 				<span class="nickname">{$profile.display_name}{option:profile.count} ({$profile.count}){/option:profile.count}</span>

@@ -214,6 +214,7 @@ class FrontendProfilesModel
 		);
 
 		$item['avatar'] = unserialize($item['avatar']);
+		$item['facebook_id'] = unserialize($item['facebook_id']);
 
 		return $item;
 	}
