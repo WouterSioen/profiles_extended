@@ -32,9 +32,6 @@
 							<p>
 								<label for="showPassword">{$chkShowPassword} {$lblShowPassword|ucfirst} </label>
 							</p>
-							<p{option:chkAcceptTermsError} class="errorArea"{/option:chkAcceptTermsError}>
-								<label for="acceptTerms">{$chkAcceptTerms} {$msgAcceptTerms|sprintf:{$var|geturl:450}:{$var|geturl:451}} </label>
-							</p>
 						</div>
 						{option:FACEBOOK_HAS_APP}
 							<div class="facebookLoginWrapper">
@@ -49,13 +46,15 @@
 								</div>
 							</div>
 						{/option:FACEBOOK_HAS_APP}
-						
-						<p>
-							<input class="inputSubmit" type="submit" value="{$lblRegister|ucfirst}" />
-						</p>
 					</fieldset>
 				</div>
 				<footer class="ft">
+					<p{option:chkAcceptTermsError} class="errorArea"{/option:chkAcceptTermsError}>
+						<label for="acceptTerms">{$chkAcceptTerms} {$msgAcceptTerms|sprintf:{$var|geturl:450}:{$var|geturl:451}} </label>
+					</p>
+					<p>
+						<input class="inputSubmit" type="submit" value="{$lblRegister|ucfirst}" />
+					</p>
 					<p>
 						{$msgAlreadyRegistered} <a href="{$var|geturlforblock:'profiles':'login'}">{$lblLogin}</a>
 					</p>
