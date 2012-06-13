@@ -784,6 +784,10 @@
         <translation language="nl"><![CDATA[Postcode]]></translation>
         <translation language="en"><![CDATA[Postal code]]></translation>
       </item>
+      <item type="label" name="PrivacyPolicy">
+        <translation language="nl"><![CDATA[privacy policy]]></translation>
+        <translation language="en"><![CDATA[privacy policy]]></translation>
+      </item>
       <item type="label" name="Profile">
         <translation language="nl"><![CDATA[Profiel]]></translation>
         <translation language="en"><![CDATA[Profile]]></translation>
@@ -819,6 +823,10 @@
       <item type="label" name="Street">
         <translation language="nl"><![CDATA[Straat]]></translation>
         <translation language="en"><![CDATA[Street]]></translation>
+      </item>
+      <item type="label" name="TermsAndConditions">
+        <translation language="nl"><![CDATA[algemene voorwaarden]]></translation>
+        <translation language="en"><![CDATA[terms and conditions]]></translation>
       </item>
       <item type="label" name="To">
         <translation language="nl"><![CDATA[Ontvangers]]></translation>
