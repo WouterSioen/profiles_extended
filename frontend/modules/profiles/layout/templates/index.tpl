@@ -51,7 +51,7 @@
 												{/option:!activities.comments.avatar}
 											</div>
 											<div class="messageContent">
-												<p><a href="{$var|geturlforblock:'profiles'}/{$activities.comments.url">{$activities.comments.username}</a>
+												<p><a href="{$var|geturlforblock:'profiles'}/{$activities.comments.url}">{$activities.comments.username}</a>
 												{$lblWrote} {$activities.comments.created_on|timeago}</p>
 												<p>{$activities.comments.text}</p>
 											</div>
