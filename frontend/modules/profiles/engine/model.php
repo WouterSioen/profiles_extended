@@ -834,7 +834,8 @@ class FrontendProfilesModel
 			 INNER JOIN profiles_settings AS ps2 ON p.id = ps2.profile_id AND ps2.name = "last_name"
 			 WHERE ps1.value LIKE ?
 			 OR ps2.value LIKE ?
-			 OR display_name LIKE ?', 
+			 OR display_name LIKE ?
+			 LIMIT 5', 
 			array(
 				(string) 's:%:"%' . $term . '%";', 
 				(string) 's:%:"%' . $term . '%";', 
