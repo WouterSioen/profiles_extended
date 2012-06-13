@@ -68,7 +68,8 @@ jsFrontend.profiles = {
 	 */
 	dropdown: function()
 	{
-		$('#openProfilesDropdown span').on('click', function(){
+		$('#openProfilesDropdown span').on('click', function(e){
+			e.preventDefault();
 			$('#ddProfiles').slideToggle(250);
 		});
 	},
