@@ -113,7 +113,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $activateId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 
 				// forgot password page
@@ -126,7 +127,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $forgotPasswordId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 
 				// reset password page
@@ -139,7 +141,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $resetPasswordId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 
 				// resend activation email page
@@ -152,7 +155,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $resendActivationId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 
 				// login page
@@ -165,7 +169,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $loginId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 
 				// register page
@@ -178,7 +183,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $registerId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 
 				// logout page
@@ -191,7 +197,34 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $logoutId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
+				);
+
+				// insert terms and conditions
+				$this->insertPage(
+					array(
+						'title' => SpoonFilter::ucfirst($this->getLocale('TermsAndConditions', 'profiles', $language, 'lbl', 'frontend')),
+						'type' => 'root',
+						'language' => $language
+					),
+					array('data' => array('seo_index' => 'noindex', 'seo_follow' => 'nofollow')),
+					array('html' => '<h3>Terms and Conditions</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dui odio, placerat non mattis eget, bibendum sed orci. Ut eu tempus urna. Suspendisse sed lorem augue, in ullamcorper nulla. Curabitur tincidunt risus faucibus urna porttitor rhoncus. Aenean convallis velit libero, ac vulputate urna. Donec volutpat libero sed orci lacinia a bibendum nisi egestas. Vivamus nec tellus eu dolor ornare posuere. Nam sapien ante, semper id tempus sit amet, ornare at diam. Donec consectetur, tortor ut auctor laoreet, magna libero ultricies libero, vitae posuere dolor nibh quis ante. Aliquam odio quam, sodales non ullamcorper sit amet, cursus a est. Ut aliquet, ligula viverra tincidunt mattis, leo tortor dictum massa, molestie dapibus nisl magna consequat metus. Mauris vitae accumsan felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce tincidunt lacus aliquet mauris pharetra sit amet hendrerit velit vestibulum. Fusce porta laoreet nibh, in ultrices diam posuere vitae.</p>'),
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
+				);
+
+				// insert privacy policy
+				$this->insertPage(
+					array(
+						'title' => SpoonFilter::ucfirst($this->getLocale('PrivacyPolicy', 'profiles', $language, 'lbl', 'frontend')),
+						'type' => 'root',
+						'language' => $language
+					),
+					array('data' => array('seo_index' => 'noindex', 'seo_follow' => 'nofollow')),
+					array('html' => '<h3>Privacy Policy</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dui odio, placerat non mattis eget, bibendum sed orci. Ut eu tempus urna. Suspendisse sed lorem augue, in ullamcorper nulla. Curabitur tincidunt risus faucibus urna porttitor rhoncus. Aenean convallis velit libero, ac vulputate urna. Donec volutpat libero sed orci lacinia a bibendum nisi egestas. Vivamus nec tellus eu dolor ornare posuere. Nam sapien ante, semper id tempus sit amet, ornare at diam. Donec consectetur, tortor ut auctor laoreet, magna libero ultricies libero, vitae posuere dolor nibh quis ante. Aliquam odio quam, sodales non ullamcorper sit amet, cursus a est. Ut aliquet, ligula viverra tincidunt mattis, leo tortor dictum massa, molestie dapibus nisl magna consequat metus. Mauris vitae accumsan felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce tincidunt lacus aliquet mauris pharetra sit amet hendrerit velit vestibulum. Fusce porta laoreet nibh, in ultrices diam posuere vitae.</p>'),
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 
 				// settings main page
@@ -215,7 +248,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $settingsId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 
 				// alerts and newsletter settings page
@@ -228,7 +262,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $alertsNewsletterId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 				
 
@@ -242,7 +277,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $passwordEmailId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 
 				// change password and email page
@@ -256,7 +292,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $facebookSettingsId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 
 				// profiles overview
@@ -269,7 +306,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $overviewId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 
 				// index page
@@ -282,7 +320,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $indexId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 
 				// messages page
@@ -295,7 +334,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $messagesId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 
 				// new message page
@@ -308,7 +348,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $newMessageId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 
 				// message detail
@@ -321,7 +362,8 @@ class ProfilesInstaller extends ModuleInstaller
 					null,
 					array('extra_id' => $profileDropdownId, 'position' => 'top'),
 					array('extra_id' => $messageDetailId, 'position' => 'main'),
-					array('extra_id' => $searchId, 'position' => 'top')
+					array('extra_id' => $searchId, 'position' => 'top'),
+					array('extra_id' => $profileDropdownId, 'position' => 'top')
 				);
 			}
 		}
