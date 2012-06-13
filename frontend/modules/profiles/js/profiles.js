@@ -331,7 +331,7 @@ jsFrontend.profiles = {
 					{
 						console.log(data.data);
 						// add avatar part
-						$html = '<div class="messageHolder clearfix" id="comment-' + data.data.id + '" style="display:none"><img class="deleteCommentButton" src="http://log.concept2.com/images/delete.png"/><div class="imageHolder"><img src="{$FRONTEND_FILES_URL}';
+						$html = '<div class="messageHolder clearfix" id="comment-' + data.data.id + '" style="display:none"><span class="deleteCommentButton"></span><div class="imageHolder"><img src="{$FRONTEND_FILES_URL}';
 						if(data.data.avatar) $html += '/profiles/avatars/64x64/' + data.data.avatar + '" alt="" ';
 						else
 						{
