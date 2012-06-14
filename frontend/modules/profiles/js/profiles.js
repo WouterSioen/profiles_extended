@@ -18,6 +18,8 @@ jsFrontend.profiles = {
 
 		jsFrontend.profiles.loadThreads();
 
+		jsFrontend.profiles.removeThread();
+
 		jsFrontend.profiles.markRead();
 
 		jsFrontend.profiles.dropdown();
@@ -243,7 +245,7 @@ jsFrontend.profiles = {
 							if(i != "amount")
 							{
 								// create html
-								$html = '<div class="thread" style="display:none;"><header class="hd"><h4';
+								$html = '<div class="thread ' + data.data[i].id + '" style="display:none;"><span class="deleteThreadButton"></span><header class="hd"><h4';
 								if(data.data[i].status == 0) $html += ' class="unread"';
 								$html += '><a href="{$var|geturlforblock:'profiles':'message_detail'}/' + data.data[i].id + '">';
 								// loop through receivers
@@ -262,6 +264,40 @@ jsFrontend.profiles = {
 								$('.bd.threads .thread').slideDown(250);
 							}
 						}
+
+						// reinitialisate the removethreads part
+						jsFrontend.profiles.removeThread();
+					}
+				});
+			});
+		}
+	},
+
+	/**
+	 * Removes a thread
+	 */
+	removeThread: function()
+	{
+		// grab element(s)
+		var $button = $('.deleteThreadButton');
+		if($button.length > 0)
+		{
+			$button.on('click', function(){
+				$threadId = $(this).parent().attr('class').replace('thread ', '');
+				$userId = $('#messages').attr("class");
+				$divToRemove = $(this).parent();
+
+				$.ajax(
+				{
+					data:
+					{
+						fork: { module: 'profiles', action: 'remove_thread' },
+						threadId: $threadId,
+						userId: $userId
+					},
+					success: function(data, textStatus)
+					{
+						$divToRemove.remove();
 					}
 				});
 			});

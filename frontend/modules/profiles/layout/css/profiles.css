@@ -204,6 +204,7 @@
 
 .deleteButton,
 .deleteCommentButton,
+.deleteThreadButton,
 .report {
 	float: right;
 	cursor: pointer;
@@ -211,7 +212,8 @@
 }
 
 .deleteButton,
-.deleteCommentButton {
+.deleteCommentButton,
+.deleteThreadButton {
 	height: 16px;
 	width: 16px;
 	background-image: url('../images/delete.gif');
@@ -219,7 +221,8 @@
 
 .activity:hover > .deleteButton,
 .messageHolder:hover > .deleteCommentButton,
-.messageHolder:hover > .report {
+.messageHolder:hover > .report,
+.thread:hover > .deleteThreadButton {
 	display: block;
 }
 

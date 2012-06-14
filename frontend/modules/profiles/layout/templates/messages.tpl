@@ -10,6 +10,7 @@
 			{option:threads}
 				{iteration:threads}
 					<div class="thread {$threads.id}">
+						<span class="deleteThreadButton"></span>
 						<header class="hd">
 							<h4{option:!threads.status} class="unread"{/option:!threads.status}>
 								<a href="{$var|geturlforblock:'profiles':'message_detail'}/{$threads.id}">

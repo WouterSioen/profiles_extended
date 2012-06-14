@@ -296,7 +296,7 @@ class FrontendProfilesModel
 			 FROM profiles_thread AS pt
 			 INNER JOIN profiles_message AS pm ON pt.latest_message_id = pm.id
 			 INNER JOIN profiles_thread_status AS pts ON pt.id = pts.thread_id
-			 WHERE pts.receiver_id = ?
+			 WHERE pts.receiver_id = ? and pts.status != "deleted"
 			 GROUP BY pt.id
 			 ORDER BY pm.created_on DESC
 			 LIMIT ?,?',
