@@ -127,6 +127,7 @@
 .messages .messageContent,
 .comments .messageContent {
 	float: left;
+	max-width: 600px;
 }
 
 .messageHolder, .thread {
