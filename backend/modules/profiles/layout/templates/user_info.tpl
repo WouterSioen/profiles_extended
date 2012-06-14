@@ -2,7 +2,7 @@
 {include:{$BACKEND_CORE_PATH}/layout/templates/structure_start_module.tpl}
 
 <div class="pageTitle">
-	<h2>{$lblUserInfo|ucfirst}</h2>
+	<h2>{$lblUserinfo|ucfirst}</h2>
 
 	{option:showProfilesAddUserInfo}
 	<div class="buttonHolderRight">

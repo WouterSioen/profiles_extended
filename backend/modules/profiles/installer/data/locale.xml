@@ -54,6 +54,10 @@
         <translation language="uk"><![CDATA[Додати групу]]></translation>
         <translation language="lt"><![CDATA[priskirti grupei]]></translation>
       </item>
+      <item type="label" name="AddUserInfo">
+        <translation language="nl"><![CDATA[voeg gebruikersinfo toe]]></translation>
+        <translation language="en"><![CDATA[add userinfo]]></translation>
+      </item>
       <item type="label" name="BirthDate">
         <translation language="nl"><![CDATA[geboortedatum]]></translation>
         <translation language="en"><![CDATA[birth date]]></translation>
@@ -110,9 +114,9 @@
         <translation language="nl"><![CDATA[datatype]]></translation>
         <translation language="en"><![CDATA[datatype]]></translation>
       </item>
-      <item type="label" name="DbTable">
-        <translation language="nl"><![CDATA[databank tabel]]></translation>
-        <translation language="en"><![CDATA[database table]]></translation>
+      <item type="label" name="DbTitle">
+        <translation language="nl"><![CDATA[databank titel]]></translation>
+        <translation language="en"><![CDATA[database title]]></translation>
       </item>
       <item type="label" name="Deleted">
         <translation language="nl"><![CDATA[verwijderd]]></translation>
