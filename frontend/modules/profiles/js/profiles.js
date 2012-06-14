@@ -465,8 +465,11 @@ jsFrontend.profiles = {
 
 		if($button.length > 0)
 		{
-			$button.on('click', function()
+			$button.on('click', function(e)
 			{
+				// prevent scrolling
+				e.preventDefault();
+
 				// get data
 				$offset = $('.profilePreview').size()
 				$limit = 15;

@@ -29,7 +29,7 @@
 					{/iteration:profiles}
 				</div>
 				{option:loadMore}
-					<a href="#loadMore" id="loadProfiles" class="button">Load More</a>
+					<a href="#" id="loadProfiles" class="button">Load More</a>
 				{/option:loadMore}
 			{/option:profiles}
 			{option:!profiles}
