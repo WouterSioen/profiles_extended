@@ -35,7 +35,7 @@
 						</div>
 						{option:FACEBOOK_HAS_APP}
 							<div class="facebookLoginWrapper">
-								<h3>{$lblRegisterWithFacebook}</h3>
+								{$lblRegisterWithFacebook}
 								<div class="facebookLoggedInAs showOnFacebookLogin hideOnFacebookLogout"{option:!facebookUserData} style="display: none;"{/option:!facebookUserData}>
 									<img src="{$FRONTEND_CORE_URL}/layout/images/default_author_avatar.gif" width="48" height="48" alt="{option:facebookUserData}{$facebookUserData.name}{/option:facebookUserData}" class="replaceWithFacebook" data-facebook-id="{option:facebookUserData}{$facebookUserData.id}{/option:facebookUserData}" />
 									{option:facebookUserData}{$msgFacebookLoggedInAs|sprintf:{$facebookUserData.name}:{$facebookUserData.link}} - <a href="#" class="facebookLogout">{$lblLogout|ucfirst}</a>{/option:facebookUserData}
