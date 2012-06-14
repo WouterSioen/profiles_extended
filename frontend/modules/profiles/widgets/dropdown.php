@@ -57,5 +57,6 @@ class FrontendProfilesWidgetDropdown extends FrontendBaseWidget
 		$this->tpl->assign('logout_url', FrontendNavigation::getURLForBlock('profiles', 'logout'));
 		$this->tpl->assign('register_url', FrontendNavigation::getURLForBlock('profiles', 'register'));
 		$this->tpl->assign('login_url', FrontendNavigation::getURLForBlock('profiles', 'login'));
+		$this->tpl->assign('profiles_url', FrontendNavigation::getURLForBlock('profiles', 'overview'));
 	}
 }

@@ -17,6 +17,7 @@
 			<ul class="hidden" id="ddProfiles">
 				<li><a href="{$profile_url}/{$profile.url}">{$lblMyProfile|ucfirst}</a></li>
 				<li><a href="{$messages_url}">{$lblMyMessages|ucfirst}{option:profile.count} ({$profile.count}){/option:profile.count}</a></li>
+				<li><a href="{$profiles_url}">{$lblProfiles|ucfirst}</a></li>
 				<li><a href="{$settings_url}">{$lblSettings|ucfirst}</a></li>
 				<li class="lastChild"><a href="{$logout_url}">Log uit</a></li>
 			</ul>
