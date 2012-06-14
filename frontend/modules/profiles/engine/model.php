@@ -836,7 +836,7 @@ class FrontendProfilesModel
 			 WHERE ps1.value LIKE ?
 			 OR ps2.value LIKE ?
 			 OR display_name LIKE ?
-			 LIMIT 5', 
+			 LIMIT 8', 
 			array(
 				(string) 's:%:"%' . $term . '%";', 
 				(string) 's:%:"%' . $term . '%";', 

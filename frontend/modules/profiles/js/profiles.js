@@ -146,7 +146,7 @@ jsFrontend.profiles = {
 			{
 				return $('<li></li>')
 				.data('item.autocomplete', item)
-				.append('<a><strong>' + item.display_name + '</strong><br \>' + item.first_name + ' ' + item.last_name + '</a>' )
+				.append('<a><strong>' + item.first_name + ' ' + item.last_name + '</strong></a>' )
 				.appendTo(ul);
 			};
 		}
